@@ -222,6 +222,15 @@ async def require_admin(user: Caller = Depends(current_user)) -> Caller:
 # ----------------------------------------------------------------------------
 # SPRINT 1: US-01 Campus SSO & Authentication
 # ----------------------------------------------------------------------------
+@app.get("/config")
+async def get_app_config():
+    return {
+        "starter_credits": skillswap_ledger.DEFAULT_STARTER_CREDITS,
+        "campus_domain": "thapar.edu",
+        "campus_node": "Campus Peer Exchange (UCS503)",
+    }
+
+
 class CampusLoginIn(BaseModel):
     email: str = Field(min_length=3)
     full_name: Optional[str] = None
@@ -230,7 +239,16 @@ class CampusLoginIn(BaseModel):
 
 
 @app.post("/auth/campus-sso")
-async def campus_sso_login(body: CampusLoginIn):
+async def campus_sso_login(
+    body: CampusLoginIn,
+    x_sso_simulate_down: Optional[str] = Header(default=None),
+):
+    if os.environ.get("SSO_FORCE_UNAVAILABLE") == "1" or x_sso_simulate_down == "true":
+        raise HTTPException(
+            status_code=503,
+            detail="Campus SSO Identity Provider is currently unavailable. Please check campus network or try again later.",
+        )
+
     email = body.email.strip().lower()
     if "@" not in email:
         raise HTTPException(400, "Please provide a valid campus email address (e.g., student@campus.edu).")
@@ -243,6 +261,16 @@ async def campus_sso_login(body: CampusLoginIn):
             full_name=full_name,
             department=body.department,
             study_year=body.study_year or 3,
+        )
+    except skillswap_ledger.AccountSuspendedError as se:
+        raise HTTPException(
+            status_code=403,
+            detail=f"Account suspended: {se.reason}",
+        )
+    except skillswap_ledger.SSOUnavailableError as ue:
+        raise HTTPException(
+            status_code=503,
+            detail=str(ue),
         )
     except Exception as e:
         raise HTTPException(500, f"Authentication error: {str(e)}")

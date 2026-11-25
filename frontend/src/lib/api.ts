@@ -33,6 +33,17 @@ export interface UserSkill {
   level: "beginner" | "intermediate" | "advanced";
   description?: string;
   hourly_rate_credits?: number;
+  embedding_stale?: boolean;
+}
+
+export interface AppConfig {
+  starter_credits: number;
+  campus_domain: string;
+  campus_node: string;
+}
+
+export async function fetchAppConfig(): Promise<AppConfig> {
+  return apiRequest<AppConfig>("/config");
 }
 
 export interface SkillCatalogItem {

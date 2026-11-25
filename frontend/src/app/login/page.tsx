@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import {
   Sparkles,
@@ -8,8 +8,11 @@ import {
   ShieldCheck,
   AlertCircle,
   Coins,
+  RefreshCw,
+  Ban,
+  WifiOff,
 } from "lucide-react";
-import { campusSSOLogin } from "@/lib/api";
+import { campusSSOLogin, fetchAppConfig } from "@/lib/api";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -19,13 +22,27 @@ export default function LoginPage() {
   const [studyYear, setStudyYear] = useState(3);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [errorType, setErrorType] = useState<"general" | "suspended" | "unavailable" | null>(null);
+  const [starterCredits, setStarterCredits] = useState<number>(3);
+
+  useEffect(() => {
+    fetchAppConfig()
+      .then((cfg) => {
+        if (cfg?.starter_credits) {
+          setStarterCredits(cfg.starter_credits);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    setErrorType(null);
 
     if (!email.trim() || !email.includes("@")) {
       setError("Please enter a valid campus email address (e.g. yourname@campus.edu).");
+      setErrorType("general");
       return;
     }
 
@@ -41,6 +58,13 @@ export default function LoginPage() {
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Failed to sign in. Please verify your campus credentials.";
       setError(msg);
+      if (msg.toLowerCase().includes("suspended")) {
+        setErrorType("suspended");
+      } else if (msg.toLowerCase().includes("unavailable")) {
+        setErrorType("unavailable");
+      } else {
+        setErrorType("general");
+      }
     } finally {
       setLoading(false);
     }
@@ -77,14 +101,40 @@ export default function LoginPage() {
           </div>
           <div className="text-xs text-slate-700">
             <span className="font-semibold text-slate-900 block">First Time Here?</span>
-            New campus accounts receive <strong className="text-emerald-700 font-bold">3.00 starter time credits</strong> minted automatically!
+            New campus accounts receive <strong className="text-emerald-700 font-bold">{starterCredits.toFixed(2)} starter time credits</strong> minted automatically!
           </div>
         </div>
       </div>
 
       <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-6 shadow-xl shadow-slate-200/60 sm:rounded-2xl border border-slate-200/80">
-          {error && (
+          {error && errorType === "suspended" && (
+            <div className="mb-5 p-3.5 bg-rose-50 border border-rose-200 rounded-xl flex items-start gap-2.5 text-rose-900 text-sm">
+              <Ban className="w-5 h-5 text-rose-600 shrink-0 mt-0.5" />
+              <div>
+                <p className="font-semibold">Account Suspended</p>
+                <p className="mt-0.5 text-rose-700">{error} — contact your campus administrator to appeal.</p>
+              </div>
+            </div>
+          )}
+          {error && errorType === "unavailable" && (
+            <div className="mb-5 p-3.5 bg-amber-50 border border-amber-200 rounded-xl flex items-start gap-2.5 text-amber-900 text-sm">
+              <WifiOff className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+              <div>
+                <p className="font-semibold">Campus SSO Unavailable</p>
+                <p className="mt-0.5 text-amber-700">The campus identity provider is unreachable. Check your campus network or{" "}
+                  <button
+                    type="button"
+                    onClick={() => { setError(null); setErrorType(null); }}
+                    className="underline font-semibold hover:text-amber-900"
+                  >
+                    try again <RefreshCw className="inline w-3.5 h-3.5" />
+                  </button>.
+                </p>
+              </div>
+            </div>
+          )}
+          {error && errorType === "general" && (
             <div className="mb-5 p-3.5 bg-rose-50 border border-rose-200 rounded-xl flex items-start gap-2.5 text-rose-800 text-sm">
               <AlertCircle className="w-5 h-5 text-rose-600 shrink-0 mt-0.5" />
               <span>{error}</span>

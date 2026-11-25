@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: ["sprint-*", "main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  backend-tests:
+    name: Backend – pytest + coverage
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install fastapi uvicorn pyjwt pytest pytest-cov httpx redis
+      - name: Run tests with coverage
+        run: |
+          PYTHONPATH=. pytest tests/ \
+            --cov=skillswap_ledger \
+            --cov-report=term-missing \
+            --cov-fail-under=70
+        env:
+          USE_LOCAL_DB: "1"
+          SKILLSWAP_DB_PATH: ":memory:"
+
+  frontend-checks:
+    name: Frontend – TypeScript + ESLint
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install dependencies
+        run: npm ci
+      - name: TypeScript check
+        run: npx tsc --noEmit
+      - name: ESLint check
+        run: npm run lint

@@ -11,6 +11,24 @@ create extension if not exists btree_gist;    -- for slot-overlap exclusion
 create extension if not exists pgcrypto;
 
 -- ---------------------------------------------------------------------
+-- 0. APPLICATION CONFIGURATION
+-- ---------------------------------------------------------------------
+create table if not exists public.app_config (
+  key         text primary key,
+  value       text not null,
+  description text,
+  updated_at  timestamptz not null default now()
+);
+alter table public.app_config enable row level security;
+create policy app_config_read on public.app_config for select to authenticated using (true);
+create policy app_config_anon_read on public.app_config for select to anon using (true);
+
+-- Single source of truth for starter credits
+insert into public.app_config (key, value, description)
+values ('starter_credits', '3', 'Number of starter credits granted on student registration')
+on conflict (key) do update set value = excluded.value;
+
+-- ---------------------------------------------------------------------
 -- 1. USERS / PROFILES  (D1: User and Skill DB)
 -- ---------------------------------------------------------------------
 create table public.profiles (
@@ -367,10 +385,15 @@ revoke all on function public.post_transfer from public, anon, authenticated;
 -- new auth user -> profile + wallet + starter credits (FR1, UC-01 A1)
 create or replace function public.handle_new_user() returns trigger
 language plpgsql security definer set search_path = public as $$
-declare v_acc uuid; v_mint uuid; v_starter int := 5;   -- configurable starter grant
+declare
+  v_acc uuid;
+  v_mint uuid;
+  v_starter int;
 begin
-  -- optional: restrict to campus accounts
-  -- if new.email not like '%@thapar.edu' then raise exception 'CAMPUS_ONLY'; end if;
+  -- single source of truth for starter credits
+  select coalesce(value::int, 3) into v_starter from public.app_config where key = 'starter_credits';
+  if v_starter is null then v_starter := 3; end if;
+
   insert into profiles (id, campus_email, full_name)
     values (new.id, new.email, coalesce(new.raw_user_meta_data->>'full_name', split_part(new.email,'@',1)));
   insert into accounts (kind, owner_id) values ('user', new.id) returning id into v_acc;

@@ -12,6 +12,19 @@ from datetime import datetime, timezone
 from typing import Dict, List, Optional, Tuple
 
 DEFAULT_DB_PATH = os.environ.get("SKILLSWAP_DB_PATH", "skillswap.db")
+DEFAULT_STARTER_CREDITS = int(os.environ.get("SKILLSWAP_STARTER_CREDITS", "3"))
+
+
+class AccountSuspendedError(Exception):
+    def __init__(self, reason: str = "Account suspended by administrator"):
+        super().__init__(reason)
+        self.reason = reason
+
+
+class SSOUnavailableError(Exception):
+    def __init__(self, message: str = "Campus SSO Identity Provider is currently unreachable"):
+        super().__init__(message)
+        self.message = message
 
 
 def get_connection(db_path: str = DEFAULT_DB_PATH) -> sqlite3.Connection:
@@ -47,6 +60,13 @@ def init_db(db_path: str = DEFAULT_DB_PATH):
             updated_at TEXT NOT NULL
         );
 
+        CREATE TABLE IF NOT EXISTS app_config (
+            key TEXT PRIMARY KEY,
+            value TEXT NOT NULL,
+            description TEXT,
+            updated_at TEXT NOT NULL
+        );
+
         CREATE TABLE IF NOT EXISTS skills (
             id TEXT PRIMARY KEY,
             name TEXT NOT NULL,
@@ -64,6 +84,7 @@ def init_db(db_path: str = DEFAULT_DB_PATH):
             description TEXT,
             hourly_rate_credits INTEGER CHECK (hourly_rate_credits IS NULL OR hourly_rate_credits > 0),
             quiz_score REAL,
+            embedding_stale INTEGER NOT NULL DEFAULT 1,
             created_at TEXT NOT NULL,
             UNIQUE (user_id, skill_id, kind)
         );
@@ -110,8 +131,27 @@ def init_db(db_path: str = DEFAULT_DB_PATH):
         );
         """)
 
-        # Seed system accounts: mint and escrow
         now = datetime.now(timezone.utc).isoformat()
+
+        # Seed configuration table
+        conn.execute(
+            "INSERT OR REPLACE INTO app_config (key, value, description, updated_at) VALUES ('starter_credits', ?, 'Number of starter credits granted on student registration', ?)",
+            (str(DEFAULT_STARTER_CREDITS), now),
+        )
+
+        # Safe schema migration for existing databases
+        cursor = conn.cursor()
+        cols = [r[1] for r in cursor.execute("PRAGMA table_info(user_skills)").fetchall()]
+        if cols and "embedding_stale" not in cols:
+            conn.execute("ALTER TABLE user_skills ADD COLUMN embedding_stale INTEGER NOT NULL DEFAULT 1")
+
+        pcols = [r[1] for r in cursor.execute("PRAGMA table_info(profiles)").fetchall()]
+        if pcols and "status" not in pcols:
+            conn.execute("ALTER TABLE profiles ADD COLUMN status TEXT NOT NULL DEFAULT 'active'")
+        if pcols and "suspension_reason" not in pcols:
+            conn.execute("ALTER TABLE profiles ADD COLUMN suspension_reason TEXT")
+
+        # Seed system accounts: mint and escrow
         mint_row = conn.execute("SELECT id FROM accounts WHERE kind = 'mint'").fetchone()
         if not mint_row:
             conn.execute(
@@ -251,6 +291,10 @@ def register_or_login_campus_user(
         with conn:
             cursor = conn.cursor()
             profile = cursor.execute("SELECT * FROM profiles WHERE campus_email = ?", (campus_email,)).fetchone()
+            if profile and profile["status"] == "suspended":
+                reason = profile["suspension_reason"] or "Account suspended by campus administrator"
+                raise AccountSuspendedError(reason)
+
             if not profile:
                 user_id = str(uuid.uuid4())
                 cursor.execute(
@@ -276,7 +320,10 @@ def register_or_login_campus_user(
                     "INSERT INTO accounts (id, kind, owner_id, balance, created_at) VALUES (?, 'user', ?, 0, ?)",
                     (acc_id, user_id, now),
                 )
-                # Mint starter credits from MINT to USER account
+                # Mint starter credits from MINT to USER account using app_config single source of truth
+                cfg_row = cursor.execute("SELECT value FROM app_config WHERE key = 'starter_credits'").fetchone()
+                effective_starter = int(cfg_row["value"]) if cfg_row else starter_credits
+
                 mint_acc = cursor.execute("SELECT id FROM accounts WHERE kind = 'mint'").fetchone()
                 if not mint_acc:
                     raise LedgerError("Mint account not found.")
@@ -285,7 +332,7 @@ def register_or_login_campus_user(
                 post_transfer(
                     from_acc_id=mint_acc["id"],
                     to_acc_id=acc_id,
-                    amount=starter_credits,
+                    amount=effective_starter,
                     tx_type="starter_grant",
                     description="Welcome starter credits grant",
                     db_path=db_path,
@@ -387,6 +434,7 @@ def get_profile_data(user_id: str, db_path: str = DEFAULT_DB_PATH) -> Dict:
                     us.level,
                     us.description,
                     us.hourly_rate_credits,
+                    us.embedding_stale,
                     s.id as skill_id,
                     s.name as skill_name,
                     s.slug as skill_slug,
@@ -411,6 +459,7 @@ def get_profile_data(user_id: str, db_path: str = DEFAULT_DB_PATH) -> Dict:
                     "level": r["level"],
                     "description": r["description"],
                     "hourly_rate_credits": r["hourly_rate_credits"],
+                    "embedding_stale": bool(r["embedding_stale"]) if "embedding_stale" in r.keys() else True,
                 }
                 if r["kind"] == "offered":
                     offered.append(item)
@@ -503,7 +552,7 @@ def add_user_skill(
                 cursor.execute(
                     """
                     UPDATE user_skills 
-                    SET level = ?, description = ?, hourly_rate_credits = ?
+                    SET level = ?, description = ?, hourly_rate_credits = ?, embedding_stale = 1
                     WHERE id = ?
                     """,
                     (level, description, hourly_rate_credits if kind == "offered" else None, existing["id"]),
@@ -512,8 +561,8 @@ def add_user_skill(
                 item_id = str(uuid.uuid4())
                 cursor.execute(
                     """
-                    INSERT INTO user_skills (id, user_id, skill_id, kind, level, description, hourly_rate_credits, created_at)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                    INSERT INTO user_skills (id, user_id, skill_id, kind, level, description, hourly_rate_credits, embedding_stale, created_at)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, 1, ?)
                     """,
                     (
                         item_id,

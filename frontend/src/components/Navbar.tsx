@@ -9,22 +9,37 @@ import {
   User,
   LogOut,
   Sparkles,
+  Bell,
+  CheckCircle2,
 } from "lucide-react";
-import { clearAuthSession, fetchAuthMe, getStoredUser, UserProfile } from "@/lib/api";
+import {
+  clearAuthSession,
+  fetchAuthMe,
+  getStoredUser,
+  fetchNotifications,
+  UserProfile,
+  NotificationItem,
+} from "@/lib/api";
 
 export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
   const [user, setUser] = useState<UserProfile | null>(null);
+  const [notifications, setNotifications] = useState<NotificationItem[]>([]);
+  const [showNotifs, setShowNotifs] = useState(false);
 
   useEffect(() => {
     const stored = getStoredUser();
     if (stored) {
       setUser(stored);
     }
-    // Refresh user balance from server
+    // Refresh user balance & notifications from server
     fetchAuthMe()
       .then((u) => setUser(u))
+      .catch(() => {});
+
+    fetchNotifications()
+      .then((n) => setNotifications(n))
       .catch(() => {});
   }, [pathname]);
 
@@ -125,6 +140,54 @@ export default function Navbar() {
                   <Lock className="w-3 h-3 text-amber-600" />
                   <span>0.00 in escrow</span>
                 </div>
+              </div>
+
+              {/* US-13: Notifications Popover */}
+              <div className="relative">
+                <button
+                  onClick={() => setShowNotifs(!showNotifs)}
+                  title="Notifications"
+                  className="p-2 rounded-xl text-slate-500 hover:text-indigo-600 hover:bg-indigo-50/60 transition-colors relative cursor-pointer"
+                >
+                  <Bell className="w-4 h-4" />
+                  {notifications.length > 0 && (
+                    <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-indigo-600 ring-2 ring-white"></span>
+                  )}
+                </button>
+
+                {showNotifs && (
+                  <div className="absolute right-0 mt-2 w-80 bg-white rounded-2xl shadow-xl border border-slate-200 py-3 z-50">
+                    <div className="px-4 pb-2 border-b border-slate-100 flex items-center justify-between">
+                      <span className="text-xs font-bold text-slate-900">Notifications (US-13)</span>
+                      <span className="text-[10px] text-indigo-600 font-medium">Real-Time</span>
+                    </div>
+
+                    <div className="max-h-64 overflow-y-auto divide-y divide-slate-50 px-2 py-1">
+                      {notifications.length === 0 ? (
+                        <div className="text-center py-6 text-xs text-slate-400">
+                          No notifications yet
+                        </div>
+                      ) : (
+                        notifications.map((n) => (
+                          <div key={n.id} className="p-2.5 rounded-xl hover:bg-slate-50 transition-colors">
+                            <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800">
+                              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                              <span>{n.title}</span>
+                            </div>
+                            {n.body && (
+                              <p className="text-[11px] text-slate-500 mt-0.5 line-clamp-2">
+                                {n.body}
+                              </p>
+                            )}
+                            <span className="text-[10px] text-slate-400 mt-1 block">
+                              {new Date(n.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                            </span>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* User Identity */}

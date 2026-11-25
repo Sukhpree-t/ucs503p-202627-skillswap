@@ -299,3 +299,41 @@ export async function fetchMentorProfile(mentorId: string): Promise<MentorPublic
 export async function fetchMentorSlots(mentorId: string): Promise<AvailabilitySlot[]> {
   return apiRequest<AvailabilitySlot[]>(`/slots/mentor/${mentorId}`);
 }
+
+export interface BookingResponse {
+  booking_id: string;
+  status: string;
+}
+
+export interface BookingPrecheckResponse {
+  can_book: boolean;
+  required: number;
+  current: number;
+}
+
+export interface NotificationItem {
+  id: string;
+  user_id: string;
+  type: string;
+  title: string;
+  body?: string;
+  data?: Record<string, unknown>;
+  read_at?: string;
+  created_at: string;
+}
+
+export async function bookSessionSlot(slotId: string, objectives?: string): Promise<BookingResponse> {
+  return apiRequest<BookingResponse>("/booking", {
+    method: "POST",
+    body: JSON.stringify({ slot_id: slotId, objectives }),
+  });
+}
+
+export async function fetchBookingPrecheck(slotId: string): Promise<BookingPrecheckResponse> {
+  return apiRequest<BookingPrecheckResponse>(`/api/v1/bookings/precheck/${slotId}`);
+}
+
+export async function fetchNotifications(): Promise<NotificationItem[]> {
+  return apiRequest<NotificationItem[]>("/api/v1/notifications");
+}
+

@@ -18,8 +18,10 @@ import {
 import {
   fetchMentorProfile,
   fetchAuthMe,
+  bookSessionSlot,
   MentorPublicProfile,
   UserProfile,
+  AvailabilitySlot,
 } from "@/lib/api";
 
 export default function MentorProfilePage() {
@@ -30,6 +32,14 @@ export default function MentorProfilePage() {
   const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  // Sprint 3: Booking State
+  const [bookingSlot, setBookingSlot] = useState<AvailabilitySlot | null>(null);
+  const [objectives, setObjectives] = useState("");
+  const [bookingLoading, setBookingLoading] = useState(false);
+  const [bookingError, setBookingError] = useState<string | null>(null);
+  const [bookedSuccess, setBookedSuccess] = useState<{ id: string; slotId: string } | null>(null);
+  const [lowBalanceData, setLowBalanceData] = useState<{ required: number; current: number } | null>(null);
 
   useEffect(() => {
     if (!mentorId) return;
@@ -69,6 +79,54 @@ export default function MentorProfilePage() {
       return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
     } catch {
       return isoString;
+    }
+  };
+
+  const handleInitiateBooking = (slot: AvailabilitySlot) => {
+    setBookingError(null);
+    const balance = currentUser?.balance ?? 0;
+    if (balance < slot.rate_credits) {
+      setLowBalanceData({ required: slot.rate_credits, current: balance });
+      return;
+    }
+    setBookingSlot(slot);
+    setObjectives("");
+  };
+
+  const handleConfirmBooking = async () => {
+    if (!bookingSlot) return;
+    setBookingLoading(true);
+    setBookingError(null);
+    try {
+      const res = await bookSessionSlot(bookingSlot.id, objectives.trim() || "Peer mentoring session");
+      setBookedSuccess({ id: res.booking_id, slotId: bookingSlot.id });
+      // Update local slots state to remove booked slot
+      setMentor((prev) =>
+        prev
+          ? {
+              ...prev,
+              open_slots: prev.open_slots.filter((s) => s.id !== bookingSlot.id),
+            }
+          : null
+      );
+      // Update local user credits
+      if (currentUser) {
+        setCurrentUser({
+          ...currentUser,
+          balance: currentUser.balance - bookingSlot.rate_credits,
+        });
+      }
+      setBookingSlot(null);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to book session.";
+      if (msg.includes("402") || msg.toLowerCase().includes("balance") || msg.toLowerCase().includes("credits")) {
+        setBookingSlot(null);
+        setLowBalanceData({ required: bookingSlot.rate_credits, current: currentUser?.balance ?? 0 });
+      } else {
+        setBookingError(msg);
+      }
+    } finally {
+      setBookingLoading(false);
     }
   };
 
@@ -314,12 +372,11 @@ export default function MentorProfilePage() {
 
                     {!isOwnProfile && (
                       <button
-                        onClick={() => {
-                          alert(`Slot selection ready! Full escrow lock and session booking will activate in Sprint 3 (US-10). Slot ID: ${slot.id}`);
-                        }}
-                        className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-xs transition-colors self-end sm:self-auto cursor-pointer shadow-sm"
+                        onClick={() => handleInitiateBooking(slot)}
+                        className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-xs transition-colors self-end sm:self-auto cursor-pointer shadow-sm flex items-center gap-1.5"
                       >
-                        Book Slot ({slot.rate_credits} cr)
+                        <Coins className="w-3.5 h-3.5" />
+                        <span>Book Slot ({slot.rate_credits} cr)</span>
                       </button>
                     )}
                   </div>
@@ -329,6 +386,170 @@ export default function MentorProfilePage() {
           </div>
         </div>
       </div>
+
+      {/* US-10: Booking Confirmation Modal */}
+      {bookingSlot && (
+        <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-100 space-y-6">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+              <div>
+                <h3 className="text-lg font-black text-slate-900">Confirm Booking (US-10)</h3>
+                <p className="text-xs text-slate-500">Atomic escrow lock via PostgreSQL ACID RPC</p>
+              </div>
+              <span className="px-3 py-1 rounded-full bg-indigo-100 text-indigo-800 font-bold text-xs">
+                {bookingSlot.rate_credits} Credits
+              </span>
+            </div>
+
+            {bookingError && (
+              <div className="p-3 bg-rose-50 border border-rose-200 text-rose-700 text-xs rounded-xl flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 shrink-0" />
+                <span>{bookingError}</span>
+              </div>
+            )}
+
+            <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200/80 space-y-2 text-xs text-slate-700">
+              <div className="flex justify-between">
+                <span className="text-slate-500">Mentor:</span>
+                <span className="font-bold text-slate-900">{mentor.full_name}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">Scheduled Time:</span>
+                <span className="font-semibold text-slate-900">
+                  {formatSlotDate(bookingSlot.start_time)} at {formatSlotTime(bookingSlot.start_time)}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">Your Current Balance:</span>
+                <span className="font-bold text-emerald-700">{currentUser?.balance ?? 0} Credits</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">Escrow Hold:</span>
+                <span className="font-bold text-indigo-700">{bookingSlot.rate_credits} Credits</span>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                Session Objectives & Questions
+              </label>
+              <textarea
+                value={objectives}
+                onChange={(e) => setObjectives(e.target.value)}
+                placeholder="What topics or questions would you like to cover during this peer session?"
+                rows={3}
+                className="w-full text-xs p-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
+              />
+            </div>
+
+            <div className="flex items-center justify-end gap-3 pt-2">
+              <button
+                type="button"
+                onClick={() => setBookingSlot(null)}
+                disabled={bookingLoading}
+                className="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-700 text-xs font-semibold hover:bg-slate-50 transition-colors cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirmBooking}
+                disabled={bookingLoading}
+                className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition-all shadow-md shadow-indigo-200 cursor-pointer disabled:opacity-50 inline-flex items-center gap-1.5"
+              >
+                {bookingLoading ? "Locking Escrow..." : "Confirm & Lock Escrow"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* US-11: Low Balance Alert Modal */}
+      {lowBalanceData && (
+        <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-slate-100 space-y-5 text-center">
+            <div className="w-14 h-14 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center mx-auto shadow-sm">
+              <Coins className="w-7 h-7" />
+            </div>
+
+            <div>
+              <h3 className="text-lg font-black text-slate-900">Insufficient Credits (US-11)</h3>
+              <p className="text-xs text-slate-500 mt-1">
+                You do not have enough credits to lock this session in escrow.
+              </p>
+            </div>
+
+            <div className="p-4 bg-amber-50/70 border border-amber-200 rounded-2xl text-xs space-y-1.5 text-left">
+              <div className="flex justify-between text-slate-700">
+                <span>Slot Cost:</span>
+                <span className="font-bold text-slate-900">{lowBalanceData.required} credits</span>
+              </div>
+              <div className="flex justify-between text-slate-700">
+                <span>Your Balance:</span>
+                <span className="font-bold text-slate-900">{lowBalanceData.current} credits</span>
+              </div>
+              <div className="flex justify-between text-amber-800 font-bold border-t border-amber-200 pt-1.5 mt-1">
+                <span>Shortfall:</span>
+                <span>{lowBalanceData.required - lowBalanceData.current} credit(s) short</span>
+              </div>
+            </div>
+
+            <p className="text-xs text-slate-600">
+              SkillSwap is a pure peer-to-peer exchange. You can earn credits immediately by offering a skill and teaching fellow campus peers!
+            </p>
+
+            <div className="flex items-center justify-center gap-3 pt-2">
+              <button
+                onClick={() => setLowBalanceData(null)}
+                className="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-700 text-xs font-semibold hover:bg-slate-50 transition-colors"
+              >
+                Close
+              </button>
+              <Link
+                href="/profile"
+                className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition-all shadow-md shadow-indigo-200"
+              >
+                Add Skill to Teach
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Booking Success Modal */}
+      {bookedSuccess && (
+        <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-slate-100 space-y-5 text-center">
+            <div className="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mx-auto shadow-sm">
+              <CheckCircle2 className="w-7 h-7" />
+            </div>
+
+            <div>
+              <h3 className="text-lg font-black text-slate-900">Session Booked! (US-10)</h3>
+              <p className="text-xs text-slate-500 mt-1">
+                Credits successfully held in zero-sum escrow vault.
+              </p>
+            </div>
+
+            <div className="p-4 bg-emerald-50/60 border border-emerald-200 rounded-2xl text-xs text-slate-700 text-left space-y-1">
+              <div className="font-semibold text-slate-900">Booking Confirmation</div>
+              <div className="text-[11px] text-slate-500 font-mono truncate">ID: {bookedSuccess.id}</div>
+              <div className="text-[11px] text-emerald-800 font-medium mt-1">
+                A booking alert has been dispatched to {mentor.full_name}.
+              </div>
+            </div>
+
+            <div className="pt-2">
+              <button
+                onClick={() => setBookedSuccess(null)}
+                className="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all shadow-md shadow-emerald-200"
+              >
+                Awesome, Got It
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

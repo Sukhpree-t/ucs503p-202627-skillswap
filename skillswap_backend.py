@@ -34,7 +34,7 @@ from typing import Optional
 import httpx
 import jwt  # PyJWT
 import redis.asyncio as aioredis
-from fastapi import Depends, FastAPI, Header, HTTPException
+from fastapi import Depends, FastAPI, Header, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import PlainTextResponse
 from pydantic import BaseModel, Field
@@ -411,26 +411,106 @@ class SearchIn(BaseModel):
     limit: int = 20
 
 
+class SlotCreateIn(BaseModel):
+    start_time: str
+    end_time: str
+    rate_credits: int = Field(default=1, gt=0)
+    skill_id: Optional[str] = None
+
+
+@app.get("/slots/mine")
+async def get_my_slots(user: Caller = Depends(current_user)):
+    return skillswap_ledger.get_mentor_slots(user.id)
+
+
+@app.post("/slots")
+async def create_availability_slot_endpoint(body: SlotCreateIn, user: Caller = Depends(current_user)):
+    try:
+        return skillswap_ledger.create_availability_slot(
+            mentor_id=user.id,
+            start_time=body.start_time,
+            end_time=body.end_time,
+            rate_credits=body.rate_credits,
+            skill_id=body.skill_id,
+        )
+    except ValueError as ve:
+        raise HTTPException(400, str(ve))
+    except Exception as e:
+        raise HTTPException(500, f"Error creating slot: {str(e)}")
+
+
+@app.delete("/slots/{slot_id}")
+async def cancel_slot_endpoint(slot_id: str, user: Caller = Depends(current_user)):
+    try:
+        return skillswap_ledger.cancel_availability_slot(user.id, slot_id)
+    except ValueError as ve:
+        raise HTTPException(400, str(ve))
+    except Exception as e:
+        raise HTTPException(500, f"Error cancelling slot: {str(e)}")
+
+
+@app.get("/slots/mentor/{mentor_id}")
+async def get_mentor_open_slots(mentor_id: str):
+    return skillswap_ledger.get_mentor_slots(mentor_id, status_filter="open")
+
+
+@app.get("/search/mentors")
+async def search_mentors_get(
+    q: str = Query(..., description="Learning goal query"),
+    max_rate: Optional[int] = Query(None),
+    min_rating: float = Query(0.0),
+    limit: int = Query(20),
+):
+    results = skillswap_ledger.search_mentors_by_goal(
+        goal=q,
+        max_rate=max_rate,
+        min_rating=min_rating,
+        limit=limit,
+    )
+    return {"results": results, "suggest_broader": len(results) == 0}
+
+
 @app.post("/search")
 async def search(body: SearchIn, user: Caller = Depends(current_user)):
     goal = body.goal.strip()
     if not goal:
         raise HTTPException(422, "Please enter what you want to learn.")
-    vec = await asyncio.to_thread(embed, goal)
-    results = await rpc("match_mentors", {
-        "query_embedding": vec, "max_rate": body.max_rate,
-        "min_rating": body.min_rating, "match_count": body.limit,
-    }, token=user.token)
-    return {"results": results, "suggest_broader": len(results) == 0}
+    if USE_LOCAL_DB:
+        results = skillswap_ledger.search_mentors_by_goal(
+            goal=goal,
+            max_rate=body.max_rate,
+            min_rating=body.min_rating,
+            limit=body.limit,
+        )
+        return {"results": results, "suggest_broader": len(results) == 0}
+    else:
+        vec = await asyncio.to_thread(embed, goal)
+        results = await rpc("match_mentors", {
+            "query_embedding": vec, "max_rate": body.max_rate,
+            "min_rating": body.min_rating, "match_count": body.limit,
+        }, token=user.token)
+        return {"results": results, "suggest_broader": len(results) == 0}
+
+
+@app.get("/mentors/{mentor_id}")
+async def get_mentor_profile(mentor_id: str):
+    try:
+        return skillswap_ledger.get_mentor_public_profile(mentor_id)
+    except ValueError as ve:
+        raise HTTPException(404, str(ve))
+    except Exception as e:
+        raise HTTPException(500, f"Error fetching mentor profile: {str(e)}")
 
 
 @app.get("/mentors/{mentor_id}/slots")
-async def mentor_slots(mentor_id: str, user: Caller = Depends(current_user)):
+async def mentor_slots(mentor_id: str):
+    if USE_LOCAL_DB:
+        return skillswap_ledger.get_mentor_slots(mentor_id, status_filter="open")
     return await select("availability_slots", {
         "mentor_id": f"eq.{mentor_id}", "status": "eq.open",
         "start_time": f"gt.{datetime.now(timezone.utc).isoformat()}",
         "order": "start_time.asc", "select": "*",
-    }, token=user.token)
+    })
 
 
 # ----------------------------------------------------------------------------

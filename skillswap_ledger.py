@@ -129,6 +129,19 @@ def init_db(db_path: str = DEFAULT_DB_PATH):
             details TEXT,
             created_at TEXT NOT NULL
         );
+
+        CREATE TABLE IF NOT EXISTS availability_slots (
+            id TEXT PRIMARY KEY,
+            mentor_id TEXT NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+            skill_id TEXT REFERENCES skills(id),
+            start_time TEXT NOT NULL,
+            end_time TEXT NOT NULL,
+            rate_credits INTEGER NOT NULL CHECK (rate_credits > 0),
+            status TEXT NOT NULL DEFAULT 'open' CHECK (status IN ('open', 'booked', 'cancelled')),
+            external_event_id TEXT,
+            created_at TEXT NOT NULL,
+            CHECK (end_time > start_time)
+        );
         """)
 
         now = datetime.now(timezone.utc).isoformat()
@@ -587,6 +600,371 @@ def delete_user_skill(user_id: str, user_skill_id: str, db_path: str = DEFAULT_D
         with conn:
             conn.execute("DELETE FROM user_skills WHERE id = ? AND user_id = ?", (user_skill_id, user_id))
         return get_profile_data(user_id, db_path=db_path)
+    finally:
+        conn.close()
+
+
+def create_availability_slot(
+    mentor_id: str,
+    start_time: str,
+    end_time: str,
+    rate_credits: int,
+    skill_id: Optional[str] = None,
+    db_path: str = DEFAULT_DB_PATH,
+) -> Dict:
+    """
+    US-08: Publishes an availability slot for a mentor with hourly rate credits.
+    Enforces:
+    - end_time > start_time
+    - start_time >= now (no slots in the past)
+    - rate_credits > 0
+    - No overlapping active (status != 'cancelled') slots for the same mentor
+    """
+    if rate_credits <= 0:
+        raise ValueError("Rate credits must be greater than 0.")
+
+    # Parse and validate ISO timestamps
+    try:
+        dt_start = datetime.fromisoformat(start_time.replace("Z", "+00:00"))
+        dt_end = datetime.fromisoformat(end_time.replace("Z", "+00:00"))
+    except Exception as e:
+        raise ValueError(f"Invalid timestamp format: {e}")
+
+    if dt_end <= dt_start:
+        raise ValueError("End time must be after start time.")
+
+    now_utc = datetime.now(timezone.utc)
+    if dt_start < now_utc:
+        raise ValueError("Cannot create availability slots in the past.")
+
+    start_iso = dt_start.isoformat()
+    end_iso = dt_end.isoformat()
+    if not skill_id or not str(skill_id).strip():
+        skill_id = None
+
+    conn = get_connection(db_path)
+    try:
+        with conn:
+            cursor = conn.cursor()
+            # Verify mentor exists
+            mentor = cursor.execute("SELECT id FROM profiles WHERE id = ?", (mentor_id,)).fetchone()
+            if not mentor:
+                raise ValueError("Mentor profile not found.")
+
+            # Overlap check: An overlap occurs when new_start < existing_end AND new_end > existing_start
+            overlap = cursor.execute(
+                """
+                SELECT id, start_time, end_time FROM availability_slots
+                WHERE mentor_id = ?
+                  AND status != 'cancelled'
+                  AND (? < end_time AND ? > start_time)
+                LIMIT 1
+                """,
+                (mentor_id, start_iso, end_iso),
+            ).fetchone()
+
+            if overlap:
+                raise ValueError(
+                    f"Slot overlaps with an existing slot ({overlap['start_time']} to {overlap['end_time']})."
+                )
+
+            slot_id = str(uuid.uuid4())
+            created_now = now_utc.isoformat()
+            cursor.execute(
+                """
+                INSERT INTO availability_slots (id, mentor_id, skill_id, start_time, end_time, rate_credits, status, created_at)
+                VALUES (?, ?, ?, ?, ?, ?, 'open', ?)
+                """,
+                (slot_id, mentor_id, skill_id, start_iso, end_iso, rate_credits, created_now),
+            )
+
+            row = cursor.execute("SELECT * FROM availability_slots WHERE id = ?", (slot_id,)).fetchone()
+            return dict(row)
+    finally:
+        conn.close()
+
+
+def get_mentor_slots(
+    mentor_id: str,
+    status_filter: Optional[str] = None,
+    db_path: str = DEFAULT_DB_PATH,
+) -> List[Dict]:
+    """
+    US-08 / US-07: Returns slots for a mentor ordered by start_time.
+    """
+    conn = get_connection(db_path)
+    try:
+        with conn:
+            query = "SELECT s.*, sk.name as skill_name FROM availability_slots s LEFT JOIN skills sk ON s.skill_id = sk.id WHERE s.mentor_id = ?"
+            params = [mentor_id]
+            if status_filter:
+                query += " AND s.status = ?"
+                params.append(status_filter)
+            query += " ORDER BY s.start_time ASC"
+
+            rows = conn.execute(query, params).fetchall()
+            return [dict(r) for r in rows]
+    finally:
+        conn.close()
+
+
+def cancel_availability_slot(
+    mentor_id: str,
+    slot_id: str,
+    db_path: str = DEFAULT_DB_PATH,
+) -> Dict:
+    """
+    US-08: Cancels or removes an open slot owned by the mentor.
+    """
+    conn = get_connection(db_path)
+    try:
+        with conn:
+            cursor = conn.cursor()
+            slot = cursor.execute("SELECT * FROM availability_slots WHERE id = ? AND mentor_id = ?", (slot_id, mentor_id)).fetchone()
+            if not slot:
+                raise ValueError("Slot not found or unauthorized.")
+            if slot["status"] == "booked":
+                raise ValueError("Cannot cancel an already booked slot without settlement/refund.")
+
+            cursor.execute("UPDATE availability_slots SET status = 'cancelled' WHERE id = ?", (slot_id,))
+            updated = cursor.execute("SELECT * FROM availability_slots WHERE id = ?", (slot_id,)).fetchone()
+            return dict(updated)
+    finally:
+        conn.close()
+
+
+def compute_deterministic_embedding(text: str, dim: int = 384) -> List[float]:
+    """
+    Computes a deterministic 384-dimensional normalized vector for text.
+    Uses word n-grams with hashing and semantic synonym expansion.
+    Produces standard unit vectors compatible with vector(384) cosine similarity.
+    """
+    import math
+    import hashlib
+    import re
+
+    vec = [0.0] * dim
+    clean_text = text.lower()
+
+    # Semantic synonym expansion for university skill concepts
+    synonyms = {
+        "dsa": ["data", "structures", "algorithms", "problem", "solving"],
+        "ai": ["machine", "learning", "artificial", "intelligence", "neural"],
+        "ml": ["machine", "learning", "data", "science"],
+        "web": ["frontend", "backend", "fullstack", "react", "nextjs"],
+        "ui": ["design", "figma", "ux", "interface"],
+        "cloud": ["devops", "docker", "kubernetes", "aws", "gcp"],
+        "sql": ["database", "postgres", "queries", "engineering"],
+    }
+    words = re.findall(r"\b[a-zA-Z0-9_+#]+\b", clean_text)
+    expanded_words = list(words)
+    for w in words:
+        if w in synonyms:
+            expanded_words.extend(synonyms[w])
+
+    if not expanded_words:
+        return vec
+
+    # Unigrams and bigrams
+    tokens = list(expanded_words)
+    for i in range(len(expanded_words) - 1):
+        tokens.append(f"{expanded_words[i]}_{expanded_words[i+1]}")
+
+    for token in tokens:
+        # Stable 32-bit hash
+        h = int(hashlib.md5(token.encode("utf-8")).hexdigest(), 16)
+        idx = h % dim
+        sign = 1.0 if ((h >> 8) & 1) == 0 else -1.0
+        vec[idx] += sign
+
+    # L2 normalize
+    norm = math.sqrt(sum(x * x for x in vec))
+    if norm > 0:
+        vec = [x / norm for x in vec]
+    return vec
+
+
+def cosine_similarity(v1: List[float], v2: List[float]) -> float:
+    """Computes cosine similarity between two unit vectors."""
+    dot = sum(a * b for a, b in zip(v1, v2))
+    return max(0.0, min(1.0, dot))
+
+
+def search_mentors_by_goal(
+    goal: str,
+    max_rate: Optional[int] = None,
+    min_rating: float = 0.0,
+    limit: int = 20,
+    min_similarity: float = 0.15,
+    db_path: str = DEFAULT_DB_PATH,
+) -> List[Dict]:
+    """
+    US-05: Semantic search for mentors by learning goal.
+    Scores each mentor based on cosine similarity of the goal to their offered skills and bio.
+    Filters by max_rate and min_rating, and provides next available slot preview.
+    """
+    if not goal.strip():
+        return []
+
+    goal_vec = compute_deterministic_embedding(goal)
+    conn = get_connection(db_path)
+    try:
+        with conn:
+            # Query all active mentors who offer at least one skill
+            mentors = conn.execute(
+                """
+                SELECT DISTINCT
+                    p.id,
+                    p.full_name,
+                    p.avatar_url,
+                    p.department,
+                    p.study_year,
+                    p.bio,
+                    p.mentor_rating_avg,
+                    p.mentor_rating_count
+                FROM profiles p
+                JOIN user_skills us ON us.user_id = p.id AND us.kind = 'offered'
+                WHERE p.status = 'active'
+                  AND p.mentor_rating_avg >= ?
+                """,
+                (min_rating,),
+            ).fetchall()
+
+            now_iso = datetime.now(timezone.utc).isoformat()
+            results = []
+
+            for m in mentors:
+                # Get offered skills for this mentor
+                skills = conn.execute(
+                    """
+                    SELECT us.id, us.level, us.description, us.hourly_rate_credits, s.id as skill_id, s.name as skill_name, s.category
+                    FROM user_skills us
+                    JOIN skills s ON us.skill_id = s.id
+                    WHERE us.user_id = ? AND us.kind = 'offered'
+                    """,
+                    (m["id"],),
+                ).fetchall()
+
+                # Get next open slot
+                next_slot = conn.execute(
+                    """
+                    SELECT id, start_time, end_time, rate_credits
+                    FROM availability_slots
+                    WHERE mentor_id = ? AND status = 'open' AND start_time > ?
+                    ORDER BY start_time ASC
+                    LIMIT 1
+                    """,
+                    (m["id"], now_iso),
+                ).fetchone()
+
+                eligible_skills = [s for s in skills if max_rate is None or (s["hourly_rate_credits"] or 1) <= max_rate]
+                if not eligible_skills:
+                    continue
+
+                best_sim = 0.0
+                matched_skill = None
+                effective_rate = 1
+
+                for sk in eligible_skills:
+                    skill_rate = sk["hourly_rate_credits"] or 1
+                    # Composite skill text
+                    skill_corpus = f"{sk['skill_name']} {sk['category'] or ''} {sk['level']} {sk['description'] or ''} {m['bio'] or ''}"
+                    skill_vec = compute_deterministic_embedding(skill_corpus)
+                    sim = cosine_similarity(goal_vec, skill_vec)
+
+                    if sim > best_sim:
+                        best_sim = sim
+                        matched_skill = sk["skill_name"]
+                        effective_rate = skill_rate
+
+                # Keyword match boost for eligible skills
+                has_keyword = any(w.lower() in s["skill_name"].lower() for s in eligible_skills for w in goal.split())
+                if has_keyword:
+                    best_sim = max(best_sim, 0.75)
+
+                if best_sim >= min_similarity:
+                    if matched_skill is None:
+                        matched_skill = eligible_skills[0]["skill_name"]
+                        effective_rate = eligible_skills[0]["hourly_rate_credits"] or 1
+
+                    results.append({
+                        "mentor_id": m["id"],
+                        "full_name": m["full_name"],
+                        "avatar_url": m["avatar_url"],
+                        "department": m["department"],
+                        "study_year": m["study_year"],
+                        "bio": m["bio"],
+                        "rating": m["mentor_rating_avg"],
+                        "rating_count": m["mentor_rating_count"],
+                        "matched_skill": matched_skill,
+                        "rate_credits": effective_rate,
+                        "similarity": round(best_sim, 3),
+                        "match_score": int(round(best_sim * 100)),
+                        "offered_skills": [dict(s) for s in skills],
+                        "next_slot": dict(next_slot) if next_slot else None,
+                    })
+
+            # Sort results by similarity DESC, then rating DESC
+            results.sort(key=lambda x: (x["similarity"], x["rating"]), reverse=True)
+            return results[:limit]
+    finally:
+        conn.close()
+
+
+def get_mentor_public_profile(mentor_id: str, db_path: str = DEFAULT_DB_PATH) -> Dict:
+    """
+    US-07: Returns public profile for a mentor including bio, department, ratings,
+    offered skills, and upcoming open availability slots.
+    """
+    conn = get_connection(db_path)
+    try:
+        with conn:
+            profile = conn.execute(
+                """
+                SELECT id, campus_email, full_name, avatar_url, department, study_year, bio, role,
+                       mentor_rating_avg, mentor_rating_count, learner_rating_avg, learner_rating_count
+                FROM profiles
+                WHERE id = ? AND status = 'active'
+                """,
+                (mentor_id,),
+            ).fetchone()
+            if not profile:
+                raise ValueError("Mentor profile not found.")
+
+            skills = conn.execute(
+                """
+                SELECT us.id, us.level, us.description, us.hourly_rate_credits, s.name as skill_name, s.category
+                FROM user_skills us
+                JOIN skills s ON us.skill_id = s.id
+                WHERE us.user_id = ? AND us.kind = 'offered'
+                ORDER BY us.created_at ASC
+                """,
+                (mentor_id,),
+            ).fetchall()
+
+            now_iso = datetime.now(timezone.utc).isoformat()
+            open_slots = conn.execute(
+                """
+                SELECT id, start_time, end_time, rate_credits, status
+                FROM availability_slots
+                WHERE mentor_id = ? AND status = 'open' AND start_time > ?
+                ORDER BY start_time ASC
+                """,
+                (mentor_id, now_iso),
+            ).fetchall()
+
+            return {
+                "id": profile["id"],
+                "full_name": profile["full_name"],
+                "avatar_url": profile["avatar_url"],
+                "department": profile["department"],
+                "study_year": profile["study_year"],
+                "bio": profile["bio"],
+                "mentor_rating_avg": profile["mentor_rating_avg"],
+                "mentor_rating_count": profile["mentor_rating_count"],
+                "offered_skills": [dict(s) for s in skills],
+                "open_slots": [dict(s) for s in open_slots],
+            }
     finally:
         conn.close()
 

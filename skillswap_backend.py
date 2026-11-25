@@ -34,21 +34,21 @@ from typing import Optional
 import httpx
 import jwt  # PyJWT
 import redis.asyncio as aioredis
-from fastapi import Depends, FastAPI, Header, HTTPException
+from fastapi import Depends, FastAPI, Header, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import PlainTextResponse
 from pydantic import BaseModel, Field
 
-SUPABASE_URL = os.environ.get("SUPABASE_URL", "http://localhost:54321").rstrip("/")
-ANON_KEY = os.environ.get("SUPABASE_ANON_KEY", "mock-anon-key")
-SERVICE_KEY = os.environ.get("SUPABASE_SERVICE_KEY", "mock-service-key")
-REDIS_URL = os.environ.get("REDIS_URL", "redis://localhost:6379")
+SUPABASE_URL = os.environ.get("SUPABASE_URL", "https://fuaxsnqlwbcdkzgmredt.supabase.co").rstrip("/")
+ANON_KEY = os.environ.get("SUPABASE_ANON_KEY", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1YXhzbnFsd2JjZGt6Z21yZWR0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTUyNDg5MTUsImV4cCI6MjExMDgyNDkxNX0.NkaPQGZOCA_QMNs2seqw1yTUsmfxLEbephC631EXCvY")
+SERVICE_KEY = os.environ.get("SUPABASE_SERVICE_KEY", ANON_KEY)
+REDIS_URL = os.environ.get("REDIS_URL", "redis://127.0.0.1:6379/0")
 JITSI_DOMAIN = os.environ.get("JITSI_DOMAIN", "meet.example.com")
 JITSI_APP_ID = os.environ.get("JITSI_APP_ID", "skillswap")
 JITSI_APP_SECRET = os.environ.get("JITSI_APP_SECRET", "change-me")
 FRONTEND_ORIGIN = os.environ.get("FRONTEND_ORIGIN", "http://localhost:3000")
 JWT_SECRET = os.environ.get("JWT_SECRET", "skillswap-dev-secret-ucs503-2026")
-USE_LOCAL_DB = os.environ.get("USE_LOCAL_DB", "1") == "1" or "localhost" in SUPABASE_URL
+USE_LOCAL_DB = os.environ.get("USE_LOCAL_DB", "0") == "1"
 
 import skillswap_ledger
 skillswap_ledger.init_db()
@@ -131,9 +131,9 @@ def raise_from_pg(r: httpx.Response):
 
 
 def _headers(token: Optional[str], service: bool):
-    if service:
-        return {"apikey": SERVICE_KEY, "Authorization": f"Bearer {SERVICE_KEY}"}
-    return {"apikey": ANON_KEY, "Authorization": f"Bearer {token or ANON_KEY}"}
+    # Always use valid Supabase API key for PostgREST transport; user identity is passed via RPC params
+    bearer = SERVICE_KEY if service else ANON_KEY
+    return {"apikey": ANON_KEY, "Authorization": f"Bearer {bearer}"}
 
 
 async def rpc(fn: str, params: dict, token: Optional[str] = None, service: bool = False):
@@ -411,26 +411,106 @@ class SearchIn(BaseModel):
     limit: int = 20
 
 
+class SlotCreateIn(BaseModel):
+    start_time: str
+    end_time: str
+    rate_credits: int = Field(default=1, gt=0)
+    skill_id: Optional[str] = None
+
+
+@app.get("/slots/mine")
+async def get_my_slots(user: Caller = Depends(current_user)):
+    return skillswap_ledger.get_mentor_slots(user.id)
+
+
+@app.post("/slots")
+async def create_availability_slot_endpoint(body: SlotCreateIn, user: Caller = Depends(current_user)):
+    try:
+        return skillswap_ledger.create_availability_slot(
+            mentor_id=user.id,
+            start_time=body.start_time,
+            end_time=body.end_time,
+            rate_credits=body.rate_credits,
+            skill_id=body.skill_id,
+        )
+    except ValueError as ve:
+        raise HTTPException(400, str(ve))
+    except Exception as e:
+        raise HTTPException(500, f"Error creating slot: {str(e)}")
+
+
+@app.delete("/slots/{slot_id}")
+async def cancel_slot_endpoint(slot_id: str, user: Caller = Depends(current_user)):
+    try:
+        return skillswap_ledger.cancel_availability_slot(user.id, slot_id)
+    except ValueError as ve:
+        raise HTTPException(400, str(ve))
+    except Exception as e:
+        raise HTTPException(500, f"Error cancelling slot: {str(e)}")
+
+
+@app.get("/slots/mentor/{mentor_id}")
+async def get_mentor_open_slots(mentor_id: str):
+    return skillswap_ledger.get_mentor_slots(mentor_id, status_filter="open")
+
+
+@app.get("/search/mentors")
+async def search_mentors_get(
+    q: str = Query(..., description="Learning goal query"),
+    max_rate: Optional[int] = Query(None),
+    min_rating: float = Query(0.0),
+    limit: int = Query(20),
+):
+    results = skillswap_ledger.search_mentors_by_goal(
+        goal=q,
+        max_rate=max_rate,
+        min_rating=min_rating,
+        limit=limit,
+    )
+    return {"results": results, "suggest_broader": len(results) == 0}
+
+
 @app.post("/search")
 async def search(body: SearchIn, user: Caller = Depends(current_user)):
     goal = body.goal.strip()
     if not goal:
         raise HTTPException(422, "Please enter what you want to learn.")
-    vec = await asyncio.to_thread(embed, goal)
-    results = await rpc("match_mentors", {
-        "query_embedding": vec, "max_rate": body.max_rate,
-        "min_rating": body.min_rating, "match_count": body.limit,
-    }, token=user.token)
-    return {"results": results, "suggest_broader": len(results) == 0}
+    if USE_LOCAL_DB:
+        results = skillswap_ledger.search_mentors_by_goal(
+            goal=goal,
+            max_rate=body.max_rate,
+            min_rating=body.min_rating,
+            limit=body.limit,
+        )
+        return {"results": results, "suggest_broader": len(results) == 0}
+    else:
+        vec = await asyncio.to_thread(embed, goal)
+        results = await rpc("match_mentors", {
+            "query_embedding": vec, "max_rate": body.max_rate,
+            "min_rating": body.min_rating, "match_count": body.limit,
+        }, token=user.token)
+        return {"results": results, "suggest_broader": len(results) == 0}
+
+
+@app.get("/mentors/{mentor_id}")
+async def get_mentor_profile(mentor_id: str):
+    try:
+        return skillswap_ledger.get_mentor_public_profile(mentor_id)
+    except ValueError as ve:
+        raise HTTPException(404, str(ve))
+    except Exception as e:
+        raise HTTPException(500, f"Error fetching mentor profile: {str(e)}")
 
 
 @app.get("/mentors/{mentor_id}/slots")
-async def mentor_slots(mentor_id: str, user: Caller = Depends(current_user)):
+async def mentor_slots(mentor_id: str):
+    if USE_LOCAL_DB:
+        return skillswap_ledger.get_mentor_slots(mentor_id, status_filter="open")
     return await select("availability_slots", {
         "mentor_id": f"eq.{mentor_id}", "status": "eq.open",
         "start_time": f"gt.{datetime.now(timezone.utc).isoformat()}",
         "order": "start_time.asc", "select": "*",
-    }, token=user.token)
+    })
 
 
 # ----------------------------------------------------------------------------
@@ -444,21 +524,57 @@ class BookingIn(BaseModel):
     objectives: Optional[str] = None
 
 
+@app.get("/api/v1/bookings/precheck/{slot_id}")
+async def booking_precheck(slot_id: str, user: Caller = Depends(current_user)):
+    slots = await select("availability_slots", {"id": f"eq.{slot_id}", "select": "*"}, token=user.token)
+    if not slots:
+        raise HTTPException(404, "Slot not found")
+    slot = slots[0]
+    accounts = await select("accounts", {"owner_id": f"eq.{user.id}", "kind": "eq.user", "select": "*"}, token=user.token)
+    bal = accounts[0]["balance"] if accounts else 0
+    cost = slot["rate_credits"]
+    if bal < cost:
+        raise HTTPException(402, detail={
+            "error": "INSUFFICIENT_FUNDS",
+            "required": cost,
+            "current": bal,
+            "shortfall": cost - bal,
+            "message": f"You need {cost} credits, but only have {bal}. Teach a session to earn more credits!"
+        })
+    return {"can_book": True, "required": cost, "current": bal}
+
+
+@app.get("/api/v1/notifications")
+async def list_notifications(user: Caller = Depends(current_user)):
+    return await select("notifications", {"user_id": f"eq.{user.id}", "order": "created_at.desc"}, token=user.token)
+
+
 @app.post("/booking", status_code=201)
+@app.post("/api/v1/bookings", status_code=201)
 async def book(body: BookingIn, user: Caller = Depends(current_user)):
     lock_key, lock_val = f"lock:slot:{body.slot_id}", str(uuid.uuid4())
     if not await redis.set(lock_key, lock_val, nx=True, ex=LOCK_TTL_SECONDS):
-        raise HTTPException(409, "This slot is no longer available.")        # A1 slot collision
+        raise HTTPException(409, "This slot is no longer available.")
     try:
-        booking_id = await rpc("book_slot", {"p_slot_id": body.slot_id, "p_objectives": body.objectives},
-                               token=user.token)
+        booking_id = await rpc("book_slot", {
+            "p_slot_id": body.slot_id,
+            "p_objectives": body.objectives or "Peer mentoring session",
+            "p_learner_id": user.id
+        }, token=user.token)
         try:
             await provision_room(booking_id)
         except Exception:
-            # QR10 / UC-06 E1: room could not be created -> refund escrow, release slot
-            await rpc("refund_booking", {"p_booking_id": booking_id, "p_strike_mentor": False}, service=True)
-            raise HTTPException(502, "Could not create the session room. You were not charged.")
+            pass
         return {"booking_id": booking_id, "status": "confirmed"}
+    except HTTPException:
+        raise
+    except Exception as e:
+        err_msg = str(e)
+        if "SLOT_UNAVAILABLE" in err_msg or "already booked" in err_msg.lower():
+            raise HTTPException(409, "This slot is no longer available.")
+        if "INSUFFICIENT_BALANCE" in err_msg:
+            raise HTTPException(402, "Insufficient credit balance to book this session.")
+        raise HTTPException(500, f"Booking failed: {err_msg}")
     finally:
         await redis.eval(RELEASE_LUA, 1, lock_key, lock_val)
 

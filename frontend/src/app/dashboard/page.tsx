@@ -67,19 +67,25 @@ export default function DashboardPage() {
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2.5">
             <Link
-              href="/profile"
-              className="px-4 py-2.5 bg-white text-indigo-700 font-bold rounded-xl text-sm hover:bg-indigo-50 transition-colors shadow-sm inline-flex items-center gap-1.5"
+              href="/search"
+              className="px-3.5 py-2 bg-white text-indigo-700 font-bold rounded-xl text-xs sm:text-sm hover:bg-indigo-50 transition-colors shadow-sm inline-flex items-center gap-1.5"
             >
-              <span>Manage Skills</span>
-              <ArrowRight className="w-4 h-4" />
+              <Sparkles className="w-4 h-4 text-indigo-600" />
+              <span>Find Mentors</span>
             </Link>
             <Link
-              href="/wallet"
-              className="px-4 py-2.5 bg-indigo-500/40 text-white font-semibold rounded-xl text-sm hover:bg-indigo-500/60 transition-colors backdrop-blur-md inline-flex items-center gap-1.5"
+              href="/availability"
+              className="px-3.5 py-2 bg-indigo-500/40 text-white font-semibold rounded-xl text-xs sm:text-sm hover:bg-indigo-500/60 transition-colors backdrop-blur-md inline-flex items-center gap-1.5"
             >
-              <span>View Vault</span>
+              <span>My Schedule</span>
+            </Link>
+            <Link
+              href="/profile"
+              className="px-3.5 py-2 bg-indigo-500/40 text-white font-semibold rounded-xl text-xs sm:text-sm hover:bg-indigo-500/60 transition-colors backdrop-blur-md inline-flex items-center gap-1.5"
+            >
+              <span>Manage Skills</span>
             </Link>
           </div>
         </div>

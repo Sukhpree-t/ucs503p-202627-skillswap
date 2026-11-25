@@ -59,7 +59,7 @@ export default function Navbar() {
           <nav className="hidden md:flex items-center gap-1 pl-4 border-l border-slate-200">
             <Link
               href="/dashboard"
-              className={`px-3.5 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+              className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                 pathname === "/dashboard" || pathname === "/"
                   ? "bg-indigo-50 text-indigo-700"
                   : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
@@ -68,10 +68,30 @@ export default function Navbar() {
               Dashboard
             </Link>
             <Link
+              href="/search"
+              className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                pathname.startsWith("/search") || pathname.startsWith("/mentors")
+                  ? "bg-indigo-50 text-indigo-700 font-semibold"
+                  : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+              }`}
+            >
+              Find Mentors
+            </Link>
+            <Link
+              href="/availability"
+              className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                pathname === "/availability"
+                  ? "bg-indigo-50 text-indigo-700 font-semibold"
+                  : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+              }`}
+            >
+              My Schedule
+            </Link>
+            <Link
               href="/profile"
-              className={`px-3.5 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+              className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                 pathname === "/profile"
-                  ? "bg-indigo-50 text-indigo-700"
+                  ? "bg-indigo-50 text-indigo-700 font-semibold"
                   : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
               }`}
             >
@@ -79,9 +99,9 @@ export default function Navbar() {
             </Link>
             <Link
               href="/wallet"
-              className={`px-3.5 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+              className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                 pathname === "/wallet"
-                  ? "bg-indigo-50 text-indigo-700"
+                  ? "bg-indigo-50 text-indigo-700 font-semibold"
                   : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
               }`}
             >

@@ -211,3 +211,91 @@ export async function fetchWalletSummary(): Promise<WalletSummary> {
 export async function fetchLedgerAudit(): Promise<LedgerAuditResult> {
   return apiRequest<LedgerAuditResult>("/wallet/audit");
 }
+
+// ----------------------------------------------------------------------------
+// SPRINT 2: Availability & Discovery (US-08, US-05, US-07)
+// ----------------------------------------------------------------------------
+
+export interface AvailabilitySlot {
+  id: string;
+  mentor_id: string;
+  skill_id?: string | null;
+  skill_name?: string | null;
+  start_time: string;
+  end_time: string;
+  rate_credits: number;
+  status: "open" | "booked" | "cancelled";
+  created_at: string;
+}
+
+export interface MentorSearchResult {
+  mentor_id: string;
+  full_name: string;
+  avatar_url?: string;
+  department?: string;
+  study_year?: number;
+  bio?: string;
+  rating: number;
+  rating_count: number;
+  matched_skill: string;
+  rate_credits: number;
+  similarity: number;
+  match_score: number;
+  offered_skills: Array<{ id: string; skill_name: string; level: string; hourly_rate_credits: number; category?: string }>;
+  next_slot?: AvailabilitySlot | null;
+}
+
+export interface MentorPublicProfile {
+  id: string;
+  full_name: string;
+  avatar_url?: string;
+  department?: string;
+  study_year?: number;
+  bio?: string;
+  mentor_rating_avg: number;
+  mentor_rating_count: number;
+  offered_skills: Array<{ id: string; skill_name: string; level: string; hourly_rate_credits: number; category?: string }>;
+  open_slots: AvailabilitySlot[];
+}
+
+export async function fetchMySlots(): Promise<AvailabilitySlot[]> {
+  return apiRequest<AvailabilitySlot[]>("/slots/mine");
+}
+
+export async function createAvailabilitySlot(params: {
+  start_time: string;
+  end_time: string;
+  rate_credits: number;
+  skill_id?: string;
+}): Promise<AvailabilitySlot> {
+  return apiRequest<AvailabilitySlot>("/slots", {
+    method: "POST",
+    body: JSON.stringify(params),
+  });
+}
+
+export async function deleteAvailabilitySlot(slotId: string): Promise<AvailabilitySlot> {
+  return apiRequest<AvailabilitySlot>(`/slots/${slotId}`, {
+    method: "DELETE",
+  });
+}
+
+export async function searchMentors(
+  goal: string,
+  maxRate?: number,
+  minRating: number = 0.0
+): Promise<{ results: MentorSearchResult[]; suggest_broader: boolean }> {
+  let url = `/search/mentors?q=${encodeURIComponent(goal.trim())}&min_rating=${minRating}`;
+  if (maxRate !== undefined) {
+    url += `&max_rate=${maxRate}`;
+  }
+  return apiRequest<{ results: MentorSearchResult[]; suggest_broader: boolean }>(url);
+}
+
+export async function fetchMentorProfile(mentorId: string): Promise<MentorPublicProfile> {
+  return apiRequest<MentorPublicProfile>(`/mentors/${mentorId}`);
+}
+
+export async function fetchMentorSlots(mentorId: string): Promise<AvailabilitySlot[]> {
+  return apiRequest<AvailabilitySlot[]>(`/slots/mentor/${mentorId}`);
+}

@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"primary-fixed":"#e2dfff","inverse-surface":"#213145","secondary":"#006b5f","tertiary-fixed":"#ffddb8","on-secondary-container":"#006f64","on-surface":"#0b1c30","on-surface-variant":"#464555","surface-container-low":"#eff4ff","on-tertiary-container":"#ffd4a4","outline":"#777587","on-tertiary-fixed-variant":"#653e00","on-secondary-fixed":"#00201c","on-tertiary":"#ffffff","on-background":"#0b1c30","on-primary":"#ffffff","surface":"#f8f9ff","inverse-primary":"#c3c0ff","surface-dim":"#cbdbf5","on-error-container":"#93000a","surface-container":"#e5eeff","on-secondary":"#ffffff","surface-container-lowest":"#ffffff","surface-variant":"#d3e4fe","primary-container":"#4f46e5","primary":"#3525cd","secondary-container":"#6df5e1","tertiary":"#684000","on-primary-fixed":"#0f0069","surface-container-high":"#dce9ff","tertiary-fixed-dim":"#ffb95f","error-container":"#ffdad6","on-error":"#ffffff","surface-bright":"#f8f9ff","inverse-on-surface":"#eaf1ff","on-secondary-fixed-variant":"#005048","on-primary-container":"#dad7ff","surface-container-highest":"#d3e4fe","secondary-fixed-dim":"#4fdbc8","surface-tint":"#4d44e3","secondary-fixed":"#71f8e4","tertiary-container":"#885500","on-primary-fixed-variant":"#3323cc","error":"#ba1a1a","primary-fixed-dim":"#c3c0ff","on-tertiary-fixed":"#2a1700","outline-variant":"#c7c4d8","background":"#f8f9ff"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"margin":"1rem","space-sm":"0.5rem","margin-desktop":"3rem","space-md":"1rem","gutter":"1rem","margin-tablet":"2rem","space-lg":"1.5rem","space-xl":"2rem","gutter-desktop":"1.5rem","space-xs":"0.25rem"},"fontFamily":{"body-md":["Inter"],"headline-sm":["Inter"],"headline-xl-mobile":["Inter"],"headline-md":["Inter"],"label-sm":["Inter"],"label-lg":["Inter"],"headline-lg-mobile":["Inter"],"headline-lg":["Inter"],"body-sm":["Inter"],"body-lg":["Inter"],"label-md":["Inter"],"headline-xl":["Inter"]},"fontSize":{"body-md":["16px",{"lineHeight":"24px","letterSpacing":"0em","fontWeight":"400"}],"headline-sm":["20px",{"lineHeight":"28px","letterSpacing":"-0.005em","fontWeight":"600"}],"headline-xl-mobile":["30px",{"lineHeight":"38px","letterSpacing":"-0.015em","fontWeight":"700"}],"headline-md":["24px",{"lineHeight":"32px","letterSpacing":"-0.01em","fontWeight":"600"}],"label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.03em","fontWeight":"600"}],"label-lg":["14px",{"lineHeight":"20px","letterSpacing":"0.01em","fontWeight":"600"}],"headline-lg-mobile":["24px",{"lineHeight":"32px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-lg":["32px",{"lineHeight":"40px","letterSpacing":"-0.015em","fontWeight":"600"}],"body-sm":["14px",{"lineHeight":"20px","letterSpacing":"0.005em","fontWeight":"400"}],"body-lg":["18px",{"lineHeight":"28px","letterSpacing":"0em","fontWeight":"400"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"600"}],"headline-xl":["40px",{"lineHeight":"48px","letterSpacing":"-0.02em","fontWeight":"700"}]}}}}</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><header class="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-20 w-full px-margin md:px-margin-tablet lg:px-margin-desktop flex items-center justify-between gap-space-lg"><div class="flex items-center gap-space-md shrink-0"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded-lg bg-primary-container flex items-center justify-center text-on-primary shadow-sm"><span class="material-symbols-outlined text-[20px]">swap_horiz</span></div><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight">SkillSwap</span></div><div class="hidden sm:flex items-center gap-space-xs px-space-sm py-0.5 rounded-full bg-surface-container-low text-secondary font-label-sm text-label-sm"><span class="material-symbols-outlined text-[13px]">verified</span><span>.EDU VERIFIED</span></div></div><div class="hidden xl:flex items-center flex-1 max-w-md mx-space-md"><div class="w-full flex items-center gap-space-sm px-space-md py-space-sm rounded-lg bg-surface-container-low text-on-surface-variant"><span class="material-symbols-outlined text-[18px] text-outline">search</span><span class="font-body-sm text-body-sm text-on-surface-variant select-none truncate">Search skills, subjects, or mentors (e.g. Python, Organic Chem)...</span></div></div><nav class="hidden lg:flex items-center gap-space-xs shrink-0" data-active-classes="bg-primary-container text-on-primary font-label-lg rounded-lg"><a class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="dashboard" href="#">Dashboard</a><a class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="marketplace" href="#">Explore</a><a class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="my-sessions" href="#">My Sessions</a><a class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="teach-and-availability" href="#">Teach &amp; Availability</a><a class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="ledger-wallet" href="#">Ledger</a></nav><div class="flex items-center gap-space-md shrink-0"><div class="flex items-center gap-space-xs px-space-sm py-1 rounded-full bg-surface-container-low"><div class="flex items-center gap-space-xs pl-space-xs"><span class="material-symbols-outlined text-[16px] text-primary">toll</span><span class="font-label-lg text-label-lg text-primary tabular-nums">5.00 cr</span></div><span class="text-outline text-label-sm font-label-sm">·</span><div class="px-space-sm py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm flex items-center gap-0.5"><span class="material-symbols-outlined text-[12px]">lock_clock</span><span>1.00 in escrow</span></div></div><div class="relative flex items-center justify-center w-9 h-9 rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors cursor-pointer"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-primary-container ring-2 ring-surface"></span></div><div class="flex items-center gap-space-sm pl-space-xs"><div class="hidden md:flex flex-col text-right leading-none"><span class="font-label-lg text-label-lg text-on-surface">Alex Vance</span><span class="font-label-sm text-label-sm text-on-surface-variant">CS &amp; Econ '25 · Harvard</span></div><div class="relative"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-secondary ring-2 ring-surface"></span></div></div></div></div></header><main class="w-full pt-20 bg-surface min-h-[calc(100vh-140px)]"><div class="flex flex-col w-full">
+<!-- Simulation State Banners Section (Collapsible & Dismissible) -->
+<div class="w-full px-margin md:px-margin-tablet lg:px-margin-desktop pt-space-lg">
+<div class="space-y-space-sm mb-space-md" id="simulated-alerts-container">
+<!-- Calendar Sync Error Alert -->
+<div class="w-full p-space-md rounded-xl bg-error-container text-on-error-container shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-sm transition-all duration-300" id="alert-cal-sync">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[20px] text-error shrink-0">sync_problem</span>
+<div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
+<span class="font-label-lg text-label-lg">Google Calendar Sync Paused:</span>
+<span class="font-body-sm text-body-sm opacity-90">API timeout encountered for a.vance@college.harvard.edu. Local schedule is active; next sync retry in 5m.</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm self-end sm:self-auto shrink-0">
+<button class="px-space-md py-1 bg-surface text-on-surface rounded-lg font-label-sm text-label-sm shadow-sm hover:bg-surface-container transition-colors" onclick="retrySyncSimulation()">Retry Now</button>
+<button class="text-on-error-container opacity-70 hover:opacity-100" onclick="dismissAlert('alert-cal-sync')"><span class="material-symbols-outlined text-[18px]">close</span></button>
+</div>
+</div>
+<!-- Overlapping Slot Warning (Interactive preview) -->
+<div class="hidden w-full p-space-md rounded-xl bg-tertiary-fixed text-on-tertiary-fixed shadow-sm flex items-start justify-between gap-space-sm transition-all duration-300" id="alert-overlap">
+<div class="flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-[20px] text-tertiary shrink-0 mt-0.5">warning</span>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-tertiary-fixed">Overlapping Slot Detected</span>
+<span class="font-body-sm text-body-sm text-on-tertiary-fixed-variant">You already have an open or booked slot on <strong class="font-semibold">Wednesday at 3:00 PM – 4:30 PM</strong>. Please select another block or edit the existing slot.</span>
+</div>
+</div>
+<button class="text-on-tertiary-fixed opacity-70 hover:opacity-100" onclick="dismissAlert('alert-overlap')"><span class="material-symbols-outlined text-[18px]">close</span></button>
+</div>
+<!-- Slot in Past Warning (Interactive preview) -->
+<div class="hidden w-full p-space-md rounded-xl bg-error-container text-on-error-container shadow-sm flex items-start justify-between gap-space-sm transition-all duration-300" id="alert-past">
+<div class="flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-[20px] text-error shrink-0 mt-0.5">history_toggle_off</span>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg">Cannot Schedule in the Past</span>
+<span class="font-body-sm text-body-sm opacity-90">Selected slot (Oct 21, 9:00 AM) has already elapsed. Slots must be scheduled at least 30 minutes in advance.</span>
+</div>
+</div>
+<button class="text-on-error-container opacity-70 hover:opacity-100" onclick="dismissAlert('alert-past')"><span class="material-symbols-outlined text-[18px]">close</span></button>
+</div>
+</div>
+</div>
+<!-- Main Content Body -->
+<div class="w-full px-margin md:px-margin-tablet lg:px-margin-desktop pb-space-xl">
+<!-- Top Bar: Title & Hourly Rate Configuration Module -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-lg mb-space-lg">
+<div class="flex flex-col max-w-2xl">
+<div class="flex items-center gap-space-xs text-secondary font-label-sm text-label-sm mb-1 uppercase tracking-wider">
+<span class="material-symbols-outlined text-[16px]">school</span>
+<span>Harvard Peer Ledger · Mentor Operations</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Teaching Schedule &amp; Availability</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Set your open mentoring slots, sync your campus calendar, and manage incoming session bookings with automatic credit escrow settlement.</p>
+</div>
+<!-- Rate Setting Widget (Fintech Tactility) -->
+<div class="bg-surface-container-lowest p-space-md rounded-2xl shadow-sm flex flex-col sm:flex-row items-start sm:items-center gap-space-md shrink-0">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-xl bg-primary-fixed flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined text-[22px]">payments</span>
+</div>
+<div>
+<div class="flex items-center gap-1.5">
+<span class="font-label-lg text-label-lg text-on-surface">Hourly Rate</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm">Standard</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Avg campus rate: 1.00 cr/hr</span>
+</div>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs bg-surface-container-low px-space-xs py-1 rounded-xl">
+<button class="w-7 h-7 flex items-center justify-center rounded-lg bg-surface hover:bg-surface-container-high text-on-surface text-body-md font-bold transition-colors" onclick="adjustRate(-0.25)">
+<span class="material-symbols-outlined text-[16px]">remove</span>
+</button>
+<div class="px-space-sm flex items-center gap-1">
+<input class="w-12 bg-transparent text-center font-headline-sm text-headline-sm text-primary tabular-nums focus:outline-none" id="rate-input" onchange="validateRate(this.value)" type="text" value="1.00"/>
+<span class="font-label-md text-label-md text-on-surface-variant">cr</span>
+</div>
+<button class="w-7 h-7 flex items-center justify-center rounded-lg bg-surface hover:bg-surface-container-high text-on-surface text-body-md font-bold transition-colors" onclick="adjustRate(0.25)">
+<span class="material-symbols-outlined text-[16px]">add</span>
+</button>
+</div>
+<span class="hidden text-error font-label-sm text-label-sm mt-1" id="rate-validation-msg">Must be &gt; 0.00 cr</span>
+</div>
+</div>
+</div>
+<!-- Secondary Controls & Calendar Toolbars -->
+<div class="flex flex-wrap items-center justify-between gap-space-md mb-space-lg p-space-sm bg-surface-container-lowest rounded-2xl shadow-sm">
+<!-- Week Navigation -->
+<div class="flex items-center gap-space-xs sm:gap-space-sm">
+<button class="px-space-md py-space-sm rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">today</span>
+<span>Today</span>
+</button>
+<div class="flex items-center bg-surface-container-low rounded-lg p-0.5">
+<button class="p-1.5 hover:bg-surface-container-high rounded-md text-on-surface-variant hover:text-on-surface transition-colors" title="Previous Week">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<span class="px-space-sm font-label-lg text-label-lg text-on-surface whitespace-nowrap">Week of Oct 21 – Oct 27, 2024</span>
+<button class="p-1.5 hover:bg-surface-container-high rounded-md text-on-surface-variant hover:text-on-surface transition-colors" title="Next Week">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Quick Populate & Modal Triggers -->
+<div class="flex flex-wrap items-center gap-space-xs sm:gap-space-sm">
+<button class="px-space-sm sm:px-space-md py-space-sm rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface font-label-sm sm:font-label-md text-label-sm sm:text-label-md transition-colors flex items-center gap-1.5" onclick="triggerSimulatedOverlap()">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+<span class="hidden sm:inline">Copy Last Week</span>
+<span class="sm:hidden">Copy Week</span>
+</button>
+<button class="px-space-sm sm:px-space-md py-space-sm rounded-lg bg-surface-container-low hover:bg-surface-container text-primary font-label-sm sm:font-label-md text-label-sm sm:text-label-md transition-colors flex items-center gap-1.5" onclick="quickPopulateEvenings()">
+<span class="material-symbols-outlined text-[16px]">bolt</span>
+<span>Auto-Populate Evenings</span>
+</button>
+<button class="px-space-md py-space-sm rounded-lg bg-primary-container text-on-primary font-label-lg text-label-lg shadow-sm hover:opacity-95 transition-opacity flex items-center gap-1.5" onclick="openSlotModal('CS124 Algorithms &amp; Data Structures', 'Wednesday', '16:00', '17:30')">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>Add Time Slot</span>
+</button>
+</div>
+</div>
+<!-- Main Two-Column Structure (Grid: 12 Cols Desktop) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
+<!-- LEFT COLUMN: Weekly Calendar Time-Grid (8 Cols on Desktop) -->
+<div class="lg:col-span-8 flex flex-col gap-space-md">
+<!-- Calendar Container Card -->
+<div class="bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden flex flex-col">
+<!-- Calendar Legend & Stats Bar -->
+<div class="px-space-md py-space-sm bg-surface-container-low flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-md text-label-sm font-label-sm">
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-3 rounded-full bg-secondary"></span>
+<span class="text-on-surface-variant">Open Mentoring Slot</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-3 rounded-full bg-primary-container"></span>
+<span class="text-on-surface-variant">Booked &amp; Locked</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-3 rounded-full bg-tertiary-container"></span>
+<span class="text-on-surface-variant">Reciprocal Trade</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-3 rounded-full bg-surface-container-highest"></span>
+<span class="text-on-surface-variant">G-Cal Busy</span>
+</div>
+</div>
+<div class="text-label-sm font-label-sm text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">insights</span>
+<span>12.5 hrs available this week</span>
+</div>
+</div>
+<!-- Weekly Days Header -->
+<div class="grid grid-cols-8 bg-surface-container-low/50 text-center py-space-sm">
+<div class="text-on-surface-variant font-label-sm text-label-sm flex items-center justify-center">TIME</div>
+<div class="flex flex-col items-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant">MON</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">21</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant">TUE</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">22</span>
+</div>
+<div class="flex flex-col items-center p-1 rounded-xl bg-primary-fixed/60">
+<span class="font-label-sm text-label-sm text-primary font-bold">WED (Today)</span>
+<span class="font-headline-sm text-headline-sm text-primary">23</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant">THU</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">24</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant">FRI</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">25</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant">SAT</span>
+<span class="font-headline-sm text-headline-sm text-on-surface-variant">26</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant">SUN</span>
+<span class="font-headline-sm text-headline-sm text-on-surface-variant">27</span>
+</div>
+</div>
+<!-- Calendar Body Time Matrix (8:00 AM - 9:00 PM) -->
+<div class="relative overflow-x-auto">
+<div class="min-w-[680px]">
+<!-- Hour Row: 8:00 AM -->
+<div class="grid grid-cols-8 h-16 bg-surface-container-lowest/40 hover:bg-surface-container-low/20 transition-colors">
+<div class="text-right pr-space-sm pt-1 text-label-sm font-label-sm text-outline tabular-nums">08:00 AM</div>
+<!-- Mon 8am (Past) -->
+<div class="relative p-1 bg-surface-container-low/30 cursor-not-allowed group" onclick="triggerPastError()">
+<span class="hidden group-hover:block absolute z-20 top-1 left-1 right-1 text-[10px] leading-tight font-label-sm text-on-surface-variant bg-surface p-1 rounded shadow">Past Time</span>
+</div>
+<!-- Tue 8am -->
+<div class="relative p-1 hover:bg-surface-container transition-colors cursor-pointer group" onclick="openSlotModal('CS124 Algorithmic Thinking', 'Tuesday', '08:00', '09:00')">
+<div class="opacity-0 group-hover:opacity-100 absolute inset-1 rounded-lg bg-primary-fixed/30 flex items-center justify-center text-primary text-label-sm font-label-sm transition-opacity">+ Add</div>
+</div>
+<!-- Wed 8am -->
+<div class="relative p-1 hover:bg-surface-container cursor-pointer group" onclick="openSlotModal('ECON 1126 Microeconomics', 'Wednesday', '08:00', '09:00')">
+<div class="opacity-0 group-hover:opacity-100 absolute inset-1 rounded-lg bg-primary-fixed/30 flex items-center justify-center text-primary text-label-sm font-label-sm transition-opacity">+ Add</div>
+</div>
+<!-- Thu 8am: Google Cal Block -->
+<div class="p-1">
+<div class="w-full h-full rounded-lg bg-surface-container-highest p-1.5 flex flex-col justify-center">
+<span class="font-label-sm text-[10px] text-on-surface-variant font-bold truncate">G-Cal: CS50 Lecture</span>
+<span class="text-[9px] text-outline">Sanders Theater</span>
+</div>
+</div>
+<!-- Fri 8am -->
+<div class="p-1 hover:bg-surface-container cursor-pointer group relative" onclick="openSlotModal('General Peer Review', 'Friday', '08:00', '09:00')">
+<div class="opacity-0 group-hover:opacity-100 absolute inset-1 rounded-lg bg-primary-fixed/30 flex items-center justify-center text-primary text-label-sm font-label-sm transition-opacity">+ Add</div>
+</div>
+<!-- Sat 8am -->
+<div class="p-1 bg-surface-container-low/20"></div>
+<!-- Sun 8am -->
+<div class="p-1 bg-surface-container-low/20"></div>
+</div>
+<!-- Hour Row: 10:00 AM -->
+<div class="grid grid-cols-8 h-20 bg-surface-container-lowest hover:bg-surface-container-low/20 transition-colors">
+<div class="text-right pr-space-sm pt-1 text-label-sm font-label-sm text-outline tabular-nums">10:00 AM</div>
+<!-- Mon 10am (Past) -->
+<div class="p-1 bg-surface-container-low/30"></div>
+<!-- Tue 10am: Open Slot -->
+<div class="p-1 relative group">
+<div class="w-full h-full rounded-xl bg-secondary-fixed/50 p-2 flex flex-col justify-between shadow-xs hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between">
+<span class="px-1.5 py-0.5 rounded-full bg-secondary text-on-secondary text-[10px] font-label-sm">Open · 1.00 cr</span>
+<div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-0.5 hover:bg-secondary-fixed rounded text-on-secondary-fixed" onclick="event.stopPropagation(); openSlotModal('Python &amp; CS124', 'Tuesday', '10:00', '11:00')"><span class="material-symbols-outlined text-[13px]">edit</span></button>
+<button class="p-0.5 hover:bg-secondary-fixed rounded text-error" onclick="event.stopPropagation(); this.closest('.group').remove()"><span class="material-symbols-outlined text-[13px]">delete</span></button>
+</div>
+</div>
+<div>
+<span class="font-label-sm text-label-sm text-on-secondary-fixed font-bold block truncate">Python &amp; CS124</span>
+<span class="font-body-sm text-[11px] text-on-secondary-fixed-variant">10:00 – 11:00 AM</span>
+</div>
+</div>
+</div>
+<!-- Wed 10am -->
+<div class="p-1 hover:bg-surface-container cursor-pointer group relative" onclick="openSlotModal('CS124 Algorithms', 'Wednesday', '10:00', '11:00')">
+<div class="opacity-0 group-hover:opacity-100 absolute inset-1 rounded-lg bg-primary-fixed/30 flex items-center justify-center text-primary text-label-sm font-label-sm transition-opacity">+ Add</div>
+</div>
+<!-- Thu 10am -->
+<div class="p-1 hover:bg-surface-container cursor-pointer group relative" onclick="openSlotModal('ECON 1126 STATA', 'Thursday', '10:00', '11:00')">
+<div class="opacity-0 group-hover:opacity-100 absolute inset-1 rounded-lg bg-primary-fixed/30 flex items-center justify-center text-primary text-label-sm font-label-sm transition-opacity">+ Add</div>
+</div>
+<!-- Fri 10am: Reciprocal Trade Slot -->
+<div class="p-1 relative">
+<div class="w-full h-full rounded-xl bg-tertiary-fixed p-2 flex flex-col justify-between shadow-xs">
+<div class="flex items-center justify-between">
+<span class="px-1.5 py-0.5 rounded-full bg-tertiary-container text-on-tertiary-container text-[10px] font-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[10px]">sync_alt</span>
+<span>Trade Slot</span>
+</span>
+</div>
+<div>
+<span class="font-label-sm text-label-sm text-on-tertiary-fixed font-bold block truncate">Reciprocal: Organic Chem</span>
+<span class="font-body-sm text-[11px] text-on-tertiary-fixed-variant">w/ Derek Zhao (10-11)</span>
+</div>
+</div>
+</div>
+<!-- Sat 10am -->
+<div class="p-1 bg-surface-container-low/20"></div>
+<!-- Sun 10am -->
+<div class="p-1 bg-surface-container-low/20"></div>
+</div>
+<!-- Hour Row: 02:00 PM (Booked & Locked Session Highlight) -->
+<div class="grid grid-cols-8 h-24 bg-surface-container-lowest hover:bg-surface-container-low/20 transition-colors">
+<div class="text-right pr-space-sm pt-1 text-label-sm font-label-sm text-outline tabular-nums">02:00 PM</div>
+<!-- Mon 2pm -->
+<div class="p-1 bg-surface-container-low/30"></div>
+<!-- Tue 2pm -->
+<div class="p-1 hover:bg-surface-container cursor-pointer group relative" onclick="openSlotModal('Econ 1126', 'Tuesday', '14:00', '15:30')">
+<div class="opacity-0 group-hover:opacity-100 absolute inset-1 rounded-lg bg-primary-fixed/30 flex items-center justify-center text-primary text-label-sm font-label-sm transition-opacity">+ Add</div>
+</div>
+<!-- Wed 2pm: Booked & Locked with Maya Lin -->
+<div class="p-1 relative group">
+<div class="w-full h-full rounded-xl bg-primary-container text-on-primary p-2 flex flex-col justify-between shadow-md ring-2 ring-primary">
+<div class="flex items-center justify-between">
+<span class="px-1.5 py-0.5 rounded-full bg-primary text-on-primary font-label-sm text-[10px] flex items-center gap-1">
+<span class="material-symbols-outlined text-[11px]">lock</span>
+<span>LOCKED</span>
+</span>
+<span class="text-[11px] font-bold tabular-nums">1.00 cr</span>
+</div>
+<div>
+<span class="font-label-sm text-label-sm font-bold block truncate">Booked: Maya Lin</span>
+<span class="font-body-sm text-[11px] text-on-primary-container truncate block">Multivariable Calc · 2:00 - 3:00</span>
+</div>
+</div>
+<!-- Tooltip -->
+<div class="hidden group-hover:flex absolute z-30 bottom-full left-1/2 -translate-x-1/2 mb-2 w-56 p-space-sm rounded-xl bg-inverse-surface text-inverse-on-surface shadow-xl text-left flex-col gap-1 pointer-events-none">
+<div class="flex items-center gap-1 text-[11px] font-label-sm text-secondary-fixed">
+<span class="material-symbols-outlined text-[14px]">lock</span>
+<span>Slot Locked</span>
+</div>
+<span class="text-[11px] leading-normal font-body-sm">Confirmed by Maya Lin. To reschedule or cancel this confirmed booking, visit your <strong>My Sessions</strong> manager.</span>
+</div>
+</div>
+<!-- Thu 2pm -->
+<div class="p-1 hover:bg-surface-container cursor-pointer group relative" onclick="openSlotModal('CS124', 'Thursday', '14:00', '15:00')">
+<div class="opacity-0 group-hover:opacity-100 absolute inset-1 rounded-lg bg-primary-fixed/30 flex items-center justify-center text-primary text-label-sm font-label-sm transition-opacity">+ Add</div>
+</div>
+<!-- Fri 2pm: G-Cal Class Conflict -->
+<div class="p-1">
+<div class="w-full h-full rounded-lg bg-surface-container-highest p-2 flex flex-col justify-center">
+<span class="font-label-sm text-[11px] text-on-surface-variant font-bold truncate">G-Cal: Section Econ 1126</span>
+<span class="text-[10px] text-outline">Sever Hall 113</span>
+</div>
+</div>
+<!-- Sat 2pm -->
+<div class="p-1 bg-surface-container-low/20"></div>
+<!-- Sun 2pm -->
+<div class="p-1 bg-surface-container-low/20"></div>
+</div>
+<!-- Hour Row: 04:30 PM (Jordan Bell Pending Request Target Slot) -->
+<div class="grid grid-cols-8 h-24 bg-surface-container-lowest hover:bg-surface-container-low/20 transition-colors">
+<div class="text-right pr-space-sm pt-1 text-label-sm font-label-sm text-outline tabular-nums">04:30 PM</div>
+<!-- Mon 4:30pm -->
+<div class="p-1 bg-surface-container-low/30"></div>
+<!-- Tue 4:30pm -->
+<div class="p-1 relative group">
+<div class="w-full h-full rounded-xl bg-secondary-fixed/50 p-2 flex flex-col justify-between shadow-xs">
+<div class="flex items-center justify-between">
+<span class="px-1.5 py-0.5 rounded-full bg-secondary text-on-secondary text-[10px] font-label-sm">Open</span>
+<button class="text-error opacity-0 group-hover:opacity-100" onclick="event.stopPropagation(); this.closest('.group').remove()"><span class="material-symbols-outlined text-[13px]">delete</span></button>
+</div>
+<div>
+<span class="font-label-sm text-label-sm text-on-secondary-fixed font-bold truncate block">Python Review</span>
+<span class="text-[11px] text-on-secondary-fixed-variant">4:30 – 5:30 PM</span>
+</div>
+</div>
+</div>
+<!-- Wed 4:30pm -->
+<div class="p-1 hover:bg-surface-container cursor-pointer group relative" onclick="openSlotModal('CS124 Algorithms', 'Wednesday', '16:30', '17:30')">
+<div class="opacity-0 group-hover:opacity-100 absolute inset-1 rounded-lg bg-primary-fixed/30 flex items-center justify-center text-primary text-label-sm font-label-sm transition-opacity">+ Add</div>
+</div>
+<!-- Thu 4:30pm: Requested by Jordan Bell (Pending Indicator) -->
+<div class="p-1 relative">
+<div class="w-full h-full rounded-xl bg-tertiary-fixed-dim/40 p-2 flex flex-col justify-between shadow-xs animate-pulse ring-2 ring-tertiary">
+<div class="flex items-center justify-between">
+<span class="px-1.5 py-0.5 rounded-full bg-tertiary-container text-on-tertiary-container font-label-sm text-[10px] flex items-center gap-1">
+<span class="material-symbols-outlined text-[11px]">hourglass_top</span>
+<span>Pending Req</span>
+</span>
+<span class="text-[11px] font-bold text-tertiary">1.00 cr</span>
+</div>
+<div>
+<span class="font-label-sm text-label-sm text-on-tertiary-fixed font-bold block truncate">Jordan Bell · CS124</span>
+<span class="font-body-sm text-[11px] text-on-tertiary-fixed-variant truncate block">Cabot Library Pod B</span>
+</div>
+</div>
+</div>
+<!-- Fri 4:30pm -->
+<div class="p-1 hover:bg-surface-container cursor-pointer group relative" onclick="openSlotModal('General Tutoring', 'Friday', '16:30', '17:30')">
+<div class="opacity-0 group-hover:opacity-100 absolute inset-1 rounded-lg bg-primary-fixed/30 flex items-center justify-center text-primary text-label-sm font-label-sm transition-opacity">+ Add</div>
+</div>
+<!-- Sat 4:30pm -->
+<div class="p-1 bg-surface-container-low/20"></div>
+<!-- Sun 4:30pm -->
+<div class="p-1 bg-surface-container-low/20"></div>
+</div>
+<!-- Hour Row: 06:00 PM (Sophia Chen Target Slot) -->
+<div class="grid grid-cols-8 h-20 bg-surface-container-lowest hover:bg-surface-container-low/20 transition-colors">
+<div class="text-right pr-space-sm pt-1 text-label-sm font-label-sm text-outline tabular-nums">06:00 PM</div>
+<div class="p-1 bg-surface-container-low/30"></div>
+<div class="p-1 hover:bg-surface-container cursor-pointer group relative" onclick="openSlotModal('Evening Coding Lab', 'Tuesday', '18:00', '19:00')">
+<div class="opacity-0 group-hover:opacity-100 absolute inset-1 rounded-lg bg-primary-fixed/30 flex items-center justify-center text-primary text-label-sm font-label-sm transition-opacity">+ Add</div>
+</div>
+<div class="p-1 hover:bg-surface-container cursor-pointer group relative" onclick="openSlotModal('Evening Coding Lab', 'Wednesday', '18:00', '19:00')">
+<div class="opacity-0 group-hover:opacity-100 absolute inset-1 rounded-lg bg-primary-fixed/30 flex items-center justify-center text-primary text-label-sm font-label-sm transition-opacity">+ Add</div>
+</div>
+<div class="p-1 hover:bg-surface-container cursor-pointer group relative" onclick="openSlotModal('Evening Coding Lab', 'Thursday', '18:00', '19:00')">
+<div class="opacity-0 group-hover:opacity-100 absolute inset-1 rounded-lg bg-primary-fixed/30 flex items-center justify-center text-primary text-label-sm font-label-sm transition-opacity">+ Add</div>
+</div>
+<!-- Fri 6:00pm: Sophia Chen Pending Request -->
+<div class="p-1 relative">
+<div class="w-full h-full rounded-xl bg-tertiary-fixed-dim/40 p-2 flex flex-col justify-between shadow-xs animate-pulse ring-2 ring-tertiary">
+<div class="flex items-center justify-between">
+<span class="px-1.5 py-0.5 rounded-full bg-tertiary-container text-on-tertiary-container font-label-sm text-[10px] flex items-center gap-1">
+<span class="material-symbols-outlined text-[11px]">hourglass_top</span>
+<span>Pending Req</span>
+</span>
+<span class="text-[11px] font-bold text-tertiary">1.00 cr</span>
+</div>
+<div>
+<span class="font-label-sm text-label-sm text-on-tertiary-fixed font-bold block truncate">Sophia Chen · STATA</span>
+<span class="font-body-sm text-[11px] text-on-tertiary-fixed-variant truncate block">Zoom SSO session</span>
+</div>
+</div>
+</div>
+<div class="p-1 bg-surface-container-low/20"></div>
+<div class="p-1 bg-surface-container-low/20"></div>
+</div>
+</div>
+</div>
+<!-- Bottom Grid Footer Note -->
+<div class="px-space-md py-space-sm bg-surface-container-low flex flex-col sm:flex-row items-center justify-between gap-space-sm text-on-surface-variant font-label-sm text-label-sm">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">touch_app</span>
+<span>Click on any empty grid block to add an instant time slot.</span>
+</span>
+<div class="flex items-center gap-space-md">
+<span class="text-secondary font-semibold">Automatic 15m buffer enabled</span>
+</div>
+</div>
+</div>
+<!-- Weekly Summary Banner / Micro Data Visualization -->
+<div class="p-space-md bg-surface-container-lowest rounded-2xl shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md">
+<!-- Inline Mini Donut SVG for weekly booking fill-rate -->
+<div class="relative w-12 h-12 shrink-0">
+<svg class="w-12 h-12 -rotate-90" viewbox="0 0 36 36">
+<circle cx="18" cy="18" fill="none" r="14" stroke="#e5eeff" stroke-width="4"></circle>
+<!-- 60% fill -->
+<circle cx="18" cy="18" fill="none" r="14" stroke="#4f46e5" stroke-dasharray="88" stroke-dashoffset="35" stroke-linecap="round" stroke-width="4"></circle>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center font-label-sm text-label-sm font-bold text-primary">60%</div>
+</div>
+<div>
+<span class="font-label-lg text-label-lg text-on-surface">Weekly Booking Capacity</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">3 of 5 offered mentor blocks booked or requested this week (Earn potential: +3.00 cr).</p>
+</div>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="px-space-md py-1.5 rounded-lg bg-surface-container-high hover:bg-surface-variant text-on-surface font-label-sm text-label-sm transition-colors" onclick="quickPopulateEvenings()">
+              Expand Capacity (+4 hrs)
+            </button>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: Calendar Sync & Incoming Bookings (~30% / 4 Cols on Desktop) -->
+<div class="lg:col-span-4 flex flex-col gap-space-lg">
+<!-- MODULE 1: External Calendar Integration (SSO & Google Sync) -->
+<div class="bg-surface-container-lowest p-space-lg rounded-2xl shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-xl bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed">
+<span class="material-symbols-outlined text-[20px]">calendar_month</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">External Calendar</h2>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-secondary text-on-secondary font-label-sm text-[11px] flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-on-secondary"></span>
+<span>2-Way Active</span>
+</span>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface font-semibold">Google Workspace SSO</span>
+<span class="text-secondary font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">verified</span>
+<span>Verified .EDU</span>
+</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">a.vance@college.harvard.edu</span>
+<div class="pt-1 text-[11px] text-outline flex items-center justify-between font-label-sm">
+<span>Last synced: 3 mins ago</span>
+<span class="text-secondary font-medium">14 campus events</span>
+</div>
+</div>
+<!-- Toggles -->
+<div class="flex flex-col gap-space-sm pt-1">
+<label class="flex items-start justify-between gap-space-sm cursor-pointer group">
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface group-hover:text-primary transition-colors">Auto-block Busy Times</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Class lectures &amp; lab commitments automatically blackout slots.</span>
+</div>
+<input checked="" class="mt-1 w-5 h-5 rounded text-primary focus:ring-primary accent-primary" type="checkbox"/>
+</label>
+<label class="flex items-start justify-between gap-space-sm cursor-pointer group pt-space-xs">
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface group-hover:text-primary transition-colors">Push SkillSwap to G-Cal</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Auto-inject accepted peer sessions directly to your phone calendar.</span>
+</div>
+<input checked="" class="mt-1 w-5 h-5 rounded text-primary focus:ring-primary accent-primary" type="checkbox"/>
+</label>
+</div>
+<!-- Sync Action CTA -->
+<div class="pt-space-xs flex items-center gap-space-sm">
+<button class="flex-1 py-space-sm px-space-md rounded-lg bg-surface-container-high hover:bg-surface-variant text-on-surface font-label-lg text-label-lg transition-colors flex items-center justify-center gap-1.5" onclick="triggerSimulatedSync()">
+<span class="material-symbols-outlined text-[18px]">sync</span>
+<span id="sync-button-text">Sync Now</span>
+</button>
+<button class="p-space-sm rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface-variant transition-colors" title="Calendar Settings">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</button>
+</div>
+</div>
+<!-- MODULE 2: Incoming Session Requests (Fintech Action Queue) -->
+<div class="bg-surface-container-lowest p-space-lg rounded-2xl shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-xl bg-tertiary-fixed flex items-center justify-center text-on-tertiary-fixed">
+<span class="material-symbols-outlined text-[20px]">inbox</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Incoming Requests</h2>
+</div>
+<span class="px-2.5 py-0.5 rounded-full bg-tertiary text-on-tertiary font-label-sm text-label-sm font-bold" id="pending-count-badge">2 Pending</span>
+</div>
+<div class="space-y-space-md">
+<!-- REQUEST CARD 1: Jordan Bell -->
+<div class="p-space-md rounded-xl bg-surface-container-low hover:shadow-md transition-shadow flex flex-col gap-space-sm" id="request-card-1">
+<!-- Learner Profile Header -->
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center font-bold text-primary text-label-lg shrink-0">
+                    JB
+                  </div>
+<div>
+<div class="flex items-center gap-1.5">
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Jordan Bell</span>
+<span class="flex items-center text-[11px] font-bold text-tertiary"><span class="material-symbols-outlined text-[12px]">star</span> 4.9</span>
+</div>
+<span class="font-body-sm text-[12px] text-on-surface-variant block">Sophomore · Applied Math '27</span>
+</div>
+</div>
+<!-- Escrow Badge -->
+<span class="px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-[11px] font-bold flex items-center gap-1 shrink-0">
+<span class="material-symbols-outlined text-[12px]">lock_clock</span>
+<span>1.00 cr held</span>
+</span>
+</div>
+<!-- Proposed Details -->
+<div class="p-space-sm rounded-lg bg-surface-container-lowest flex flex-col gap-1 text-on-surface">
+<div class="flex items-center justify-between font-label-md text-label-md text-primary">
+<span>CS124 Graph Traversals &amp; Dijkstra</span>
+<span class="font-bold">60 min</span>
+</div>
+<div class="flex items-center gap-1 font-body-sm text-[12px] text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px]">event</span>
+<span>Thu, Oct 26 · 4:30 PM – 5:30 PM</span>
+</div>
+<div class="flex items-center gap-1 font-body-sm text-[12px] text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px]">location_on</span>
+<span>Cabot Library Pod B</span>
+</div>
+</div>
+<!-- Learner Note / Objective -->
+<div class="px-space-xs text-body-sm text-[12px] text-on-surface-variant leading-relaxed">
+<span class="font-semibold text-on-surface">Target Goal:</span> "Struggling with priority queue implementation in PSet 4 runtime bounds. Need 1-on-1 walkthrough of indexed min-heaps."
+              </div>
+<!-- Interactive Handshake CTAs -->
+<div class="pt-1 flex items-center gap-space-sm">
+<button class="flex-1 py-2 px-space-md rounded-lg bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md shadow-sm transition-colors flex items-center justify-center gap-1" onclick="acceptRequest('request-card-1', 'Jordan Bell')">
+<span class="material-symbols-outlined text-[16px]">check</span>
+<span>Accept Booking</span>
+</button>
+<button class="py-2 px-space-sm rounded-lg bg-surface-container hover:bg-surface-variant text-on-surface-variant font-label-md text-label-md transition-colors" onclick="declineRequest('request-card-1')" title="Decline or Propose Shift">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+</div>
+<!-- REQUEST CARD 2: Sophia Chen -->
+<div class="p-space-md rounded-xl bg-surface-container-low hover:shadow-md transition-shadow flex flex-col gap-space-sm" id="request-card-2">
+<!-- Learner Profile Header -->
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center font-bold text-on-secondary-fixed text-label-lg shrink-0">
+                    SC
+                  </div>
+<div>
+<div class="flex items-center gap-1.5">
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Sophia Chen</span>
+<span class="px-1.5 py-0.2 rounded-full bg-surface-container-high text-on-surface-variant text-[10px] font-semibold">New Learner</span>
+</div>
+<span class="font-body-sm text-[12px] text-on-surface-variant block">Freshman · Economics '28</span>
+</div>
+</div>
+<!-- Escrow Badge -->
+<span class="px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-[11px] font-bold flex items-center gap-1 shrink-0">
+<span class="material-symbols-outlined text-[12px]">lock_clock</span>
+<span>1.00 cr held</span>
+</span>
+</div>
+<!-- Proposed Details -->
+<div class="p-space-sm rounded-lg bg-surface-container-lowest flex flex-col gap-1 text-on-surface">
+<div class="flex items-center justify-between font-label-md text-label-md text-primary">
+<span>Econometrics STATA Intro</span>
+<span class="font-bold">60 min</span>
+</div>
+<div class="flex items-center gap-1 font-body-sm text-[12px] text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px]">videocam</span>
+<span>Fri, Oct 27 · 6:00 PM – 7:00 PM</span>
+</div>
+<div class="flex items-center gap-1 font-body-sm text-[12px] text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px]">link</span>
+<span>Zoom SSO Link (Auto-Generated)</span>
+</div>
+</div>
+<!-- Learner Note / Objective -->
+<div class="px-space-xs text-body-sm text-[12px] text-on-surface-variant leading-relaxed">
+<span class="font-semibold text-on-surface">Target Goal:</span> "First time running 2SLS regressions for Gov 50 empirical replication. Need help fixing standard error syntax."
+              </div>
+<!-- Interactive Handshake CTAs -->
+<div class="pt-1 flex items-center gap-space-sm">
+<button class="flex-1 py-2 px-space-md rounded-lg bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md shadow-sm transition-colors flex items-center justify-center gap-1" onclick="acceptRequest('request-card-2', 'Sophia Chen')">
+<span class="material-symbols-outlined text-[16px]">check</span>
+<span>Accept Booking</span>
+</button>
+<button class="py-2 px-space-sm rounded-lg bg-surface-container hover:bg-surface-variant text-on-surface-variant font-label-md text-label-md transition-colors" onclick="declineRequest('request-card-2')" title="Decline Request">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- MODULE 3: Campus Trust & Escrow Guarantee Card -->
+<div class="p-space-md rounded-2xl bg-surface-container-low flex flex-col gap-space-sm">
+<div class="flex items-center gap-space-sm text-secondary">
+<span class="material-symbols-outlined text-[20px]">format_image_left</span>
+<span class="font-label-lg text-label-lg">SkillSwap Escrow Guarantee</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">When you accept a session, the student's credit is frozen in the campus smart escrow ledger. Credits disburse to your balance immediately after the 60-minute session concludes.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- MODAL DIALOG: Add / Edit Time Slot (Pre-wired & Interactive) -->
+<div class="fixed inset-0 z-50 hidden flex items-center justify-center p-space-md backdrop-blur-md bg-inverse-surface/40" id="slot-modal">
+<div class="w-full max-w-lg bg-surface-container-lowest rounded-2xl shadow-2xl p-space-lg flex flex-col gap-space-md animate-in fade-in zoom-in-95 duration-200">
+<!-- Modal Header -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">event_available</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface" id="modal-title">Add Mentoring Slot</h3>
+</div>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors" onclick="closeSlotModal()">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Subject & Offering Picker -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-lg text-label-lg text-on-surface">Subject / Course Offering</label>
+<select class="w-full px-space-md py-space-sm rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary" id="modal-subject">
+<option value="CS124 Algorithms &amp; Data Structures">CS124 Algorithms &amp; Data Structures</option>
+<option value="ECON 1126 Econometrics &amp; STATA">ECON 1126 Econometrics &amp; STATA</option>
+<option value="MATH 21a Multivariable Calculus">MATH 21a Multivariable Calculus</option>
+<option value="CHEM 20 Organic Chemistry I">CHEM 20 Organic Chemistry I</option>
+<option value="Open Mentoring (Any Course)">Open Mentoring (General Peer Review)</option>
+</select>
+</div>
+<!-- Day & Time Range Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-space-sm">
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-label-sm text-on-surface-variant">Day of Week</label>
+<select class="px-space-md py-space-sm rounded-lg bg-surface-container-low text-on-surface font-label-md text-label-md focus:outline-none focus:ring-2 focus:ring-primary" id="modal-day">
+<option value="Monday">Monday</option>
+<option value="Tuesday">Tuesday</option>
+<option selected="" value="Wednesday">Wednesday</option>
+<option value="Thursday">Thursday</option>
+<option value="Friday">Friday</option>
+<option value="Saturday">Saturday</option>
+<option value="Sunday">Sunday</option>
+</select>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-label-sm text-on-surface-variant">Start Time</label>
+<input class="px-space-md py-space-sm rounded-lg bg-surface-container-low text-on-surface font-label-md text-label-md focus:outline-none focus:ring-2 focus:ring-primary" id="modal-start" type="time" value="16:00"/>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-label-sm text-on-surface-variant">End Time</label>
+<input class="px-space-md py-space-sm rounded-lg bg-surface-container-low text-on-surface font-label-md text-label-md focus:outline-none focus:ring-2 focus:ring-primary" id="modal-end" type="time" value="17:30"/>
+</div>
+</div>
+<!-- Recurrence Settings -->
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-space-xs">
+<label class="flex items-center justify-between cursor-pointer">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[20px] text-primary">repeat</span>
+<span class="font-label-lg text-label-lg text-on-surface">Repeat Weekly</span>
+</div>
+<input checked="" class="w-5 h-5 rounded text-primary focus:ring-primary accent-primary" type="checkbox"/>
+</label>
+<span class="text-[12px] font-body-sm text-on-surface-variant pl-7">Slot will automatically renew every week through Harvard Fall Finals (Dec 18, 2024).</span>
+</div>
+<!-- Location Preference -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-lg text-label-lg text-on-surface">Preferred Meeting Location</label>
+<div class="grid grid-cols-2 gap-space-sm">
+<label class="flex items-center gap-space-sm p-space-sm rounded-lg bg-surface-container-low cursor-pointer hover:bg-surface-container">
+<input checked="" class="text-primary accent-primary" name="loc" type="radio"/>
+<span class="font-label-md text-label-md text-on-surface">In-Person Library Pod</span>
+</label>
+<label class="flex items-center gap-space-sm p-space-sm rounded-lg bg-surface-container-low cursor-pointer hover:bg-surface-container">
+<input class="text-primary accent-primary" name="loc" type="radio"/>
+<span class="font-label-md text-label-md text-on-surface">Zoom SSO Only</span>
+</label>
+</div>
+</div>
+<!-- Modal Action Buttons -->
+<div class="pt-space-sm flex items-center justify-between gap-space-sm">
+<button class="px-space-md py-space-sm rounded-lg text-error hover:bg-error-container/40 font-label-md text-label-md transition-colors flex items-center gap-1" id="modal-delete-btn" onclick="deleteCurrentModalSlot()">
+<span class="material-symbols-outlined text-[16px]">delete</span>
+<span>Delete Slot</span>
+</button>
+<div class="flex items-center gap-space-sm ml-auto">
+<button class="px-space-md py-space-sm rounded-lg bg-surface-container hover:bg-surface-variant text-on-surface font-label-md text-label-md transition-colors" onclick="closeSlotModal()">
+            Cancel
+          </button>
+<button class="px-space-lg py-space-sm rounded-lg bg-primary-container text-on-primary hover:bg-primary font-label-lg text-label-lg shadow-sm transition-colors" onclick="saveSlotModal()">
+            Save Slot
+          </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Inline Client Interactions Script -->
+<script>
+    function dismissAlert(alertId) {
+      const el = document.getElementById(alertId);
+      if (el) {
+        el.classList.add('opacity-0', '-translate-y-2');
+        setTimeout(() => el.remove(), 250);
+      }
+    }
+
+    function retrySyncSimulation() {
+      const btn = document.querySelector('#alert-cal-sync button');
+      if (btn) btn.innerText = 'Retrying...';
+      setTimeout(() => {
+        dismissAlert('alert-cal-sync');
+      }, 1000);
+    }
+
+    function triggerSimulatedOverlap() {
+      const alert = document.getElementById('alert-overlap');
+      if (alert) {
+        alert.classList.remove('hidden');
+        alert.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
+    function triggerPastError() {
+      const alert = document.getElementById('alert-past');
+      if (alert) {
+        alert.classList.remove('hidden');
+        alert.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
+    function adjustRate(delta) {
+      const input = document.getElementById('rate-input');
+      let val = parseFloat(input.value) || 1.0;
+      val = Math.max(0, val + delta);
+      input.value = val.toFixed(2);
+      validateRate(input.value);
+    }
+
+    function validateRate(val) {
+      const num = parseFloat(val);
+      const msg = document.getElementById('rate-validation-msg');
+      if (isNaN(num) || num <= 0) {
+        msg.classList.remove('hidden');
+      } else {
+        msg.classList.add('hidden');
+      }
+    }
+
+    function triggerSimulatedSync() {
+      const btn = document.getElementById('sync-button-text');
+      const prev = btn.innerText;
+      btn.innerText = 'Syncing...';
+      setTimeout(() => {
+        btn.innerText = 'Synced Just Now ✓';
+        setTimeout(() => {
+          btn.innerText = prev;
+        }, 2500);
+      }, 900);
+    }
+
+    function openSlotModal(subject, day, start, end) {
+      const modal = document.getElementById('slot-modal');
+      document.getElementById('modal-subject').value = subject || 'CS124 Algorithms & Data Structures';
+      if (day) document.getElementById('modal-day').value = day;
+      if (start) document.getElementById('modal-start').value = start;
+      if (end) document.getElementById('modal-end').value = end;
+      modal.classList.remove('hidden');
+    }
+
+    function closeSlotModal() {
+      document.getElementById('slot-modal').classList.add('hidden');
+    }
+
+    function saveSlotModal() {
+      closeSlotModal();
+    }
+
+    function deleteCurrentModalSlot() {
+      closeSlotModal();
+    }
+
+    function quickPopulateEvenings() {
+      alert('Applied default weekday evening slots (Mon-Thu 6:00 PM – 8:00 PM) to schedule.');
+    }
+
+    function acceptRequest(cardId, learnerName) {
+      const card = document.getElementById(cardId);
+      if (card) {
+        card.innerHTML = `
+          <div class="p-space-md rounded-xl bg-surface-container text-on-surface flex items-center justify-between">
+            <div class="flex items-center gap-space-sm">
+              <span class="material-symbols-outlined text-secondary text-[22px]">check_circle</span>
+              <div class="flex flex-col">
+                <span class="font-label-lg text-label-lg text-on-surface">Session Confirmed with ${learnerName}</span>
+                <span class="font-body-sm text-[12px] text-on-surface-variant">Slot locked on schedule. 1.00 cr held safely in escrow.</span>
+              </div>
+            </div>
+          </div>
+        `;
+        updatePendingCount();
+      }
+    }
+
+    function declineRequest(cardId) {
+      const card = document.getElementById(cardId);
+      if (card) {
+        card.classList.add('opacity-0', 'scale-95');
+        setTimeout(() => {
+          card.remove();
+          updatePendingCount();
+        }, 200);
+      }
+    }
+
+    function updatePendingCount() {
+      const remaining = document.querySelectorAll('[id^="request-card-"]').length;
+      const badge = document.getElementById('pending-count-badge');
+      if (badge) {
+        badge.innerText = `${remaining} Pending`;
+        if (remaining === 0) {
+          badge.classList.remove('bg-tertiary', 'text-on-tertiary');
+          badge.classList.add('bg-surface-container', 'text-on-surface-variant');
+        }
+      }
+    }
+  </script>
+</div></main><footer class="w-full bg-surface-container-low py-space-xl mt-space-xl"><div class="w-full px-margin md:px-margin-tablet lg:px-margin-desktop flex flex-col md:flex-row items-center justify-between gap-space-md"><div class="flex items-center gap-space-sm"><div class="w-6 h-6 rounded-md bg-primary-container flex items-center justify-center text-on-primary"><span class="material-symbols-outlined text-[14px]">swap_horiz</span></div><span class="font-headline-sm text-headline-sm text-on-surface">SkillSwap</span><span class="font-body-sm text-body-sm text-on-surface-variant ml-space-sm">© 2025 Harvard Peer Time Ledger. Campus-verified credit trust network.</span></div><div class="flex items-center gap-space-lg font-label-md text-label-md text-on-surface-variant"><span class="hover:text-on-surface cursor-pointer">Escrow Protocol</span><span class="hover:text-on-surface cursor-pointer">Academic Integrity Code</span><span class="hover:text-on-surface cursor-pointer">Dispute Arbitration</span><span class="hover:text-on-surface cursor-pointer">Campus Support</span></div></div></footer></body></html>

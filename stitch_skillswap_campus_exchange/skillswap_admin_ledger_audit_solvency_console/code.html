@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-background":"#0b1c30","on-primary-container":"#dad7ff","surface-dim":"#cbdbf5","primary-container":"#4f46e5","on-secondary-fixed":"#00201c","on-surface-variant":"#464555","on-error":"#ffffff","inverse-on-surface":"#eaf1ff","on-surface":"#0b1c30","surface-bright":"#f8f9ff","tertiary-fixed":"#ffddb8","outline":"#777587","secondary-container":"#6df5e1","tertiary":"#684000","secondary-fixed":"#71f8e4","background":"#f8f9ff","surface":"#f8f9ff","secondary-fixed-dim":"#4fdbc8","surface-variant":"#d3e4fe","tertiary-container":"#885500","inverse-primary":"#c3c0ff","inverse-surface":"#213145","on-tertiary-fixed-variant":"#653e00","on-tertiary-container":"#ffd4a4","on-primary-fixed-variant":"#3323cc","on-tertiary":"#ffffff","secondary":"#006b5f","on-secondary-fixed-variant":"#005048","error":"#ba1a1a","surface-container-highest":"#d3e4fe","surface-container-lowest":"#ffffff","primary-fixed-dim":"#c3c0ff","on-primary-fixed":"#0f0069","primary":"#3525cd","surface-container-low":"#eff4ff","tertiary-fixed-dim":"#ffb95f","primary-fixed":"#e2dfff","error-container":"#ffdad6","on-primary":"#ffffff","on-secondary-container":"#006f64","on-error-container":"#93000a","on-secondary":"#ffffff","surface-tint":"#4d44e3","on-tertiary-fixed":"#2a1700","surface-container-high":"#dce9ff","outline-variant":"#c7c4d8","surface-container":"#e5eeff"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"margin-tablet":"2rem","space-md":"1rem",gutter:"1rem","space-xs":"0.25rem","space-xl":"2rem","margin-desktop":"3rem","gutter-desktop":"1.5rem","space-lg":"1.5rem",margin:"1rem","space-sm":"0.5rem"},fontFamily:{"headline-sm":["Inter"],"headline-lg":["Inter"],"label-md":["Inter"],"headline-lg-mobile":["Inter"],"label-sm":["Inter"],"body-sm":["Inter"],"body-lg":["Inter"],"headline-xl":["Inter"],"body-md":["Inter"],"headline-md":["Inter"],"headline-xl-mobile":["Inter"],"label-lg":["Inter"]},fontSize:{"headline-sm":["20px",{lineHeight:"28px",letterSpacing:"-0.005em",fontWeight:"600"}],"headline-lg":["32px",{lineHeight:"40px",letterSpacing:"-0.015em",fontWeight:"600"}],"label-md":["12px",{lineHeight:"16px",letterSpacing:"0.02em",fontWeight:"600"}],"headline-lg-mobile":["24px",{lineHeight:"32px",letterSpacing:"-0.01em",fontWeight:"600"}],"label-sm":["11px",{lineHeight:"14px",letterSpacing:"0.03em",fontWeight:"600"}],"body-sm":["14px",{lineHeight:"20px",letterSpacing:"0.005em",fontWeight:"400"}],"body-lg":["18px",{lineHeight:"28px",letterSpacing:"0em",fontWeight:"400"}],"headline-xl":["40px",{lineHeight:"48px",letterSpacing:"-0.02em",fontWeight:"700"}],"body-md":["16px",{lineHeight:"24px",letterSpacing:"0em",fontWeight:"400"}],"headline-md":["24px",{lineHeight:"32px",letterSpacing:"-0.01em",fontWeight:"600"}],"headline-xl-mobile":["30px",{lineHeight:"38px",letterSpacing:"-0.015em",fontWeight:"700"}],"label-lg":["14px",{lineHeight:"20px",letterSpacing:"0.01em",fontWeight:"600"}]}}}};</script></head><body class="bg-background font-body-md text-on-surface antialiased min-h-screen"><header class="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-20 w-full px-margin-desktop flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-lg flex-shrink-0"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded-lg bg-primary flex items-center justify-center text-on-primary font-headline-sm text-headline-sm tracking-tight">S</div><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">SkillSwap</span><div class="flex items-center gap-space-xs mt-0.5"><span class="bg-surface-container-high text-on-surface px-1.5 py-0.5 rounded text-[10px] font-label-sm font-semibold tracking-wider">ADMIN CONSOLE</span><span class="bg-secondary-container/30 text-secondary px-1.5 py-0.5 rounded text-[10px] font-label-sm font-semibold">.EDU HONOR BOARD</span></div></div></div></div><nav class="hidden xl:flex items-center gap-space-xs bg-surface-container-low p-1 rounded-xl overflow-x-auto" data-active-classes="bg-primary text-on-primary rounded-lg font-semibold"><a class="px-space-md py-space-xs font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" data-path="dispute-queue" href="#">Dispute Queue</a><a class="px-space-md py-space-xs font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" data-path="attendance-strikes" href="#">Attendance &amp; Strikes</a><a class="px-space-md py-space-xs font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" data-path="ledger-audit-solvency" href="#">Ledger Audit &amp; Solvency</a><a class="px-space-md py-space-xs font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" data-path="user-management-sanctions" href="#">User Management &amp; Sanctions</a><a class="px-space-md py-space-xs font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" data-path="escrow-reserves" href="#">Escrow Reserves</a><a class="px-space-md py-space-xs font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap" data-path="honor-board-rules" href="#">Honor Board Rules</a></nav><div class="flex items-center gap-space-md flex-shrink-0"><button aria-label="Notifications" class="relative p-2 rounded-lg bg-surface-container-low text-on-surface-variant hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1.5 right-1.5 w-4 h-4 rounded-full bg-error text-on-error font-label-sm text-[10px] flex items-center justify-center font-bold">3</span></button><div class="flex items-center gap-space-sm bg-surface-container-low py-1.5 px-space-sm rounded-xl"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="hidden md:flex flex-col text-left"><div class="flex items-center gap-space-xs"><span class="font-label-md text-label-md text-on-surface leading-tight">Marcus Thorne</span><span class="bg-primary-container text-on-primary-container font-label-sm text-[10px] px-1.5 py-0.2 rounded-full font-semibold">Admin</span></div><span class="font-label-sm text-label-sm text-on-surface-variant">Dean of Students · Honor Board Officer</span></div></div><a class="hidden lg:flex items-center gap-space-xs px-space-md py-2 rounded-lg bg-surface-container-high text-on-surface hover:bg-surface-container-highest transition-colors font-label-md text-label-md" data-path="student-view" href="#"><span class="material-symbols-outlined text-[16px]">school</span><span>Exit to Student View</span></a></div></div></header><main class="w-full pt-20 bg-background"><div class="flex flex-col w-full">
+<!-- Interactive State Simulator Tool Bar -->
+<aside aria-label="Audit State Simulator Controls" class="w-full bg-surface-container-high px-margin-desktop py-space-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[18px]">tune</span>
+<span class="font-label-md text-label-md text-on-surface uppercase tracking-wider">Honor Board Simulator Controls:</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant hidden sm:inline">Simulate Ledger Audit Responses across Harvard College Nodes</span>
+</div>
+<div class="flex items-center gap-space-xs bg-surface-container-lowest p-1 rounded-xl shadow-sm">
+<button class="px-space-md py-1 rounded-lg font-label-md text-label-md transition-all flex items-center gap-space-xs bg-secondary-container text-on-secondary-container font-semibold" id="btn-state-pass" onclick="setAuditState('pass')">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+<span>Audit PASS (Solvent)</span>
+</button>
+<button class="px-space-md py-1 rounded-lg font-label-md text-label-md transition-all flex items-center gap-space-xs text-on-surface-variant hover:text-on-surface" id="btn-state-fail" onclick="setAuditState('fail')">
+<span class="material-symbols-outlined text-[16px]">error</span>
+<span>Audit FAIL (Discrepancy)</span>
+</button>
+<button class="px-space-md py-1 rounded-lg font-label-md text-label-md transition-all flex items-center gap-space-xs text-on-surface-variant hover:text-on-surface" id="btn-state-progress" onclick="setAuditState('progress')">
+<span class="material-symbols-outlined text-[16px]">sync</span>
+<span>Running Audit</span>
+</button>
+</div>
+</aside>
+<!-- Main Viewport Container -->
+<div class="w-full px-margin-desktop py-space-xl flex flex-col gap-space-xl">
+<!-- Breadcrumb & Top Context -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm">
+<span>Admin Console</span>
+<span class="material-symbols-outlined text-[12px]">chevron_right</span>
+<span>Honor Board Secretariat</span>
+<span class="material-symbols-outlined text-[12px]">chevron_right</span>
+<span class="text-primary font-semibold">Ledger Audit &amp; Monetary Solvency</span>
+</div>
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-lg mt-space-xs">
+<div class="flex flex-col max-w-4xl">
+<div class="flex items-center gap-space-sm flex-wrap">
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Campus Ledger Audit &amp; Monetary Solvency Console</h1>
+<span class="bg-primary/10 text-primary font-label-sm text-label-sm px-2.5 py-0.5 rounded-full font-semibold">Harvard Quad &amp; River Houses</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-space-xs">
+            Double-entry cryptographic verification: validates total debits equal total credits, circulating balances + escrow reserves against minted credits, and peer time token velocity across Harvard campus houses.
+          </p>
+</div>
+<!-- Global Action Suite -->
+<div class="flex items-center gap-space-sm flex-wrap lg:flex-nowrap">
+<div class="flex items-center gap-space-xs bg-surface-container-low px-space-md py-2 rounded-xl text-on-surface-variant font-label-sm text-label-sm">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span>Auto-Audit: Every 6h · Next in <strong>2h 14m</strong></span>
+</div>
+<button class="flex items-center gap-space-xs px-space-lg py-2.5 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-lg text-label-lg shadow-sm transition-all active:scale-[0.98]" id="run-audit-btn" onclick="triggerManualAudit()">
+<span class="material-symbols-outlined text-[18px]" id="audit-icon">verified_user</span>
+<span id="audit-btn-text">Run Cryptographic Audit</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-2.5 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-lg text-label-lg transition-colors">
+<span class="material-symbols-outlined text-[18px]">file_download</span>
+<span>Export Report</span>
+</button>
+</div>
+</div>
+</div>
+<!-- FAIL STATE BANNER (Dynamic Toggle Target) -->
+<section aria-live="assertive" class="hidden w-full bg-error-container text-on-error-container rounded-2xl p-space-lg shadow-md animate-fade-in" id="fail-alert-banner">
+<div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-space-md">
+<div class="flex items-start gap-space-md">
+<div class="p-2.5 bg-error text-on-error rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">crisis_alert</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-sm flex-wrap">
+<span class="font-headline-sm text-headline-sm font-bold text-on-error-container">CRITICAL ALERT: LEDGER DISCREPANCY DETECTED</span>
+<span class="bg-error text-on-error font-label-sm text-label-sm px-2 py-0.5 rounded-full uppercase tracking-wider font-bold">Unbalanced Mutex</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-error-container/90 mt-1">
+              Delta of <strong class="underline">-1.50 cr</strong> flagged during block #892,109 synchronization. Automated settlements paused on Node <code class="bg-on-error-container/10 px-1 py-0.5 rounded font-mono font-bold">#CABOT-4A</code>. 1 orphaned escrow unlock transaction identified.
+            </p>
+</div>
+</div>
+<div class="flex items-center gap-space-sm flex-shrink-0 w-full md:w-auto">
+<button class="w-full md:w-auto px-space-lg py-2 rounded-lg bg-error text-on-error hover:bg-error/90 font-label-md text-label-md transition-all shadow-sm flex items-center justify-center gap-space-xs" onclick="remediateDiscrepancy()">
+<span class="material-symbols-outlined text-[18px]">emergency_home</span>
+<span>Re-sync &amp; Force Mutex Unlock</span>
+</button>
+</div>
+</div>
+</section>
+<!-- IN-PROGRESS STATUS NOTICE (Hidden by default) -->
+<div class="hidden w-full bg-surface-container-high rounded-2xl p-space-lg shadow-sm" id="progress-banner">
+<div class="flex flex-col md:flex-row items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md w-full">
+<div class="w-10 h-10 rounded-xl bg-primary text-on-primary flex items-center justify-center flex-shrink-0 animate-spin">
+<span class="material-symbols-outlined text-[22px]">cyclone</span>
+</div>
+<div class="flex flex-col w-full">
+<div class="flex items-center justify-between">
+<span class="font-headline-sm text-headline-sm text-on-surface">Auditing 12 Campus House Nodes · Validating Merkle DAG...</span>
+<span class="font-label-md text-label-md text-primary font-bold">67% Completed</span>
+</div>
+<div class="w-full bg-surface-container-highest h-2.5 rounded-full mt-space-xs overflow-hidden">
+<div class="bg-primary h-full rounded-full transition-all duration-300" style="width: 67%;"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- MAIN SOLVENCY AUDIT STATUS HERO CARD -->
+<section class="w-full">
+<!-- STATE 1: PASS CARD -->
+<div class="w-full bg-surface-container-lowest rounded-2xl shadow-sm p-space-xl flex flex-col gap-space-xl" id="pass-hero-card">
+<!-- Top Status Bar & Hash Identification -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md pb-space-lg bg-surface-container-low/40 p-space-lg rounded-xl">
+<div class="flex items-center gap-space-md">
+<div class="w-14 h-14 rounded-2xl bg-secondary-container/50 text-secondary flex items-center justify-center flex-shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[36px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-sm flex-wrap">
+<span class="font-headline-md text-headline-md text-on-surface font-bold tracking-tight">PASS — LEDGER IN FULL BALANCE</span>
+<span class="bg-secondary-container text-on-secondary-container font-label-sm text-label-sm px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                  Solvent
+                </span>
+</div>
+<div class="flex items-center gap-space-sm text-on-surface-variant font-body-sm text-body-sm mt-0.5 flex-wrap">
+<span>Last Verified: <strong>October 25, 2025 · 17:42:19 EST</strong></span>
+<span>•</span>
+<span class="font-mono text-primary font-semibold">Block Height #892,104</span>
+<span>•</span>
+<span>Execution Time: <strong>1.42 seconds</strong></span>
+</div>
+</div>
+</div>
+<!-- Cryptographic Hash & Verification Badge -->
+<div class="flex flex-col lg:items-end gap-1.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Merkle State Root Hash:</span>
+<div class="flex items-center gap-space-xs bg-surface-container-high px-space-md py-1.5 rounded-lg font-mono text-body-sm text-on-surface">
+<span class="truncate max-w-[200px] sm:max-w-xs font-semibold">sha256:7f83b165c02b9e8432a9df89b1249a12c</span>
+<button class="hover:text-primary transition-colors p-1 flex items-center" onclick="navigator.clipboard?.writeText('sha256:7f83b165c02b9e8432a9df89b1249a12c')" title="Copy Hash">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Section 1: Double-Entry Equation Validation Grid -->
+<div class="flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">balance</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Core Double-Entry Ledger Equations</h2>
+</div>
+<span class="font-label-sm text-label-sm text-secondary bg-secondary-container/40 px-2.5 py-1 rounded-full font-semibold">Parity Check: Satisfied (Δ = 0.00 cr)</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<!-- Box 1: Total Debits -->
+<div class="bg-surface-container-low p-space-lg rounded-xl flex flex-col justify-between gap-space-sm relative overflow-hidden">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wide">System Total Debits (Σ Dr)</span>
+<span class="material-symbols-outlined text-primary text-[20px]">trending_up</span>
+</div>
+<div class="flex items-baseline gap-space-xs">
+<span class="font-headline-lg text-headline-lg text-on-surface font-mono font-bold tracking-tight">14,820.00</span>
+<span class="font-label-lg text-label-lg text-primary font-bold">cr</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Cumulative time credits recorded across all campus exchanges &amp; reservations.</p>
+<div class="absolute -right-6 -bottom-6 w-20 h-20 rounded-full bg-primary/5 pointer-events-none"></div>
+</div>
+<!-- Box 2: Total Credits -->
+<div class="bg-surface-container-low p-space-lg rounded-xl flex flex-col justify-between gap-space-sm relative overflow-hidden">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wide">System Total Credits (Σ Cr)</span>
+<span class="material-symbols-outlined text-secondary text-[20px]">trending_down</span>
+</div>
+<div class="flex items-baseline gap-space-xs">
+<span class="font-headline-lg text-headline-lg text-on-surface font-mono font-bold tracking-tight">14,820.00</span>
+<span class="font-label-lg text-label-lg text-secondary font-bold">cr</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Cumulative counterpart claims fulfilled by peer educators &amp; skill holders.</p>
+<div class="absolute -right-6 -bottom-6 w-20 h-20 rounded-full bg-secondary/5 pointer-events-none"></div>
+</div>
+<!-- Box 3: Ledger Delta Variance -->
+<div class="bg-surface-container-low p-space-lg rounded-xl flex flex-col justify-between gap-space-sm relative overflow-hidden">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wide">Net Variance / Delta (Δ)</span>
+<span class="material-symbols-outlined text-secondary text-[20px]">done_all</span>
+</div>
+<div class="flex items-baseline gap-space-xs">
+<span class="font-headline-lg text-headline-lg text-secondary font-mono font-bold tracking-tight">0.00</span>
+<span class="font-label-lg text-label-lg text-secondary font-bold">cr</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">0.0000% variance. Exact bilateral equality verified across all 12 House vaults.</p>
+<div class="absolute -right-6 -bottom-6 w-20 h-20 rounded-full bg-secondary/10 pointer-events-none"></div>
+</div>
+</div>
+</div>
+<!-- Section 2: Monetary Solvency & Collateralization Breakdown -->
+<div class="flex flex-col gap-space-md pt-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">account_balance</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Monetary Base &amp; Reserve Backing Breakdown</h2>
+</div>
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px] text-secondary">shield</span>
+<span>100% Peer Time Collateral Backed</span>
+</div>
+</div>
+<!-- Horizontal Solvency Allocation Meter Card -->
+<div class="bg-surface-container-low p-space-lg rounded-xl flex flex-col gap-space-lg">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between text-body-sm font-label-md">
+<span class="text-on-surface">Circulating &amp; Reserved Supply Allocation</span>
+<span class="text-on-surface-variant font-mono">14,820.00 cr total minted</span>
+</div>
+<div class="w-full h-3 rounded-full bg-surface-container-highest flex overflow-hidden">
+<div class="bg-primary h-full" style="width: 89.37%;" title="Spendable Wallet Balances: 89.37%"></div>
+<div class="bg-secondary h-full" style="width: 10.63%;" title="Active Escrow Locks: 10.63%"></div>
+</div>
+<div class="flex items-center justify-between text-label-sm text-on-surface-variant pt-1">
+<div class="flex items-center gap-space-xs">
+<span class="w-3 h-3 rounded-sm bg-primary inline-block"></span>
+<span>User Spendable Balances (89.37%)</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="w-3 h-3 rounded-sm bg-secondary inline-block"></span>
+<span>Active Smart Contract Escrow (10.63%)</span>
+</div>
+</div>
+</div>
+<!-- Detailed Grid Items -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-space-md pt-space-xs">
+<!-- Item 1 -->
+<div class="flex flex-col gap-1 p-space-md bg-surface-container-lowest rounded-lg">
+<span class="font-label-sm text-label-sm text-on-surface-variant">User Spendable Wallets</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-mono font-bold">13,245.50 <span class="font-label-sm font-normal text-on-surface-variant">cr</span></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">2,649 verified Harvard students</span>
+</div>
+<!-- Item 2 -->
+<div class="flex flex-col gap-1 p-space-md bg-surface-container-lowest rounded-lg">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Active Escrow Lock Reserves</span>
+<span class="font-headline-sm text-headline-sm text-secondary font-mono font-bold">1,574.50 <span class="font-label-sm font-normal text-on-surface-variant">cr</span></span>
+<span class="font-label-sm text-label-sm text-secondary font-semibold">418 pending swap sessions</span>
+</div>
+<!-- Item 3 -->
+<div class="flex flex-col gap-1 p-space-md bg-surface-container-lowest rounded-lg">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Circulating + Locked Sum</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-mono font-bold">14,820.00 <span class="font-label-sm font-normal text-on-surface-variant">cr</span></span>
+<span class="font-label-sm text-label-sm text-secondary">Matches ledger exact</span>
+</div>
+<!-- Item 4 -->
+<div class="flex flex-col gap-1 p-space-md bg-surface-container-lowest rounded-lg">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Total Minted Supply</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-mono font-bold">14,820.00 <span class="font-label-sm font-normal text-on-surface-variant">cr</span></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">5 cr genesis + peer grants</span>
+</div>
+<!-- Item 5 -->
+<div class="flex flex-col gap-1 p-space-md bg-surface-container-lowest rounded-lg">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Solvency Reserve Ratio</span>
+<span class="font-headline-sm text-headline-sm text-secondary font-mono font-bold">100.00%</span>
+<span class="font-label-sm text-label-sm text-secondary font-semibold">Zero Inflationary Drift</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Section 3: Harvard House Node Consensus Health -->
+<div class="flex flex-col gap-space-sm pt-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface uppercase tracking-wider font-semibold">Harvard Campus House Node Telemetry &amp; Sync Status</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">12 of 12 Nodes Online · Byzantine Agreement Reached</span>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-space-xs">
+<div class="bg-surface-container-low p-space-sm rounded-lg flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm font-semibold text-on-surface">#ADAMS-NODE</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant">Latency: 14ms</span>
+</div>
+<span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>
+</div>
+<div class="bg-surface-container-low p-space-sm rounded-lg flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm font-semibold text-on-surface">#CABOT-NODE</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant">Latency: 18ms</span>
+</div>
+<span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>
+</div>
+<div class="bg-surface-container-low p-space-sm rounded-lg flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm font-semibold text-on-surface">#DUNSTER-NODE</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant">Latency: 11ms</span>
+</div>
+<span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>
+</div>
+<div class="bg-surface-container-low p-space-sm rounded-lg flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm font-semibold text-on-surface">#ELIOT-NODE</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant">Latency: 16ms</span>
+</div>
+<span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>
+</div>
+<div class="bg-surface-container-low p-space-sm rounded-lg flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm font-semibold text-on-surface">#KIRKLAND-NODE</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant">Latency: 13ms</span>
+</div>
+<span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>
+</div>
+<div class="bg-surface-container-low p-space-sm rounded-lg flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm font-semibold text-on-surface">#LOWELL-NODE</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant">Latency: 15ms</span>
+</div>
+<span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>
+</div>
+</div>
+</div>
+</div>
+<!-- STATE 2: FAIL CARD (Shown when State 2 is active) -->
+<div class="hidden w-full bg-surface-container-lowest rounded-2xl shadow-sm p-space-xl flex flex-col gap-space-xl" id="fail-hero-card">
+<!-- Top Imbalance Indicator -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md pb-space-lg bg-error-container/20 p-space-lg rounded-xl">
+<div class="flex items-center gap-space-md">
+<div class="w-14 h-14 rounded-2xl bg-error text-on-error flex items-center justify-center flex-shrink-0 shadow-sm animate-pulse">
+<span class="material-symbols-outlined text-[36px]" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-sm flex-wrap">
+<span class="font-headline-md text-headline-md text-error font-bold tracking-tight">FAIL — TRANSACTION IMBALANCE (0.0101% DRIFT)</span>
+<span class="bg-error text-on-error font-label-sm text-label-sm px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider">
+                  Out of Parity
+                </span>
+</div>
+<div class="flex items-center gap-space-sm text-on-surface-variant font-body-sm text-body-sm mt-0.5 flex-wrap">
+<span>Detected: <strong>October 25, 2025 · 17:49:03 EST</strong></span>
+<span>•</span>
+<span class="font-mono text-error font-semibold">Flagged at Block #892,109</span>
+<span>•</span>
+<span class="text-error font-semibold">Consensus Quorum: Fractured (11/12)</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="px-space-md py-2 rounded-lg bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-all flex items-center gap-space-xs" onclick="remediateDiscrepancy()">
+<span class="material-symbols-outlined text-[16px]">sync</span>
+<span>Trigger Cross-Node Re-Sync</span>
+</button>
+</div>
+</div>
+<!-- Discrepancy Equation Failure breakdown -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<div class="bg-surface-container-low p-space-lg rounded-xl flex flex-col justify-between gap-space-sm">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wide">Reported System Debits</span>
+<div class="flex items-baseline gap-space-xs">
+<span class="font-headline-lg text-headline-lg text-on-surface font-mono font-bold tracking-tight">14,818.50</span>
+<span class="font-label-lg text-label-lg text-primary font-bold">cr</span>
+</div>
+<p class="font-body-sm text-body-sm text-error">Missing 1.50 cr from Cabot House Escrow Release</p>
+</div>
+<div class="bg-surface-container-low p-space-lg rounded-xl flex flex-col justify-between gap-space-sm">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wide">Reported System Credits</span>
+<div class="flex items-baseline gap-space-xs">
+<span class="font-headline-lg text-headline-lg text-on-surface font-mono font-bold tracking-tight">14,820.00</span>
+<span class="font-label-lg text-label-lg text-secondary font-bold">cr</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Credits correctly logged in recipient account balance</p>
+</div>
+<div class="bg-error-container/40 p-space-lg rounded-xl flex flex-col justify-between gap-space-sm">
+<span class="font-label-md text-label-md text-error uppercase tracking-wide font-bold">Unbalanced Delta (Δ)</span>
+<div class="flex items-baseline gap-space-xs">
+<span class="font-headline-lg text-headline-lg text-error font-mono font-bold tracking-tight">-1.50</span>
+<span class="font-label-lg text-label-lg text-error font-bold">cr</span>
+</div>
+<p class="font-body-sm text-body-sm text-error font-semibold">Asymmetric Ledger State: Debits ≠ Credits</p>
+</div>
+</div>
+<!-- Mismatched Transactions Table -->
+<div class="flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-error text-[20px]">troubleshoot</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Orphaned &amp; Asymmetric Transaction Tracing</h2>
+</div>
+<span class="font-label-sm text-label-sm text-error bg-error-container px-2.5 py-0.5 rounded-full font-bold">1 Anomalous Transaction</span>
+</div>
+<div class="overflow-x-auto rounded-xl bg-surface-container-low">
+<table class="w-full text-left border-collapse font-body-sm text-body-sm">
+<thead>
+<tr class="bg-surface-container-high/60 text-on-surface-variant font-label-md text-label-md">
+<th class="p-space-md">Transaction ID</th>
+<th class="p-space-md">Timestamp</th>
+<th class="p-space-md">Counterparties</th>
+<th class="p-space-md">Expected Dr / Cr</th>
+<th class="p-space-md">Discrepancy</th>
+<th class="p-space-md">Identified Root Cause</th>
+<th class="p-space-md text-right">Arbitration Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<tr class="hover:bg-surface-container-lowest/80 transition-colors">
+<td class="p-space-md font-mono font-semibold text-primary">#TX-8912-HOLD</td>
+<td class="p-space-md text-on-surface-variant font-mono">17:48:42 EST</td>
+<td class="p-space-md">
+<div class="flex flex-col">
+<span class="font-semibold text-on-surface">Alex Vance (Adams) →</span>
+<span class="text-on-surface-variant">Maya Engel (Cabot)</span>
+</div>
+</td>
+<td class="p-space-md font-mono">
+<span class="text-on-surface">Dr: 0.00 / Cr: +1.50</span>
+</td>
+<td class="p-space-md">
+<span class="bg-error-container text-error font-mono font-bold px-2 py-0.5 rounded text-[12px]">-1.50 cr</span>
+</td>
+<td class="p-space-md max-w-xs">
+<p class="text-on-surface-variant font-body-sm leading-snug">
+                      WebRTC peer session timeout during mutual release. Escrow lock released without counterpart debit broadcast on Node #CABOT-4A.
+                    </p>
+</td>
+<td class="p-space-md text-right">
+<button class="px-space-md py-1.5 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-sm text-label-sm font-semibold transition-all shadow-sm" onclick="remediateDiscrepancy()">
+                      Force Debit Write
+                    </button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION: HISTORICAL AUDIT LOG TABLE -->
+<section class="w-full bg-surface-container-lowest rounded-2xl shadow-sm p-space-xl flex flex-col gap-space-lg">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">history_toggle_off</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Historical Ledger Audit Log (Last 30 Days)</h2>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Automated and manually triggered cryptographic ledger solvency proofs.</span>
+</div>
+<!-- Filter Controls -->
+<div class="flex items-center gap-space-xs flex-wrap">
+<div class="flex items-center bg-surface-container-low rounded-lg p-1">
+<button class="px-space-sm py-1 rounded font-label-sm text-label-sm bg-surface-container-lowest font-semibold text-on-surface shadow-xs">All Audits (120)</button>
+<button class="px-space-sm py-1 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface">Pass Only (119)</button>
+<button class="px-space-sm py-1 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface">Anomalies (1)</button>
+</div>
+<button class="flex items-center gap-1 px-space-md py-1.5 bg-surface-container-low hover:bg-surface-container-high rounded-lg text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">calendar_month</span>
+<span>Oct 1 – Oct 25, 2025</span>
+</button>
+</div>
+</div>
+<!-- Audit History Data Grid -->
+<div class="overflow-x-auto rounded-xl bg-surface-container-low">
+<table class="w-full text-left border-collapse font-body-sm text-body-sm">
+<thead>
+<tr class="bg-surface-container-high/60 text-on-surface-variant font-label-md text-label-md">
+<th class="p-space-md">Audit ID</th>
+<th class="p-space-md">Timestamp &amp; Block Height</th>
+<th class="p-space-md">Initiator</th>
+<th class="p-space-md">Total Volume</th>
+<th class="p-space-md">Circulating / Escrow Split</th>
+<th class="p-space-md">Variance (Δ)</th>
+<th class="p-space-md">Duration</th>
+<th class="p-space-md">Status</th>
+<th class="p-space-md text-right">Cryptographic Proof</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container font-body-sm">
+<!-- Row 1 (Latest) -->
+<tr class="hover:bg-surface-container-lowest/80 transition-colors">
+<td class="p-space-md font-mono font-semibold text-primary">#AUD-2025-10-25-03</td>
+<td class="p-space-md">
+<div class="flex flex-col">
+<span class="font-semibold text-on-surface">Oct 25, 17:42:19 EST</span>
+<span class="font-mono text-on-surface-variant text-[12px]">Block #892,104</span>
+</div>
+</td>
+<td class="p-space-md">
+<span class="bg-surface-container-high px-2 py-0.5 rounded text-[12px] font-label-sm text-on-surface font-semibold">Cron Daemon</span>
+</td>
+<td class="p-space-md font-mono font-semibold text-on-surface">14,820.00 cr</td>
+<td class="p-space-md font-mono text-[13px] text-on-surface-variant">13,245.50 / 1,574.50</td>
+<td class="p-space-md font-mono font-bold text-secondary">0.00 cr</td>
+<td class="p-space-md font-mono text-on-surface-variant">1.42s</td>
+<td class="p-space-md">
+<span class="inline-flex items-center gap-1 bg-secondary-container/50 text-secondary font-label-sm text-label-sm px-2 py-0.5 rounded-full font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                  PASS
+                </span>
+</td>
+<td class="p-space-md text-right">
+<div class="flex items-center justify-end gap-space-xs">
+<button class="p-1 rounded text-on-surface-variant hover:text-primary transition-colors" title="Download Proof">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+</button>
+<button class="p-1 rounded text-on-surface-variant hover:text-primary transition-colors" title="Inspect Telemetry">
+<span class="material-symbols-outlined text-[18px]">analytics</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-lowest/80 transition-colors">
+<td class="p-space-md font-mono font-semibold text-primary">#AUD-2025-10-25-02</td>
+<td class="p-space-md">
+<div class="flex flex-col">
+<span class="font-semibold text-on-surface">Oct 25, 11:42:00 EST</span>
+<span class="font-mono text-on-surface-variant text-[12px]">Block #891,850</span>
+</div>
+</td>
+<td class="p-space-md">
+<span class="bg-surface-container-high px-2 py-0.5 rounded text-[12px] font-label-sm text-on-surface font-semibold">Cron Daemon</span>
+</td>
+<td class="p-space-md font-mono font-semibold text-on-surface">14,815.00 cr</td>
+<td class="p-space-md font-mono text-[13px] text-on-surface-variant">13,280.00 / 1,535.00</td>
+<td class="p-space-md font-mono font-bold text-secondary">0.00 cr</td>
+<td class="p-space-md font-mono text-on-surface-variant">1.38s</td>
+<td class="p-space-md">
+<span class="inline-flex items-center gap-1 bg-secondary-container/50 text-secondary font-label-sm text-label-sm px-2 py-0.5 rounded-full font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                  PASS
+                </span>
+</td>
+<td class="p-space-md text-right">
+<div class="flex items-center justify-end gap-space-xs">
+<button class="p-1 rounded text-on-surface-variant hover:text-primary transition-colors" title="Download Proof">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+</button>
+<button class="p-1 rounded text-on-surface-variant hover:text-primary transition-colors" title="Inspect Telemetry">
+<span class="material-symbols-outlined text-[18px]">analytics</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 (Manual run by Admin) -->
+<tr class="hover:bg-surface-container-lowest/80 transition-colors">
+<td class="p-space-md font-mono font-semibold text-primary">#AUD-2025-10-25-01</td>
+<td class="p-space-md">
+<div class="flex flex-col">
+<span class="font-semibold text-on-surface">Oct 25, 08:15:33 EST</span>
+<span class="font-mono text-on-surface-variant text-[12px]">Block #891,612</span>
+</div>
+</td>
+<td class="p-space-md">
+<span class="bg-primary/10 text-primary px-2 py-0.5 rounded text-[12px] font-label-sm font-semibold">Marcus Thorne (Admin)</span>
+</td>
+<td class="p-space-md font-mono font-semibold text-on-surface">14,810.00 cr</td>
+<td class="p-space-md font-mono text-[13px] text-on-surface-variant">13,290.00 / 1,520.00</td>
+<td class="p-space-md font-mono font-bold text-secondary">0.00 cr</td>
+<td class="p-space-md font-mono text-on-surface-variant">1.51s</td>
+<td class="p-space-md">
+<span class="inline-flex items-center gap-1 bg-secondary-container/50 text-secondary font-label-sm text-label-sm px-2 py-0.5 rounded-full font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                  PASS
+                </span>
+</td>
+<td class="p-space-md text-right">
+<div class="flex items-center justify-end gap-space-xs">
+<button class="p-1 rounded text-on-surface-variant hover:text-primary transition-colors" title="Download Proof">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+</button>
+<button class="p-1 rounded text-on-surface-variant hover:text-primary transition-colors" title="Inspect Telemetry">
+<span class="material-symbols-outlined text-[18px]">analytics</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 (Past Fail Event Resolved) -->
+<tr class="hover:bg-surface-container-lowest/80 transition-colors bg-error-container/10">
+<td class="p-space-md font-mono font-semibold text-primary">#AUD-2025-10-24-04</td>
+<td class="p-space-md">
+<div class="flex flex-col">
+<span class="font-semibold text-on-surface">Oct 24, 23:42:00 EST</span>
+<span class="font-mono text-on-surface-variant text-[12px]">Block #890,942</span>
+</div>
+</td>
+<td class="p-space-md">
+<span class="bg-surface-container-high px-2 py-0.5 rounded text-[12px] font-label-sm text-on-surface font-semibold">Cron Daemon</span>
+</td>
+<td class="p-space-md font-mono font-semibold text-on-surface">14,800.00 cr</td>
+<td class="p-space-md font-mono text-[13px] text-on-surface-variant">13,310.00 / 1,490.00</td>
+<td class="p-space-md font-mono font-bold text-error">-2.00 cr (Resolved)</td>
+<td class="p-space-md font-mono text-on-surface-variant">2.14s</td>
+<td class="p-space-md">
+<span class="inline-flex items-center gap-1 bg-error-container text-error font-label-sm text-label-sm px-2 py-0.5 rounded-full font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+                  RESOLVED
+                </span>
+</td>
+<td class="p-space-md text-right">
+<div class="flex items-center justify-end gap-space-xs">
+<button class="p-1 rounded text-on-surface-variant hover:text-primary transition-colors" title="Download Proof">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+</button>
+<button class="p-1 rounded text-on-surface-variant hover:text-primary transition-colors" title="Inspect Telemetry">
+<span class="material-symbols-outlined text-[18px]">analytics</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-surface-container-lowest/80 transition-colors">
+<td class="p-space-md font-mono font-semibold text-primary">#AUD-2025-10-24-03</td>
+<td class="p-space-md">
+<div class="flex flex-col">
+<span class="font-semibold text-on-surface">Oct 24, 17:42:00 EST</span>
+<span class="font-mono text-on-surface-variant text-[12px]">Block #890,410</span>
+</div>
+</td>
+<td class="p-space-md">
+<span class="bg-surface-container-high px-2 py-0.5 rounded text-[12px] font-label-sm text-on-surface font-semibold">Cron Daemon</span>
+</td>
+<td class="p-space-md font-mono font-semibold text-on-surface">14,800.00 cr</td>
+<td class="p-space-md font-mono text-[13px] text-on-surface-variant">13,305.00 / 1,495.00</td>
+<td class="p-space-md font-mono font-bold text-secondary">0.00 cr</td>
+<td class="p-space-md font-mono text-on-surface-variant">1.35s</td>
+<td class="p-space-md">
+<span class="inline-flex items-center gap-1 bg-secondary-container/50 text-secondary font-label-sm text-label-sm px-2 py-0.5 rounded-full font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                  PASS
+                </span>
+</td>
+<td class="p-space-md text-right">
+<div class="flex items-center justify-end gap-space-xs">
+<button class="p-1 rounded text-on-surface-variant hover:text-primary transition-colors" title="Download Proof">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+</button>
+<button class="p-1 rounded text-on-surface-variant hover:text-primary transition-colors" title="Inspect Telemetry">
+<span class="material-symbols-outlined text-[18px]">analytics</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination / Footer Metadata -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-space-sm pt-space-xs text-body-sm text-on-surface-variant">
+<span>Showing audits 1 - 5 of 120 total records across Semester Fall 2025</span>
+<div class="flex items-center gap-space-xs">
+<button class="px-space-md py-1 rounded bg-surface-container-low hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm disabled:opacity-50" disabled="">Previous</button>
+<span class="px-2 font-mono text-label-sm">Page 1 of 24</span>
+<button class="px-space-md py-1 rounded bg-surface-container-low hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm">Next</button>
+</div>
+</div>
+</section>
+<!-- Visual Anchor / Administrative Credential Card -->
+<div class="w-full bg-surface-container-high rounded-2xl p-space-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-[20px]">policy</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">Harvard Peer Time Ledger Governance Standard</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Article IV, Section 2: Under no circumstances may an administrative override introduce synthetic or uncollateralized peer credits.</span>
+</div>
+</div>
+<a class="font-label-md text-label-md text-primary font-semibold flex items-center gap-1 hover:underline" href="#">
+<span>View Honor Board By-Laws</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Interactive State Engine JS Script -->
+<script>
+    function setAuditState(state) {
+      const passHero = document.getElementById('pass-hero-card');
+      const failHero = document.getElementById('fail-hero-card');
+      const failAlert = document.getElementById('fail-alert-banner');
+      const progressBanner = document.getElementById('progress-banner');
+      
+      const btnPass = document.getElementById('btn-state-pass');
+      const btnFail = document.getElementById('btn-state-fail');
+      const btnProgress = document.getElementById('btn-state-progress');
+
+      // Reset button styles
+      [btnPass, btnFail, btnProgress].forEach(btn => {
+        btn.className = "px-space-md py-1 rounded-lg font-label-md text-label-md transition-all flex items-center gap-space-xs text-on-surface-variant hover:text-on-surface";
+      });
+
+      if (state === 'pass') {
+        passHero.classList.remove('hidden');
+        failHero.classList.add('hidden');
+        failAlert.classList.add('hidden');
+        progressBanner.classList.add('hidden');
+        btnPass.className = "px-space-md py-1 rounded-lg font-label-md text-label-md transition-all flex items-center gap-space-xs bg-secondary-container text-on-secondary-container font-semibold shadow-xs";
+      } else if (state === 'fail') {
+        passHero.classList.add('hidden');
+        failHero.classList.remove('hidden');
+        failAlert.classList.remove('hidden');
+        progressBanner.classList.add('hidden');
+        btnFail.className = "px-space-md py-1 rounded-lg font-label-md text-label-md transition-all flex items-center gap-space-xs bg-error text-on-error font-semibold shadow-xs";
+      } else if (state === 'progress') {
+        passHero.classList.remove('hidden');
+        failHero.classList.add('hidden');
+        failAlert.classList.add('hidden');
+        progressBanner.classList.remove('hidden');
+        btnProgress.className = "px-space-md py-1 rounded-lg font-label-md text-label-md transition-all flex items-center gap-space-xs bg-primary text-on-primary font-semibold shadow-xs";
+      }
+    }
+
+    function triggerManualAudit() {
+      setAuditState('progress');
+      const btnText = document.getElementById('audit-btn-text');
+      const btnIcon = document.getElementById('audit-icon');
+      btnText.innerText = "Verifying DAG Hashes...";
+      btnIcon.classList.add('animate-spin');
+
+      setTimeout(() => {
+        setAuditState('pass');
+        btnText.innerText = "Run Cryptographic Audit";
+        btnIcon.classList.remove('animate-spin');
+      }, 2000);
+    }
+
+    function remediateDiscrepancy() {
+      setAuditState('progress');
+      setTimeout(() => {
+        setAuditState('pass');
+        alert("Transaction #TX-8912-HOLD successfully re-synced and resolved. Full parity restored to Block #892,110.");
+      }, 1500);
+    }
+  </script>
+</div></main><footer class="w-full bg-surface-container-low py-space-xl mt-space-xl"><div class="w-full px-margin-desktop flex flex-col md:flex-row items-center justify-between gap-space-md font-body-sm text-body-sm text-on-surface-variant"><div class="flex flex-col sm:flex-row items-center gap-space-xs sm:gap-space-md"><span class="font-semibold text-on-surface">Harvard Peer Time Ledger Admin Protocol v2.4</span><span class="hidden sm:inline">•</span><span>Campus Honor Arbitration Secretariat</span></div><div class="flex items-center gap-space-xs bg-surface-container-highest/60 px-space-sm py-1 rounded-full"><span class="material-symbols-outlined text-secondary text-[16px]">verified_user</span><span class="font-label-sm text-label-sm text-on-surface">Confidential Audit Logging Enabled</span></div></div></footer></body></html>

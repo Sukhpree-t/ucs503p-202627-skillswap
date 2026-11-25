@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"primary-fixed":"#e2dfff","inverse-surface":"#213145","secondary":"#006b5f","tertiary-fixed":"#ffddb8","on-secondary-container":"#006f64","on-surface":"#0b1c30","on-surface-variant":"#464555","surface-container-low":"#eff4ff","on-tertiary-container":"#ffd4a4","outline":"#777587","on-tertiary-fixed-variant":"#653e00","on-secondary-fixed":"#00201c","on-tertiary":"#ffffff","on-background":"#0b1c30","on-primary":"#ffffff","surface":"#f8f9ff","inverse-primary":"#c3c0ff","surface-dim":"#cbdbf5","on-error-container":"#93000a","surface-container":"#e5eeff","on-secondary":"#ffffff","surface-container-lowest":"#ffffff","surface-variant":"#d3e4fe","primary-container":"#4f46e5","primary":"#3525cd","secondary-container":"#6df5e1","tertiary":"#684000","on-primary-fixed":"#0f0069","surface-container-high":"#dce9ff","tertiary-fixed-dim":"#ffb95f","error-container":"#ffdad6","on-error":"#ffffff","surface-bright":"#f8f9ff","inverse-on-surface":"#eaf1ff","on-secondary-fixed-variant":"#005048","on-primary-container":"#dad7ff","surface-container-highest":"#d3e4fe","secondary-fixed-dim":"#4fdbc8","surface-tint":"#4d44e3","secondary-fixed":"#71f8e4","tertiary-container":"#885500","on-primary-fixed-variant":"#3323cc","error":"#ba1a1a","primary-fixed-dim":"#c3c0ff","on-tertiary-fixed":"#2a1700","outline-variant":"#c7c4d8","background":"#f8f9ff"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"margin":"1rem","space-sm":"0.5rem","margin-desktop":"3rem","space-md":"1rem","gutter":"1rem","margin-tablet":"2rem","space-lg":"1.5rem","space-xl":"2rem","gutter-desktop":"1.5rem","space-xs":"0.25rem"},"fontFamily":{"body-md":["Inter"],"headline-sm":["Inter"],"headline-xl-mobile":["Inter"],"headline-md":["Inter"],"label-sm":["Inter"],"label-lg":["Inter"],"headline-lg-mobile":["Inter"],"headline-lg":["Inter"],"body-sm":["Inter"],"body-lg":["Inter"],"label-md":["Inter"],"headline-xl":["Inter"]},"fontSize":{"body-md":["16px",{"lineHeight":"24px","letterSpacing":"0em","fontWeight":"400"}],"headline-sm":["20px",{"lineHeight":"28px","letterSpacing":"-0.005em","fontWeight":"600"}],"headline-xl-mobile":["30px",{"lineHeight":"38px","letterSpacing":"-0.015em","fontWeight":"700"}],"headline-md":["24px",{"lineHeight":"32px","letterSpacing":"-0.01em","fontWeight":"600"}],"label-sm":["11px",{"lineHeight":"14px","letterSpacing":"0.03em","fontWeight":"600"}],"label-lg":["14px",{"lineHeight":"20px","letterSpacing":"0.01em","fontWeight":"600"}],"headline-lg-mobile":["24px",{"lineHeight":"32px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-lg":["32px",{"lineHeight":"40px","letterSpacing":"-0.015em","fontWeight":"600"}],"body-sm":["14px",{"lineHeight":"20px","letterSpacing":"0.005em","fontWeight":"400"}],"body-lg":["18px",{"lineHeight":"28px","letterSpacing":"0em","fontWeight":"400"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"600"}],"headline-xl":["40px",{"lineHeight":"48px","letterSpacing":"-0.02em","fontWeight":"700"}]}}}}</script></head><body class="bg-surface font-body-md text-on-surface antialiased"><header class="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-20 w-full px-margin md:px-margin-tablet lg:px-margin-desktop flex items-center justify-between gap-space-lg"><div class="flex items-center gap-space-md shrink-0"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded-lg bg-primary-container flex items-center justify-center text-on-primary shadow-sm"><span class="material-symbols-outlined text-[20px]">swap_horiz</span></div><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight">SkillSwap</span></div><div class="hidden sm:flex items-center gap-space-xs px-space-sm py-0.5 rounded-full bg-surface-container-low text-secondary font-label-sm text-label-sm"><span class="material-symbols-outlined text-[13px]">verified</span><span>.EDU VERIFIED</span></div></div><div class="hidden xl:flex items-center flex-1 max-w-md mx-space-md"><div class="w-full flex items-center gap-space-sm px-space-md py-space-sm rounded-lg bg-surface-container-low text-on-surface-variant"><span class="material-symbols-outlined text-[18px] text-outline">search</span><span class="font-body-sm text-body-sm text-on-surface-variant select-none truncate">Search skills, subjects, or mentors (e.g. Python, Organic Chem)...</span></div></div><nav class="hidden lg:flex items-center gap-space-xs shrink-0" data-active-classes="bg-primary-container text-on-primary font-label-lg rounded-lg"><a class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="dashboard" href="#">Dashboard</a><a class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="marketplace" href="#">Explore</a><a class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="my-sessions" href="#">My Sessions</a><a class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="teach-and-availability" href="#">Teach &amp; Availability</a><a class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="ledger-wallet" href="#">Ledger</a></nav><div class="flex items-center gap-space-md shrink-0"><div class="flex items-center gap-space-xs px-space-sm py-1 rounded-full bg-surface-container-low"><div class="flex items-center gap-space-xs pl-space-xs"><span class="material-symbols-outlined text-[16px] text-primary">toll</span><span class="font-label-lg text-label-lg text-primary tabular-nums">5.00 cr</span></div><span class="text-outline text-label-sm font-label-sm">·</span><div class="px-space-sm py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm flex items-center gap-0.5"><span class="material-symbols-outlined text-[12px]">lock_clock</span><span>1.00 in escrow</span></div></div><div class="relative flex items-center justify-center w-9 h-9 rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors cursor-pointer"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-primary-container ring-2 ring-surface"></span></div><div class="flex items-center gap-space-sm pl-space-xs"><div class="hidden md:flex flex-col text-right leading-none"><span class="font-label-lg text-label-lg text-on-surface">Alex Vance</span><span class="font-label-sm text-label-sm text-on-surface-variant">CS &amp; Econ '25 · Harvard</span></div><div class="relative"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-secondary ring-2 ring-surface"></span></div></div></div></div></header><main class="w-full pt-20 bg-surface min-h-[calc(100vh-140px)]"><div class="flex flex-col w-full relative">
+<!-- Interactive Floating Simulator Controller Toolbar -->
+<div class="sticky top-20 z-50 w-full px-margin md:px-margin-tablet lg:px-margin-desktop py-space-sm bg-inverse-surface/95 backdrop-blur-md shadow-xl flex flex-wrap items-center justify-between gap-space-sm text-inverse-on-surface">
+<div class="flex items-center gap-space-sm">
+<span class="flex h-2.5 w-2.5 rounded-full bg-secondary-container animate-pulse"></span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline-variant">Interactive State Engine:</span>
+<span class="font-label-md text-label-md text-surface-container-lowest font-medium hidden sm:inline">Liam Chen (CS124) Session Booking</span>
+</div>
+<!-- State Pills Switcher -->
+<div class="flex items-center gap-1.5 overflow-x-auto py-1 max-w-full" id="state-selector-bar">
+<button class="state-btn px-space-sm py-1 rounded-full font-label-sm text-label-sm transition-all bg-primary-container text-on-primary shadow-sm flex items-center gap-1" data-state-id="default" onclick="switchModalState('default')">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+<span>1. Confirm (Default)</span>
+</button>
+<button class="state-btn px-space-sm py-1 rounded-full font-label-sm text-label-sm transition-all bg-surface-container-high/20 text-inverse-on-surface hover:bg-surface-container-high/40 flex items-center gap-1" data-state-id="loading" onclick="switchModalState('loading')">
+<span class="material-symbols-outlined text-[14px]">progress_activity</span>
+<span>2. Loading (Escrow Lock)</span>
+</button>
+<button class="state-btn px-space-sm py-1 rounded-full font-label-sm text-label-sm transition-all bg-surface-container-high/20 text-inverse-on-surface hover:bg-surface-container-high/40 flex items-center gap-1" data-state-id="success" onclick="switchModalState('success')">
+<span class="material-symbols-outlined text-[14px]">verified</span>
+<span>3. Success (Booked)</span>
+</button>
+<button class="state-btn px-space-sm py-1 rounded-full font-label-sm text-label-sm transition-all bg-surface-container-high/20 text-inverse-on-surface hover:bg-surface-container-high/40 flex items-center gap-1" data-state-id="collision" onclick="switchModalState('collision')">
+<span class="material-symbols-outlined text-[14px]">event_busy</span>
+<span>4. Slot Collision</span>
+</button>
+<button class="state-btn px-space-sm py-1 rounded-full font-label-sm text-label-sm transition-all bg-surface-container-high/20 text-inverse-on-surface hover:bg-surface-container-high/40 flex items-center gap-1" data-state-id="low-balance" onclick="switchModalState('low-balance')">
+<span class="material-symbols-outlined text-[14px]">account_balance_wallet</span>
+<span>5. Low Balance</span>
+</button>
+<button class="state-btn px-space-sm py-1 rounded-full font-label-sm text-label-sm transition-all bg-surface-container-high/20 text-inverse-on-surface hover:bg-surface-container-high/40 flex items-center gap-1" data-state-id="expired" onclick="switchModalState('expired')">
+<span class="material-symbols-outlined text-[14px]">timer_off</span>
+<span>6. Lock Expired</span>
+</button>
+</div>
+</div>
+<!-- Underlying Page Context: Liam Chen Mentor Detail Page -->
+<div class="w-full px-margin md:px-margin-tablet lg:px-margin-desktop py-space-xl opacity-40 blur-[2px] pointer-events-none select-none transition-all duration-300">
+<!-- Breadcrumb & Back -->
+<div class="flex items-center gap-space-sm text-on-surface-variant font-label-md text-label-md mb-space-lg">
+<span>Marketplace</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span>Computer Science</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-on-surface font-semibold">Liam Chen · CS124 Fellow</span>
+</div>
+<!-- Layout Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter-desktop">
+<!-- Main Bio & Details -->
+<div class="lg:col-span-8 flex flex-col gap-space-xl">
+<div class="p-space-xl rounded-xl bg-surface-container-lowest shadow-sm flex flex-col md:flex-row gap-space-xl items-start">
+<div class="relative shrink-0">
+<img class="w-28 h-28 rounded-xl object-cover shadow-sm" data-alt="Close up portrait of Liam Chen, an Asian university computer science student with glasses, smiling warmly in a bright modern campus library lounge, soft natural light with warm wood and blue architectural tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuADKTHFY6bW1u_PP0JTKijdfIq57oK3q95BrHub12Y3QgbDwwnNiC86UrjYsmyAAgdfybDCE-ICL_PuwUMh66uBUiHthjG9sMfkID1cyjDe_JlyMkXzbGE_boaLoj8FcIsvyo6q0PzExA-FlXGtKbxENss89ybGlWYJYN0WKjyzl0hO_LW9yETCK2jyOzoFVr_V88YdQK55QZJHa24UJEjf25UmL5tEr9R4UyNfrFcZ"/>
+<span class="absolute -bottom-2 -right-2 px-space-xs py-0.5 rounded-full bg-secondary text-on-secondary font-label-sm text-label-sm shadow flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[12px]">verified</span> 4.98
+            </span>
+</div>
+<div class="flex-1 flex flex-col gap-space-xs">
+<div class="flex flex-wrap items-center gap-space-xs">
+<span class="px-space-sm py-0.5 rounded-full bg-surface-container text-primary font-label-sm text-label-sm font-semibold">HARVARD '26</span>
+<span class="px-space-sm py-0.5 rounded-full bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm">Kirkland House</span>
+<span class="px-space-sm py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-medium">Head TF CS124</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Liam Chen</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Junior concentrating in Computer Science &amp; Applied Math. Former Meta SWE Intern. Specializing in advanced algorithm proofs, DP optimizations, and Python 3.12 concurrency.</p>
+<div class="flex flex-wrap items-center gap-space-lg pt-space-sm text-on-surface">
+<div class="flex items-center gap-space-xs font-label-lg text-label-lg">
+<span class="material-symbols-outlined text-primary text-[18px]">workspace_premium</span>
+<span>84 Hours Mentored</span>
+</div>
+<div class="flex items-center gap-space-xs font-label-lg text-label-lg">
+<span class="material-symbols-outlined text-secondary text-[18px]">verified_user</span>
+<span>100% Escrow Completion</span>
+</div>
+<div class="flex items-center gap-space-xs font-label-lg text-label-lg">
+<span class="material-symbols-outlined text-tertiary-container text-[18px]">bolt</span>
+<span>Avg reply &lt;15m</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Subjects Offered -->
+<div class="p-space-xl rounded-xl bg-surface-container-lowest shadow-sm flex flex-col gap-space-md">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Active Exchange Tracks</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<div class="p-space-md rounded-lg bg-surface-container-low flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg text-primary">Python 3.12 &amp; Data Structures</span>
+<span class="px-space-sm py-0.5 rounded-full bg-primary-container text-on-primary font-label-sm text-label-sm font-semibold">1.00 cr / hr</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Trees, Graphs, Min-Cut / Max-Flow, Dynamic Programming, and rigorous LeetCode Hard prep.</p>
+</div>
+<div class="p-space-md rounded-lg bg-surface-container-low flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg text-primary">Systems Programming in C</span>
+<span class="px-space-sm py-0.5 rounded-full bg-primary-container text-on-primary font-label-sm text-label-sm font-semibold">1.00 cr / hr</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">CS61 architecture, memory models, cache coherence, virtual memory debugging.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Sidebar Snapshot -->
+<div class="lg:col-span-4 flex flex-col gap-space-md">
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg text-on-surface-variant">Standard Rate</span>
+<span class="font-headline-md text-headline-md text-primary font-bold">1.00 cr <span class="font-body-sm text-body-sm text-outline font-normal">/ 60m</span></span>
+</div>
+<div class="p-space-md rounded-lg bg-surface-container-low flex flex-col gap-space-xs">
+<span class="font-label-sm text-label-sm text-secondary font-semibold uppercase">Preferred Location</span>
+<div class="flex items-center gap-space-xs text-on-surface font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[18px] text-secondary">local_library</span>
+<span>Cabot Science Library (Pod B)</span>
+</div>
+<div class="flex items-center gap-space-xs text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[18px]">videocam</span>
+<span>Harvard SSO Zoom Available</span>
+</div>
+</div>
+<button class="w-full py-space-sm px-space-md rounded-lg bg-primary text-on-primary font-label-lg text-label-lg font-semibold flex items-center justify-center gap-space-xs shadow-md">
+<span>Select a Time Slot</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- FIXED MODAL BACKDROP (High-Elevation Scrim) -->
+<div class="fixed inset-0 top-20 z-40 bg-inverse-surface/60 backdrop-blur-md flex items-center justify-center p-space-md overflow-y-auto">
+<!-- MODAL WRAPPER CONTAINER -->
+<div class="relative w-full max-w-xl bg-surface-container-lowest rounded-xl shadow-2xl overflow-hidden my-auto transition-all transform duration-200">
+<!-- Top Decorative Accent Bar -->
+<div class="h-1.5 w-full bg-gradient-to-r from-primary via-primary-container to-secondary"></div>
+<!-- Close Button (Global) -->
+<button class="absolute top-4 right-4 z-20 w-8 h-8 rounded-full bg-surface-container text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface flex items-center justify-center transition-colors" onclick="alert('In a full session, this dismisses the reservation overlay.')">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+<!-- ========================================================================= -->
+<!-- STATE 1: DEFAULT CONFIRMATION MODAL -->
+<!-- ========================================================================= -->
+<div class="modal-view p-space-lg md:p-space-xl flex flex-col gap-space-lg" id="modal-state-default">
+<!-- Header & Escrow Trust Badge -->
+<div class="flex flex-col gap-space-xs pr-space-lg">
+<div class="flex items-center gap-space-xs">
+<span class="px-space-sm py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">lock</span>
+<span>ESCROW PROTECTED</span>
+</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Step 2 of 2</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface tracking-tight">Confirm Session Booking</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Review terms and lock credits in peer escrow to instantly confirm your slot.</p>
+</div>
+<!-- Mentor Summary Banner -->
+<div class="p-space-md rounded-lg bg-surface-container-low flex items-center gap-space-md">
+<div class="relative shrink-0">
+<img class="w-12 h-12 rounded-lg object-cover shadow-sm" data-alt="Close up profile picture avatar of Liam Chen, Harvard computer science mentor student with friendly approachable expression in bright study hall, neutral campus backdrop." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWES1S_7HolRSinjP9-3cR8B3PnZetv82QA8t7d8PhjJFAB5X17JnYUcPShoh2U-Dnf24Te_X41gAC0Qh-zj-pK9Zfqur35ikeXyjFQ1xpU8wHCcIAGNbia0aCC_8Fr3CY0KfA799j3ay9Qto2QaymR0NSvy9d0fPSq0kiZvM_989iDmmM2uffFD4MgmJTCc2xSFKBc5kOiEy13pW51u2dmhKzhn-KfZFfQip5aGor"/>
+<span class="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-secondary flex items-center justify-center text-on-secondary text-[9px] font-bold">✓</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center gap-space-xs truncate">
+<span class="font-label-lg text-label-lg text-on-surface truncate">Liam Chen</span>
+<span class="text-outline text-label-sm font-label-sm">·</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant truncate">CS '26 (Kirkland)</span>
+</div>
+<div class="font-body-sm text-body-sm text-primary font-medium truncate">Python 3.12 &amp; Data Structures (CS124)</div>
+<div class="flex items-center gap-1 text-tertiary-container font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[13px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-semibold text-on-surface">4.98</span>
+<span class="text-on-surface-variant">(31 peer reviews)</span>
+</div>
+</div>
+</div>
+<!-- Time & Campus Location Spec -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm">
+<div class="p-space-sm rounded-lg bg-surface-container flex items-start gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-primary-container text-on-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Date &amp; Time</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold">Today, Oct 24, 2024</span>
+<span class="font-body-sm text-body-sm text-primary">4:30 PM - 5:30 PM (60 min)</span>
+</div>
+</div>
+<div class="p-space-sm rounded-lg bg-surface-container flex items-start gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-secondary text-on-secondary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Session Space</span>
+<span class="font-label-md text-label-md text-on-surface font-semibold">Cabot Library Pod B</span>
+<span class="font-body-sm text-body-sm text-secondary font-medium">In-person · Zoom backup</span>
+</div>
+</div>
+</div>
+<!-- Credit Financial Breakdown Card -->
+<div class="p-space-md rounded-lg bg-surface-container-high/40 flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface-variant">Peer Escrow Ledger Breakdown</span>
+<span class="font-label-sm text-label-sm text-secondary font-semibold uppercase tracking-wider">Harvard Time Standard</span>
+</div>
+<div class="flex flex-col gap-1.5 pt-space-xs">
+<div class="flex items-center justify-between text-on-surface">
+<span class="font-body-sm text-body-sm">Session Cost (1 hour tutoring)</span>
+<span class="font-label-lg text-label-lg font-bold tabular-nums text-primary">1.00 cr</span>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="font-body-sm text-body-sm">Your Current Liquid Balance</span>
+<span class="font-body-sm text-body-sm tabular-nums">5.00 cr</span>
+</div>
+<div class="h-[1px] w-full bg-outline-variant/40 my-0.5"></div>
+<div class="flex items-center justify-between text-on-surface">
+<span class="font-label-md text-label-md font-semibold">Available Balance After Booking</span>
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-headline-sm font-bold tabular-nums text-on-surface">4.00 cr</span>
+</div>
+</div>
+<div class="flex items-center gap-1 text-secondary font-label-sm text-label-sm pt-0.5">
+<span class="material-symbols-outlined text-[14px]">format_image_left</span>
+<span>Safe balance · 4.00 cr remains available for other bookings</span>
+</div>
+</div>
+<!-- Escrow Micro Notice -->
+<div class="p-space-sm rounded-md bg-tertiary-fixed text-on-tertiary-fixed font-body-sm text-body-sm flex items-start gap-space-xs">
+<span class="material-symbols-outlined text-[16px] text-tertiary-container shrink-0 mt-0.5">info</span>
+<p class="leading-tight text-xs">
+<strong class="font-semibold">Escrow Protocol:</strong> 1.00 cr will be held in smart trust. Credits are <span class="underline decoration-tertiary">only released</span> once both you and Liam confirm session completion. You may cancel penalty-free up to 2 hours prior.
+            </p>
+</div>
+</div>
+<!-- Optional Learning Goals Input -->
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-on-surface font-medium" for="prep-notes">What do you want to master in this session? <span class="text-outline font-normal">(Optional)</span></label>
+<span class="font-label-sm text-label-sm text-outline tabular-nums" id="char-counter">42/300</span>
+</div>
+<div class="relative">
+<textarea class="w-full px-space-md py-space-sm rounded-lg bg-surface-container-low text-on-surface font-body-sm text-body-sm placeholder:text-outline focus:outline-none focus:bg-surface-container transition-all resize-none" id="prep-notes" maxlength="300" oninput="updateCharCount(this)" rows="2">Need help reviewing red-black tree rebalancing and prepping for the CS124 midterm practice exam...</textarea>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Liam receives these notes along with your GitHub/Ed profile link.</span>
+</div>
+<!-- Action Footer -->
+<div class="flex items-center justify-end gap-space-md pt-space-xs">
+<button class="px-space-md py-2.5 rounded-lg bg-surface-container text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface font-label-lg text-label-lg transition-colors" onclick="switchModalState('loading')">
+            Cancel
+          </button>
+<button class="px-space-xl py-2.5 rounded-lg bg-primary-container text-on-primary hover:bg-primary font-label-lg text-label-lg font-semibold flex items-center gap-space-xs shadow-md transition-all" onclick="switchModalState('loading')">
+<span class="material-symbols-outlined text-[18px]">lock</span>
+<span>Confirm Booking (Lock 1.00 cr)</span>
+</button>
+</div>
+</div>
+<!-- ========================================================================= -->
+<!-- STATE 2: VARIANT (A) - CONFIRMATION LOADING -->
+<!-- ========================================================================= -->
+<div class="modal-view hidden p-space-xl md:p-space-xl flex flex-col items-center text-center gap-space-lg" id="modal-state-loading">
+<!-- Animated Ring / Spinner Visual -->
+<div class="relative w-24 h-24 flex items-center justify-center my-space-md">
+<!-- Outer Pulsing Ring -->
+<div class="absolute inset-0 rounded-full border-4 border-primary/20 animate-ping opacity-75"></div>
+<!-- Spinning Ledger Circle -->
+<svg class="w-24 h-24 animate-spin text-primary-container" fill="none" viewbox="0 0 100 100">
+<circle class="text-surface-container-high" cx="50" cy="50" r="40" stroke="currentColor" stroke-width="8"></circle>
+<path class="text-primary" d="M 50 10 A 40 40 0 0 1 90 50" stroke="currentColor" stroke-linecap="round" stroke-width="8"></path>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[32px] animate-pulse">lock_clock</span>
+</div>
+</div>
+<!-- Headline & Description -->
+<div class="flex flex-col gap-space-xs max-w-md">
+<span class="px-space-sm py-0.5 rounded-full bg-surface-container text-primary font-label-sm text-label-sm font-semibold mx-auto uppercase">Ledger Transaction In Progress</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Reserving your slot...</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Verifying campus node availability and locking 1.00 cr into peer trust escrow...
+          </p>
+</div>
+<!-- Transaction Steps Progression -->
+<div class="w-full max-w-md p-space-md rounded-lg bg-surface-container-low flex flex-col gap-space-sm text-left">
+<div class="flex items-center justify-between text-body-sm">
+<div class="flex items-center gap-space-sm text-secondary font-medium">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+<span>1. Validating peer calendar slot lock</span>
+</div>
+<span class="font-label-sm text-label-sm text-secondary font-semibold">Done</span>
+</div>
+<div class="flex items-center justify-between text-body-sm">
+<div class="flex items-center gap-space-sm text-primary font-semibold">
+<span class="material-symbols-outlined text-[18px] animate-spin">sync</span>
+<span>2. Securing 1.00 cr in escrow vault</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary animate-pulse">Locking...</span>
+</div>
+<div class="flex items-center justify-between text-body-sm text-on-surface-variant">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[18px] text-outline">radio_button_unchecked</span>
+<span>3. Provisioning Harvard SSO Zoom room</span>
+</div>
+<span class="font-label-sm text-label-sm text-outline">Queued</span>
+</div>
+</div>
+<!-- Warning Pill -->
+<div class="flex items-center gap-space-xs font-label-sm text-label-sm text-outline">
+<span class="material-symbols-outlined text-[14px]">shield</span>
+<span>Please do not refresh or close this tab. Finalizing node verification.</span>
+</div>
+<!-- Simulation quick progression trigger -->
+<div class="pt-space-xs">
+<button class="text-primary hover:underline font-label-sm text-label-sm flex items-center gap-1 mx-auto" onclick="switchModalState('success')">
+<span>Fast-forward to confirmation</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- ========================================================================= -->
+<!-- STATE 3: VARIANT (B) - SUCCESS STATE -->
+<!-- ========================================================================= -->
+<div class="modal-view hidden p-space-lg md:p-space-xl flex flex-col gap-space-lg" id="modal-state-success">
+<!-- Success Badge & Title -->
+<div class="flex flex-col items-center text-center gap-space-xs">
+<div class="w-16 h-16 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center mb-space-xs shadow-md">
+<span class="material-symbols-outlined text-[36px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<span class="px-space-sm py-0.5 rounded-full bg-secondary/10 text-secondary font-label-sm text-label-sm font-semibold uppercase">Escrow Bond Activated</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Booked! 1.00 cr Held in Escrow</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md">
+            Your CS124 algorithm coaching session with <strong class="text-on-surface">Liam Chen</strong> is locked for <span class="text-primary font-semibold">Today at 4:30 PM</span>.
+          </p>
+</div>
+<!-- Reference Tokens & Badges -->
+<div class="flex flex-wrap items-center justify-center gap-space-xs font-label-sm text-label-sm">
+<div class="px-space-sm py-1 rounded-full bg-surface-container font-mono text-on-surface flex items-center gap-1">
+<span class="text-outline">REF:</span>
+<span class="font-bold">#SS-8942-CS124</span>
+</div>
+<div class="px-space-sm py-1 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-mono flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">lock</span>
+<span>ESCROW-ID: #ESC-1049</span>
+</div>
+<div class="px-space-sm py-1 rounded-full bg-surface-container-low text-secondary flex items-center gap-1 font-semibold">
+<span class="material-symbols-outlined text-[13px]">verified</span>
+<span>Verified .EDU Handshake</span>
+</div>
+</div>
+<!-- Session Location & Space Card -->
+<div class="p-space-md rounded-lg bg-surface-container-low flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-lg bg-surface-container text-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[22px]">meeting_room</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-semibold">Cabot Science Library Pod B</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Check-in at Ground Floor Pod Terminal</span>
+</div>
+</div>
+<a class="px-space-md py-1.5 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm font-semibold flex items-center gap-1 shrink-0 hover:bg-primary/90 transition-colors" href="#">
+<span class="material-symbols-outlined text-[14px]">videocam</span>
+<span>Open Zoom SSO Room</span>
+</a>
+</div>
+<!-- Calendar Quick Integrations -->
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-medium">Add to your schedule:</span>
+<div class="grid grid-cols-2 gap-space-sm">
+<button class="px-space-md py-2 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high font-label-md text-label-md flex items-center justify-center gap-space-xs transition-colors">
+<span class="material-symbols-outlined text-primary text-[18px]">calendar_add_on</span>
+<span>Google Calendar</span>
+</button>
+<button class="px-space-md py-2 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high font-label-md text-label-md flex items-center justify-center gap-space-xs transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">download</span>
+<span>Download .ics</span>
+</button>
+</div>
+</div>
+<!-- Primary Destination Buttons -->
+<div class="flex flex-col sm:flex-row items-center gap-space-sm pt-space-xs">
+<button class="w-full sm:flex-1 py-2.5 rounded-lg bg-primary-container text-on-primary hover:bg-primary font-label-lg text-label-lg font-semibold flex items-center justify-center gap-1 shadow-md transition-all" onclick="switchModalState('default')">
+<span class="material-symbols-outlined text-[18px]">view_timeline</span>
+<span>Go to My Sessions</span>
+</button>
+<button class="w-full sm:w-auto px-space-lg py-2.5 rounded-lg bg-surface-container text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface font-label-lg text-label-lg flex items-center justify-center gap-1 transition-colors" onclick="switchModalState('default')">
+<span class="material-symbols-outlined text-[18px]">account_balance_wallet</span>
+<span>View in Ledger</span>
+</button>
+</div>
+</div>
+<!-- ========================================================================= -->
+<!-- STATE 4: VARIANT (C) - SLOT COLLISION -->
+<!-- ========================================================================= -->
+<div class="modal-view hidden p-space-lg md:p-space-xl flex flex-col gap-space-lg" id="modal-state-collision">
+<!-- Header Alert Alert State -->
+<div class="flex items-start gap-space-md">
+<div class="w-12 h-12 rounded-xl bg-error-container text-on-error-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[28px]">event_busy</span>
+</div>
+<div class="flex-1 flex flex-col gap-0.5">
+<span class="px-space-sm py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-semibold w-fit uppercase">Reservation Conflict</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">This slot was just taken</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Another Harvard student completed checkout for <strong class="text-on-surface">4:30 PM</strong> with Liam Chen a few seconds ago.
+            </p>
+</div>
+</div>
+<!-- Safe Escrow Assurance Banner -->
+<div class="p-space-md rounded-lg bg-surface-container-low flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-[22px]">verified_user</span>
+<p class="font-body-sm text-body-sm text-on-surface">
+<strong>Zero deduction:</strong> No credits were removed from your wallet. Your current balance remains intact at <strong class="text-primary font-semibold tabular-nums">5.00 cr</strong>.
+          </p>
+</div>
+<!-- Next Available Slots with Liam Chen -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface font-semibold">Immediate Alternative Openings with Liam:</span>
+<span class="font-label-sm text-label-sm text-primary font-medium">Same 1.00 cr rate</span>
+</div>
+<div class="flex flex-col gap-space-xs">
+<!-- Alternative Slot 1 -->
+<button class="w-full p-space-sm rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors flex items-center justify-between text-left group" onclick="switchModalState('default')">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[20px]">schedule</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-semibold group-hover:text-primary">Today at 7:00 PM - 8:00 PM</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Cabot Science Library Pod B (In-person)</span>
+</div>
+</div>
+<span class="px-space-sm py-1 rounded-md bg-primary-container text-on-primary font-label-sm text-label-sm font-semibold flex items-center gap-0.5">
+<span>Grab Slot</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+</span>
+</button>
+<!-- Alternative Slot 2 -->
+<button class="w-full p-space-sm rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors flex items-center justify-between text-left group" onclick="switchModalState('default')">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[20px]">calendar_month</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-semibold group-hover:text-primary">Tomorrow at 2:00 PM - 3:00 PM</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Allston SEC Pod 4 or Zoom SSO</span>
+</div>
+</div>
+<span class="px-space-sm py-1 rounded-md bg-surface-container-lowest text-on-surface font-label-sm text-label-sm font-semibold flex items-center gap-0.5 group-hover:bg-primary-container group-hover:text-on-primary">
+<span>Grab Slot</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+</span>
+</button>
+<!-- Alternative Slot 3 -->
+<button class="w-full p-space-sm rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors flex items-center justify-between text-left group" onclick="switchModalState('default')">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[20px]">videocam</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-semibold group-hover:text-primary">Tomorrow at 4:30 PM - 5:30 PM</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Harvard SSO Zoom Video Room</span>
+</div>
+</div>
+<span class="px-space-sm py-1 rounded-md bg-surface-container-lowest text-on-surface font-label-sm text-label-sm font-semibold flex items-center gap-0.5 group-hover:bg-primary-container group-hover:text-on-primary">
+<span>Grab Slot</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+</span>
+</button>
+</div>
+</div>
+<!-- Action Row -->
+<div class="flex items-center justify-between pt-space-xs">
+<a class="font-label-md text-label-md text-primary hover:underline flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-[16px]">search</span>
+<span>Browse Other Python Mentors</span>
+</a>
+<button class="px-space-lg py-2 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md font-semibold hover:bg-surface-container-high transition-colors" onclick="switchModalState('default')">
+            Back to Open Calendar
+          </button>
+</div>
+</div>
+<!-- ========================================================================= -->
+<!-- STATE 5: VARIANT (D) - LOW BALANCE -->
+<!-- ========================================================================= -->
+<div class="modal-view hidden p-space-lg md:p-space-xl flex flex-col gap-space-lg" id="modal-state-low-balance">
+<!-- Header Insufficient Funds -->
+<div class="flex items-start gap-space-md">
+<div class="w-12 h-12 rounded-xl bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[28px]">account_balance_wallet</span>
+</div>
+<div class="flex-1 flex flex-col gap-0.5">
+<span class="px-space-sm py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-semibold w-fit uppercase">Escrow Hold Infeasible</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Insufficient Credit Balance</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              You need additional peer time credits to reserve this 60-minute session with Liam Chen.
+            </p>
+</div>
+</div>
+<!-- Financial Breakdown Comparison -->
+<div class="p-space-md rounded-lg bg-surface-container-low flex flex-col gap-space-xs">
+<div class="flex items-center justify-between text-body-sm">
+<span class="text-on-surface-variant">Required Session Cost:</span>
+<span class="font-label-lg text-label-lg font-bold text-on-surface tabular-nums">1.00 cr</span>
+</div>
+<div class="flex items-center justify-between text-body-sm">
+<span class="text-on-surface-variant">Your Current Liquid Balance:</span>
+<span class="font-label-lg text-label-lg font-medium text-tertiary tabular-nums">0.50 cr</span>
+</div>
+<div class="h-[1px] w-full bg-outline-variant/40 my-1"></div>
+<div class="flex items-center justify-between font-label-md text-label-md">
+<span class="text-error font-semibold">Credit Shortfall:</span>
+<span class="text-error font-bold tabular-nums bg-error-container/60 px-space-sm py-0.5 rounded">-0.50 cr needed</span>
+</div>
+</div>
+<!-- Educational Cashless Economy Callout -->
+<div class="p-space-md rounded-lg bg-surface-container flex items-start gap-space-md">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">lightbulb</span>
+</div>
+<div class="flex flex-col gap-0.5">
+<span class="font-label-md text-label-md text-on-surface font-semibold">SkillSwap is 100% Cashless</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Credits cannot be purchased with fiat money. Teach your peers to earn credits, or propose an instantaneous reciprocal trade!
+            </p>
+</div>
+</div>
+<!-- Reciprocal Trade Opportunity -->
+<div class="p-space-md rounded-lg bg-surface-container-lowest border border-outline-variant/50 shadow-sm flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary font-bold uppercase">Reciprocal Swap Opportunity</span>
+<span class="px-space-xs py-0.5 rounded bg-secondary/10 text-secondary font-label-sm text-label-sm font-semibold">Net 0.00 cr</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface">
+            Liam has marked <strong class="text-primary">"Econometrics (Stat 111)"</strong> as a desired learning topic in his wishlist. Offer 1 hour of your Econometrics expertise for this CS124 slot.
+          </p>
+<button class="mt-1 w-full py-1.5 rounded-lg bg-secondary text-on-secondary hover:bg-secondary/90 font-label-sm text-label-sm font-semibold flex items-center justify-center gap-1 transition-colors">
+<span class="material-symbols-outlined text-[15px]">sync_alt</span>
+<span>Offer Reciprocal Skill Trade to Liam</span>
+</button>
+</div>
+<!-- Action Row -->
+<div class="flex flex-col sm:flex-row items-center gap-space-sm pt-space-xs">
+<button class="w-full sm:flex-1 py-2.5 rounded-lg bg-primary-container text-on-primary hover:bg-primary font-label-lg text-label-lg font-semibold flex items-center justify-center gap-1 shadow-md transition-all" onclick="switchModalState('default')">
+<span class="material-symbols-outlined text-[18px]">school</span>
+<span>Earn Credits by Teaching</span>
+</button>
+<button class="w-full sm:w-auto px-space-md py-2.5 rounded-lg bg-surface-container text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface font-label-md text-label-md transition-colors" onclick="switchModalState('default')">
+            Close
+          </button>
+</div>
+</div>
+<!-- ========================================================================= -->
+<!-- STATE 6: VARIANT (E) - LOCK EXPIRED / TRANSACTION FAILED -->
+<!-- ========================================================================= -->
+<div class="modal-view hidden p-space-lg md:p-space-xl flex flex-col gap-space-lg text-center items-center" id="modal-state-expired">
+<!-- Error Visual -->
+<div class="w-16 h-16 rounded-full bg-error-container text-on-error-container flex items-center justify-center shadow-md">
+<span class="material-symbols-outlined text-[36px]">timer_off</span>
+</div>
+<!-- Headline & Explainer -->
+<div class="flex flex-col gap-space-xs max-w-md">
+<span class="px-space-sm py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-semibold mx-auto uppercase">Reservation Expired</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Slot Hold Expired or Network Error</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            The 3-minute temporary reservation lock timed out before escrow signoff was completed, or the campus distributed ledger node timed out.
+          </p>
+</div>
+<!-- Balance Reassurance Box -->
+<div class="w-full max-w-md p-space-md rounded-lg bg-surface-container-low flex items-center gap-space-md text-left">
+<span class="material-symbols-outlined text-secondary text-[26px] shrink-0">check_circle</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-semibold">Wallet State Protected</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">No transaction was finalized. Your balance remains at <strong class="text-primary">5.00 cr</strong>.</span>
+</div>
+</div>
+<!-- Diagnosis Checklist -->
+<div class="w-full max-w-md p-space-sm rounded-lg bg-surface-container flex flex-col gap-1 text-left font-label-sm text-label-sm text-on-surface-variant">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[15px] text-outline">dns</span>
+<span>Harvard Peer-Node Status: Online (Latency 14ms)</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[15px] text-outline">lock_clock</span>
+<span>Reason: Ledger Mutex Hold Timeout (&gt;180s idle)</span>
+</div>
+</div>
+<!-- Action Row -->
+<div class="w-full max-w-md flex flex-col sm:flex-row items-center gap-space-sm pt-space-xs">
+<button class="w-full sm:flex-1 py-2.5 rounded-lg bg-primary-container text-on-primary hover:bg-primary font-label-lg text-label-lg font-semibold flex items-center justify-center gap-1 shadow-md transition-all" onclick="switchModalState('loading')">
+<span class="material-symbols-outlined text-[18px]">refresh</span>
+<span>Try Again (Re-lock Slot)</span>
+</button>
+<button class="w-full sm:w-auto px-space-md py-2.5 rounded-lg bg-surface-container text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface font-label-md text-label-md transition-colors" onclick="switchModalState('default')">
+            Return to Mentor Profile
+          </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Vanilla JS for Instant State Simulation -->
+<script>
+  function switchModalState(stateName) {
+    // 1. Hide all modal view sections
+    const views = document.querySelectorAll('.modal-view');
+    views.forEach(view => {
+      view.classList.add('hidden');
+    });
+
+    // 2. Reveal target view
+    const target = document.getElementById('modal-state-' + stateName);
+    if (target) {
+      target.classList.remove('hidden');
+    }
+
+    // 3. Update simulator toolbar button active styles
+    const buttons = document.querySelectorAll('.state-btn');
+    buttons.forEach(btn => {
+      if (btn.getAttribute('data-state-id') === stateName) {
+        btn.className = 'state-btn px-space-sm py-1 rounded-full font-label-sm text-label-sm transition-all bg-primary-container text-on-primary shadow-sm flex items-center gap-1';
+      } else {
+        btn.className = 'state-btn px-space-sm py-1 rounded-full font-label-sm text-label-sm transition-all bg-surface-container-high/20 text-inverse-on-surface hover:bg-surface-container-high/40 flex items-center gap-1';
+      }
+    });
+  }
+
+  function updateCharCount(textarea) {
+    const counter = document.getElementById('char-counter');
+    if (counter) {
+      counter.innerText = textarea.value.length + '/300';
+    }
+  }
+</script></main><footer class="w-full bg-surface-container-low py-space-xl mt-space-xl"><div class="w-full px-margin md:px-margin-tablet lg:px-margin-desktop flex flex-col md:flex-row items-center justify-between gap-space-md"><div class="flex items-center gap-space-sm"><div class="w-6 h-6 rounded-md bg-primary-container flex items-center justify-center text-on-primary"><span class="material-symbols-outlined text-[14px]">swap_horiz</span></div><span class="font-headline-sm text-headline-sm text-on-surface">SkillSwap</span><span class="font-body-sm text-body-sm text-on-surface-variant ml-space-sm">© 2025 Harvard Peer Time Ledger. Campus-verified credit trust network.</span></div><div class="flex items-center gap-space-lg font-label-md text-label-md text-on-surface-variant"><span class="hover:text-on-surface cursor-pointer">Escrow Protocol</span><span class="hover:text-on-surface cursor-pointer">Academic Integrity Code</span><span class="hover:text-on-surface cursor-pointer">Dispute Arbitration</span><span class="hover:text-on-surface cursor-pointer">Campus Support</span></div></div></footer></body></html>

@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_blank" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "inverse-surface": "#213145", "secondary": "#006b5f", "surface-container-high": "#dce9ff", "surface-variant": "#d3e4fe", "on-tertiary-container": "#ffd4a4", "surface-container-lowest": "#ffffff", "surface-dim": "#cbdbf5", "on-tertiary-fixed": "#2a1700", "inverse-on-surface": "#eaf1ff", "on-secondary-fixed-variant": "#005048", "inverse-primary": "#c3c0ff", "background": "#f8f9ff", "secondary-container": "#6df5e1", "on-primary-container": "#dad7ff", "on-secondary": "#ffffff", "on-primary": "#ffffff", "error": "#ba1a1a", "primary-fixed-dim": "#c3c0ff", "tertiary-fixed-dim": "#ffb95f", "on-surface-variant": "#464555", "on-primary-fixed-variant": "#3323cc", "on-tertiary-fixed-variant": "#653e00", "outline-variant": "#c7c4d8", "outline": "#777587", "on-secondary-fixed": "#00201c", "secondary-fixed": "#71f8e4", "surface-container-highest": "#d3e4fe", "surface-tint": "#4d44e3", "surface-bright": "#f8f9ff", "error-container": "#ffdad6", "surface-container-low": "#eff4ff", "secondary-fixed-dim": "#4fdbc8", "on-primary-fixed": "#0f0069", "on-tertiary": "#ffffff", "surface-container": "#e5eeff", "on-background": "#0b1c30", "tertiary-container": "#885500", "on-error": "#ffffff", "on-error-container": "#93000a", "tertiary-fixed": "#ffddb8", "on-secondary-container": "#006f64", "primary": "#3525cd", "tertiary": "#684000", "on-surface": "#0b1c30", "surface": "#f8f9ff", "primary-fixed": "#e2dfff", "primary-container": "#4f46e5" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "space-md": "1rem", "margin-tablet": "2rem", "margin-desktop": "3rem", "gutter": "1rem", "space-xs": "0.25rem", "margin": "1rem", "gutter-desktop": "1.5rem", "space-lg": "1.5rem", "space-sm": "0.5rem", "space-xl": "2rem" }, fontFamily: { "label-sm": ["Inter"], "body-sm": ["Inter"], "body-md": ["Inter"], "headline-xl": ["Inter"], "label-md": ["Inter"], "headline-lg-mobile": ["Inter"], "headline-xl-mobile": ["Inter"], "headline-lg": ["Inter"], "body-lg": ["Inter"], "label-lg": ["Inter"], "headline-md": ["Inter"], "headline-sm": ["Inter"] }, fontSize: { "label-sm": ["11px", { lineHeight: "14px", letterSpacing: "0.03em", fontWeight: "600" }], "body-sm": ["14px", { lineHeight: "20px", letterSpacing: "0.005em", fontWeight: "400" }], "body-md": ["16px", { lineHeight: "24px", letterSpacing: "0em", fontWeight: "400" }], "headline-xl": ["40px", { lineHeight: "48px", letterSpacing: "-0.02em", fontWeight: "700" }], "label-md": ["12px", { lineHeight: "16px", letterSpacing: "0.02em", fontWeight: "600" }], "headline-lg-mobile": ["24px", { lineHeight: "32px", letterSpacing: "-0.01em", fontWeight: "600" }], "headline-xl-mobile": ["30px", { lineHeight: "38px", letterSpacing: "-0.015em", fontWeight: "700" }], "headline-lg": ["32px", { lineHeight: "40px", letterSpacing: "-0.015em", fontWeight: "600" }], "body-lg": ["18px", { lineHeight: "28px", letterSpacing: "0em", fontWeight: "400" }], "label-lg": ["14px", { lineHeight: "20px", letterSpacing: "0.01em", fontWeight: "600" }], "headline-md": ["24px", { lineHeight: "32px", letterSpacing: "-0.01em", fontWeight: "600" }], "headline-sm": ["20px", { lineHeight: "28px", letterSpacing: "-0.005em", fontWeight: "600" }] } } } };</script></head><body class="bg-surface font-body-md text-body-md text-on-surface"><main class="w-full bg-surface min-h-screen"><div class="flex flex-col w-full">
+<!-- Interactive Top Stepper Deck -->
+<div class="w-full bg-surface-container-low px-margin-desktop py-space-lg shadow-sm">
+<div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-space-md">
+<!-- Brand & Security Badge -->
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-xl bg-primary-container flex items-center justify-center text-on-primary shadow-sm">
+<span class="material-symbols-outlined text-headline-sm" style="font-variation-settings: 'FILL' 1;">currency_exchange</span>
+</div>
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-on-surface">SkillSwap</span>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-semibold">.EDU MINT</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-secondary">verified_user</span> Harvard Network • Zero Cash Escrow
+          </p>
+</div>
+</div>
+<!-- Clickable Stepper Tabs -->
+<nav aria-label="Onboarding Progress" class="flex items-center gap-space-xs bg-surface-container-lowest p-1.5 rounded-xl shadow-sm">
+<button class="step-nav-pill flex items-center gap-2 px-3 py-1.5 rounded-lg font-label-md text-label-md transition-all duration-200 bg-primary-container text-on-primary" id="step-btn-1" onclick="goToStep(1)">
+<span class="w-5 h-5 rounded-full flex items-center justify-center font-bold text-label-sm bg-on-primary text-primary-container">1</span>
+<span>Starter Credits</span>
+</button>
+<span class="material-symbols-outlined text-outline-variant text-[16px]">chevron_right</span>
+<button class="step-nav-pill flex items-center gap-2 px-3 py-1.5 rounded-lg font-label-md text-label-md transition-all duration-200 text-on-surface-variant hover:bg-surface-container" id="step-btn-2" onclick="goToStep(2)">
+<span class="w-5 h-5 rounded-full flex items-center justify-center font-bold text-label-sm bg-surface-container-high text-on-surface">2</span>
+<span>Teach &amp; Learn</span>
+</button>
+<span class="material-symbols-outlined text-outline-variant text-[16px]">chevron_right</span>
+<button class="step-nav-pill flex items-center gap-2 px-3 py-1.5 rounded-lg font-label-md text-label-md transition-all duration-200 text-on-surface-variant hover:bg-surface-container" id="step-btn-3" onclick="goToStep(3)">
+<span class="w-5 h-5 rounded-full flex items-center justify-center font-bold text-label-sm bg-surface-container-high text-on-surface">3</span>
+<span>Verification Quiz</span>
+</button>
+<span class="material-symbols-outlined text-outline-variant text-[16px]">chevron_right</span>
+<button class="step-nav-pill flex items-center gap-2 px-3 py-1.5 rounded-lg font-label-md text-label-md transition-all duration-200 text-on-surface-variant hover:bg-surface-container" id="step-btn-4" onclick="goToStep(4)">
+<span class="w-5 h-5 rounded-full flex items-center justify-center font-bold text-label-sm bg-surface-container-high text-on-surface">4</span>
+<span>Ready • Launch</span>
+</button>
+</nav>
+</div>
+</div>
+<!-- Main Multi-Step Workspace Container -->
+<div class="w-full px-4 py-space-xl flex justify-center items-start">
+<div class="w-full max-w-4xl">
+<!-- =========================================================================
+           STEP 1: Welcome & Starter Credits
+           ========================================================================= -->
+<section class="step-panel flex flex-col gap-space-lg" id="step-content-1">
+<!-- Student Trust Header Banner -->
+<div class="relative overflow-hidden rounded-2xl bg-surface-container-lowest p-space-xl shadow-md">
+<div class="absolute -right-16 -top-16 w-64 h-64 bg-primary-fixed-dim/40 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute -left-12 -bottom-12 w-48 h-48 bg-secondary-container/30 rounded-full blur-2xl pointer-events-none"></div>
+<div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-space-lg">
+<div class="space-y-space-sm max-w-xl">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container font-label-sm text-label-sm text-primary">
+<span class="material-symbols-outlined text-[16px] text-secondary">school</span>
+<span>Verified .EDU Identity: <strong>alex.vance@college.harvard.edu</strong></span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">
+                Welcome to SkillSwap, Alex!
+              </h1>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                You've unlocked full peer exchange access on campus. SkillSwap replaces money with earned time credits: tutor your peers in what you know, learn anything from masters next door.
+              </p>
+</div>
+<!-- Glowing Credit Coin Card -->
+<div class="flex-shrink-0 bg-surface-container-low p-space-lg rounded-2xl shadow-sm flex flex-col items-center text-center min-w-[210px]">
+<div class="relative w-20 h-20 mb-3">
+<div class="absolute inset-0 rounded-full bg-secondary-fixed animate-ping opacity-25"></div>
+<div class="relative w-20 h-20 rounded-full bg-gradient-to-tr from-primary to-primary-container flex items-center justify-center text-on-primary shadow-lg">
+<span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">toll</span>
+</div>
+</div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-bold">Bonus Deposited</span>
+<span class="font-headline-lg text-headline-lg font-bold text-on-surface tracking-tight">5.00 cr</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-0.5">Time Ledger Wallet</span>
+</div>
+</div>
+</div>
+<!-- 3 Credit Mechanics Utility Tiles -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col justify-between">
+<div class="space-y-2">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-headline-sm">co_present</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">1 hr Taught = 1 cr</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                Share your expertise in problem sets, languages, or software. Earn exactly 1 credit for every 60 minutes verified.
+              </p>
+</div>
+<div class="mt-4 pt-3 flex items-center gap-1 font-label-sm text-label-sm text-secondary font-semibold">
+<span class="material-symbols-outlined text-[16px]">arrow_upward</span> Inflow to your balance
+            </div>
+</div>
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col justify-between">
+<div class="space-y-2">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-headline-sm">local_library</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">1 hr Learned = 1 cr</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                Spend your 5 initial credits to get personalized 1-on-1 tutoring from senior students and graduate mentors.
+              </p>
+</div>
+<div class="mt-4 pt-3 flex items-center gap-1 font-label-sm text-label-sm text-primary font-semibold">
+<span class="material-symbols-outlined text-[16px]">schedule</span> 5 free hours in wallet
+            </div>
+</div>
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col justify-between">
+<div class="space-y-2">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-headline-sm">lock</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Smart Peer Escrow</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                Credits stay locked in campus escrow until both peers complete and rate the live session. No cash, no debt.
+              </p>
+</div>
+<div class="mt-4 pt-3 flex items-center gap-1 font-label-sm text-label-sm text-secondary font-semibold">
+<span class="material-symbols-outlined text-[16px]">format_image_left</span> Honor Code Protection
+            </div>
+</div>
+</div>
+<!-- Visual Campus Community Banner -->
+<div class="rounded-xl bg-surface-container-high p-space-md flex flex-col sm:flex-row items-center justify-between gap-4">
+<div class="flex items-center gap-3">
+<div class="flex -space-x-2">
+<img class="w-10 h-10 rounded-full object-cover shadow-sm" data-alt="Close up portrait photograph of an Asian female computer science student smiling in university library wearing headphones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXxX2VLVJoYz5jjCbwbYR0NUG_kp0d-nstOgJmcZVvQ66VD6F_K4wrAxe5BrADCxYrwiWsYz_8sd2C_Xo8WfFSLb6v8QlvyN5dg9YzrnM-nPEzJJz9PPUSUixqK-OD7eykJ622PbFh6iuseNoAlj8sDhuFBbCOqTfFOLM0zP0FT3N_8wwCtAY3Qw3d77OvKtVnyQkGMJrdunJ0sckrYsZ97iGZVGSHSiN_05f-Xvvq"/>
+<img class="w-10 h-10 rounded-full object-cover shadow-sm" data-alt="Portrait photo of a young male engineering student with glasses sitting in a modern study lab" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjX2Fii29kfLO3or6RFyub3zOmJTc8I91F4rrWNA95QK7IjOE7rPeNyQkXkIAMROmu7s7E9aupI45i0iYYC2zSOLKl_GAZ_P_tkGfY95oxLy_5PS1qj6m5PcZ82V8BLiwL0eTvrHq4qfTEOIefaFIUAMGTX3Y1jKP5FXU_I1D9U7-JJZqg9I_faYdQaU-uya_cek_eGSwTNQ73YpIheRwVNQbF-HoXTFOKdofjxEsm"/>
+<img class="w-10 h-10 rounded-full object-cover shadow-sm" data-alt="Portrait photo of a Latina female biology student holding textbook in sunlit campus lounge" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAINBfRw9dLOIHpqEFwxIW8VIQg39VoEtm5aKkrNCs8TyQYH2qUCz8A2qXk0Y_p4i8-xvrODrJHsLnCLj0Qyv6StIu754VHxiLFB_06J5icrxGrR-LfaxdBQzbsFj-dr41Mboz70BuBDji8hpw9IP4ZMN12J8Gyp00UtC18Wqf5Pdhj9w2DY84vNBovMsTLHRbuFPeIzauM6SvB6Q09NAZ7LeL3Auql84q1x9yhBT86"/>
+</div>
+<div>
+<span class="font-label-md text-label-md text-on-surface font-semibold block">842 verified campus peers active today</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">1,210 credit transactions completed this semester</span>
+</div>
+</div>
+<button class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-primary-container text-on-primary font-label-lg text-label-lg hover:bg-primary shadow-md transition-all" onclick="goToStep(2)">
+<span>Continue to Skill Setup</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</section>
+<!-- =========================================================================
+           STEP 2: Teach & Learn Profile (Two-column Tag Flow)
+           ========================================================================= -->
+<section class="step-panel hidden flex flex-col gap-space-lg" id="step-content-2">
+<div class="bg-surface-container-lowest p-space-xl rounded-2xl shadow-md">
+<div class="mb-space-lg">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-primary font-bold">Step 2 of 4 • Campus Matching Engine</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Takes ~2 minutes</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">
+              What can you share? What do you want to master?
+            </h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">
+              Select or type skills. You will match instantly with peer study desks across your faculty.
+            </p>
+</div>
+<!-- Dual Column Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-space-lg">
+<!-- Column Left: Teach (Teal Palette) -->
+<div class="rounded-xl bg-surface-container-low p-space-lg shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<div class="flex items-center gap-2">
+<span class="w-8 h-8 rounded-lg bg-secondary-container text-on-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">school</span>
+</span>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Skills I Can Teach</h2>
+<span class="font-label-sm text-label-sm text-secondary font-semibold">Earns +1.00 cr / hour</span>
+</div>
+</div>
+<span class="font-label-sm text-label-sm px-2 py-1 rounded bg-secondary-container/40 text-on-secondary-container font-semibold">Peer Instructor</span>
+</div>
+<!-- Tag Add Bar -->
+<div class="mt-4 flex gap-2">
+<div class="relative flex-grow">
+<input class="w-full rounded-lg bg-surface-container-lowest px-3 py-2 text-body-sm font-body-sm text-on-surface placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-secondary shadow-sm" id="teach-skill-input" onkeydown="if(event.key === 'Enter'){ addTeachSkill(); }" placeholder="Type a skill (e.g. Linear Algebra, React)..." type="text"/>
+</div>
+<button class="px-4 py-2 rounded-lg bg-secondary text-on-secondary font-label-md text-label-md hover:opacity-90 shadow-sm flex items-center gap-1" onclick="addTeachSkill()">
+<span class="material-symbols-outlined text-[16px]">add</span> Add
+                  </button>
+</div>
+<!-- Suggestions -->
+<div class="mt-3">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Recommended for your major:</span>
+<div class="flex flex-wrap gap-1.5 mt-1.5">
+<button class="px-2.5 py-1 rounded-full bg-surface-container font-label-sm text-label-sm text-on-surface hover:bg-surface-container-high transition" onclick="quickAddTeach('Python &amp; Data Structures')" type="button">
+                      + Python &amp; Data Structures
+                    </button>
+<button class="px-2.5 py-1 rounded-full bg-surface-container font-label-sm text-label-sm text-on-surface hover:bg-surface-container-high transition" onclick="quickAddTeach('Figma UI/UX')" type="button">
+                      + Figma UI/UX
+                    </button>
+<button class="px-2.5 py-1 rounded-full bg-surface-container font-label-sm text-label-sm text-on-surface hover:bg-surface-container-high transition" onclick="quickAddTeach('Multivariable Calc')" type="button">
+                      + Multivariable Calc
+                    </button>
+<button class="px-2.5 py-1 rounded-full bg-surface-container font-label-sm text-label-sm text-on-surface hover:bg-surface-container-high transition" onclick="quickAddTeach('Spanish C1 Conversation')" type="button">
+                      + Spanish C1
+                    </button>
+</div>
+</div>
+<!-- Active Teaching Skill Cards Container -->
+<div class="mt- space-y-2 mt-4" id="teach-list">
+<!-- Skill Card 1 Default -->
+<div class="p-3 rounded-lg bg-surface-container-lowest shadow-sm flex items-center justify-between gap-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px]">code</span>
+<div>
+<span class="font-label-md text-label-md text-on-surface block">Python &amp; Algorithms</span>
+<span class="font-label-sm text-label-sm text-secondary">Verified Quiz Candidate</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<select class="rounded bg-surface-container px-2 py-1 font-label-sm text-label-sm text-on-surface focus:outline-none">
+<option>Advanced Mentor</option>
+<option selected="">Intermediate Tutor</option>
+<option>Beginner Helper</option>
+</select>
+<button class="text-outline hover:text-error" onclick="this.closest('.flex.items-center.justify-between').remove()">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+</div>
+<!-- Skill Card 2 Default -->
+<div class="p-3 rounded-lg bg-surface-container-lowest shadow-sm flex items-center justify-between gap-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px]">draw</span>
+<div>
+<span class="font-label-md text-label-md text-on-surface block">Figma Product Design</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Self-Assessed</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<select class="rounded bg-surface-container px-2 py-1 font-label-sm text-label-sm text-on-surface focus:outline-none">
+<option selected="">Advanced Mentor</option>
+<option>Intermediate Tutor</option>
+<option>Beginner Helper</option>
+</select>
+<button class="text-outline hover:text-error" onclick="this.closest('.flex.items-center.justify-between').remove()">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-3 flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant">
+<span>Earn limit: 10 cr/week</span>
+<span class="text-secondary font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">verified</span> Eligible for Instant Badge
+                </span>
+</div>
+</div>
+<!-- Column Right: Learn (Indigo Palette) -->
+<div class="rounded-xl bg-surface-container-low p-space-lg shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<div class="flex items-center gap-2">
+<span class="w-8 h-8 rounded-lg bg-primary-fixed text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">psychology</span>
+</span>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Skills I Want to Learn</h2>
+<span class="font-label-sm text-label-sm text-primary font-semibold">Costs -1.00 cr / hour</span>
+</div>
+</div>
+<span class="font-label-sm text-label-sm px-2 py-1 rounded bg-primary-fixed-dim text-on-primary-fixed font-semibold">Seeking Tutor</span>
+</div>
+<!-- Tag Add Bar -->
+<div class="mt-4 flex gap-2">
+<div class="relative flex-grow">
+<input class="w-full rounded-lg bg-surface-container-lowest px-3 py-2 text-body-sm font-body-sm text-on-surface placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-primary shadow-sm" id="learn-skill-input" onkeydown="if(event.key === 'Enter'){ addLearnSkill(); }" placeholder="Type a skill you want to learn..." type="text"/>
+</div>
+<button class="px-4 py-2 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md hover:bg-primary shadow-sm flex items-center gap-1" onclick="addLearnSkill()">
+<span class="material-symbols-outlined text-[16px]">add</span> Add
+                  </button>
+</div>
+<!-- Suggestions -->
+<div class="mt-3">
+<span class="font-label-sm text-label-sm text-on-surface-variant">High demand peer desks:</span>
+<div class="flex flex-wrap gap-1.5 mt-1.5">
+<button class="px-2.5 py-1 rounded-full bg-surface-container font-label-sm text-label-sm text-on-surface hover:bg-surface-container-high transition" onclick="quickAddLearn('Machine Learning Fundamentals')" type="button">
+                      + Machine Learning
+                    </button>
+<button class="px-2.5 py-1 rounded-full bg-surface-container font-label-sm text-label-sm text-on-surface hover:bg-surface-container-high transition" onclick="quickAddLearn('Acoustic Guitar Basics')" type="button">
+                      + Guitar Basics
+                    </button>
+<button class="px-2.5 py-1 rounded-full bg-surface-container font-label-sm text-label-sm text-on-surface hover:bg-surface-container-high transition" onclick="quickAddLearn('Organic Chemistry Lab Prep')" type="button">
+                      + Organic Chem
+                    </button>
+<button class="px-2.5 py-1 rounded-full bg-surface-container font-label-sm text-label-sm text-on-surface hover:bg-surface-container-high transition" onclick="quickAddLearn('Public Speaking / Pitches')" type="button">
+                      + Public Speaking
+                    </button>
+</div>
+</div>
+<!-- Active Learning Skill Cards Container -->
+<div class="mt- space-y-2 mt-4" id="learn-list">
+<!-- Learn Card 1 Default -->
+<div class="p-3 rounded-lg bg-surface-container-lowest shadow-sm flex items-center justify-between gap-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">neurology</span>
+<div>
+<span class="font-label-md text-label-md text-on-surface block">Machine Learning Math</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Target: Intro concepts</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2 py-1 rounded bg-surface-container font-label-sm text-label-sm text-on-surface">Beginner</span>
+<button class="text-outline hover:text-error" onclick="this.closest('.flex.items-center.justify-between').remove()">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+</div>
+<!-- Learn Card 2 Default -->
+<div class="p-3 rounded-lg bg-surface-container-lowest shadow-sm flex items-center justify-between gap-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">music_note</span>
+<div>
+<span class="font-label-md text-label-md text-on-surface block">Acoustic Guitar Fingerpicking</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Target: Song chords</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2 py-1 rounded bg-surface-container font-label-sm text-label-sm text-on-surface">Beginner</span>
+<button class="text-outline hover:text-error" onclick="this.closest('.flex.items-center.justify-between').remove()">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-3 flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant">
+<span>Wallet ready: 5.0 hrs available</span>
+<span class="text-primary font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">groups</span> 14 Tutors Available Now
+                </span>
+</div>
+</div>
+</div>
+<!-- Bottom Action Buttons Deck -->
+<div class="mt-space-xl pt-space-md flex flex-col sm:flex-row items-center justify-between gap-4">
+<button class="w-full sm:w-auto px-5 py-2.5 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition flex items-center justify-center gap-2" onclick="goToStep(1)">
+<span class="material-symbols-outlined text-[18px]">arrow_back</span>
+<span>Back to Overview</span>
+</button>
+<div class="flex items-center gap-3 w-full sm:w-auto">
+<button class="w-full sm:w-auto px-6 py-3 rounded-lg bg-primary-container text-on-primary font-label-lg text-label-lg hover:bg-primary shadow-md transition flex items-center justify-center gap-2" onclick="goToStep(3)">
+<span>Proceed to Verification Quiz</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- =========================================================================
+           STEP 3: Peer Verification Quiz
+           ========================================================================= -->
+<section class="step-panel hidden flex flex-col gap-space-lg" id="step-content-3">
+<div class="bg-surface-container-lowest p-space-xl rounded-2xl shadow-md">
+<!-- Quiz Header & Progress Bar -->
+<div class="mb-space-lg">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+<div class="flex items-center gap-2">
+<span class="w-7 h-7 rounded bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold text-label-sm">PY</span>
+<div>
+<h1 class="font-headline-sm text-headline-sm text-on-surface font-bold">
+                    Peer Tutor Verification: Python &amp; Data Structures
+                  </h1>
+<span class="font-label-sm text-label-sm text-secondary font-semibold">Earns the "Verified Peer Mentor" badge on campus profiles</span>
+</div>
+</div>
+<!-- Confidence / Timer Badge -->
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container font-label-sm text-label-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-tertiary">timer</span>
+<span>Self-paced (~90s left)</span>
+</div>
+</div>
+<!-- Quiz Stepper Tracker -->
+<div class="flex items-center justify-between text-label-sm font-label-sm text-on-surface-variant mb-1.5">
+<span>Question 2 of 3</span>
+<span class="font-semibold text-primary">66% Completed</span>
+</div>
+<div class="w-full h-2 rounded-full bg-surface-container-high overflow-hidden">
+<div class="h-full bg-primary-container rounded-full transition-all duration-500" style="width: 66.6%;"></div>
+</div>
+</div>
+<!-- Question Body -->
+<div class="bg-surface-container-low p-space-lg rounded-xl mb-space-lg">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Algorithmic Complexity • Python Core</span>
+<p class="font-headline-sm text-headline-sm text-on-surface mt-2 font-medium">
+              In Python, which of the following statements regarding built-in dictionaries (<code>dict</code>) is TRUE?
+            </p>
+</div>
+<!-- Selectable Radio Cards -->
+<div class="space-y-3" id="quiz-options-group">
+<!-- Option A -->
+<label class="quiz-option block cursor-pointer p-4 rounded-xl bg-surface-container-lowest hover:bg-surface-container transition shadow-sm" onclick="selectQuizOption(this, false)">
+<div class="flex items-start gap-3">
+<div class="option-indicator w-6 h-6 rounded-full bg-surface-container flex items-center justify-center text-label-sm font-bold text-on-surface-variant flex-shrink-0 mt-0.5">
+                  A
+                </div>
+<div class="flex-grow">
+<p class="font-body-md text-body-md text-on-surface">
+                    Dictionary keys must be mutable objects such as lists or sets to allow in-place value updates.
+                  </p>
+</div>
+</div>
+</label>
+<!-- Option B (Correct) -->
+<label class="quiz-option block cursor-pointer p-4 rounded-xl bg-surface-container-lowest hover:bg-surface-container transition shadow-sm" id="correct-quiz-option" onclick="selectQuizOption(this, true)">
+<div class="flex items-start gap-3">
+<div class="option-indicator w-6 h-6 rounded-full bg-surface-container flex items-center justify-center text-label-sm font-bold text-on-surface-variant flex-shrink-0 mt-0.5">
+                  B
+                </div>
+<div class="flex-grow">
+<p class="font-body-md text-body-md text-on-surface font-medium">
+                    Dictionary lookups, insertions, and deletions exhibit an average-case time complexity of <strong>O(1)</strong> due to hash table indexing.
+                  </p>
+</div>
+</div>
+</label>
+<!-- Option C -->
+<label class="quiz-option block cursor-pointer p-4 rounded-xl bg-surface-container-lowest hover:bg-surface-container transition shadow-sm" onclick="selectQuizOption(this, false)">
+<div class="flex items-start gap-3">
+<div class="option-indicator w-6 h-6 rounded-full bg-surface-container flex items-center justify-center text-label-sm font-bold text-on-surface-variant flex-shrink-0 mt-0.5">
+                  C
+                </div>
+<div class="flex-grow">
+<p class="font-body-md text-body-md text-on-surface">
+                    Python dictionaries automatically maintain items sorted in strictly descending alphabetical key order.
+                  </p>
+</div>
+</div>
+</label>
+<!-- Option D -->
+<label class="quiz-option block cursor-pointer p-4 rounded-xl bg-surface-container-lowest hover:bg-surface-container transition shadow-sm" onclick="selectQuizOption(this, false)">
+<div class="flex items-start gap-3">
+<div class="option-indicator w-6 h-6 rounded-full bg-surface-container flex items-center justify-center text-label-sm font-bold text-on-surface-variant flex-shrink-0 mt-0.5">
+                  D
+                </div>
+<div class="flex-grow">
+<p class="font-body-md text-body-md text-on-surface">
+                    Duplicate keys are silently merged into a composite tuple value during assignment.
+                  </p>
+</div>
+</div>
+</label>
+</div>
+<!-- Quiz Feedback Toast (Hidden by default) -->
+<div class="hidden mt-4 p-3 rounded-lg bg-surface-container flex items-center gap-3" id="quiz-feedback">
+<span class="material-symbols-outlined text-secondary" id="quiz-feedback-icon">check_circle</span>
+<span class="font-body-sm text-body-sm text-on-surface" id="quiz-feedback-text">Select an answer above to verify proficiency.</span>
+</div>
+<!-- Bottom Action Deck -->
+<div class="mt-space-lg pt-space-md flex flex-col sm:flex-row items-center justify-between gap-4">
+<button class="text-on-surface-variant hover:text-on-surface font-label-md text-label-md flex items-center gap-1 group" onclick="goToStep(4)">
+<span>Skip quiz for now</span>
+<span class="material-symbols-outlined text-[16px] group-hover:translate-x-0.5 transition">chevron_right</span>
+<span class="font-label-sm text-label-sm text-outline">(You can browse &amp; learn immediately)</span>
+</button>
+<div class="flex items-center gap-3 w-full sm:w-auto">
+<button class="px-4 py-2.5 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition" onclick="goToStep(2)">
+                Back
+              </button>
+<button class="w-full sm:w-auto px-6 py-3 rounded-lg bg-primary-container text-on-primary font-label-lg text-label-lg hover:bg-primary shadow-md transition flex items-center justify-center gap-2" id="submit-quiz-btn" onclick="submitQuizAndAdvance()">
+<span>Confirm Answer • Finish</span>
+<span class="material-symbols-outlined text-[18px]">verified</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- =========================================================================
+           STEP 4: Ready & Dashboard Handoff (Final State)
+           ========================================================================= -->
+<section class="step-panel hidden flex flex-col gap-space-lg" id="step-content-4">
+<div class="bg-surface-container-lowest p-space-xl rounded-2xl shadow-md text-center flex flex-col items-center">
+<!-- Animated Verified Badge Emblem -->
+<div class="relative w-24 h-24 mb-4">
+<div class="absolute inset-0 rounded-full bg-secondary-fixed animate-ping opacity-20"></div>
+<div class="w-24 h-24 rounded-full bg-secondary text-on-secondary flex items-center justify-center shadow-xl">
+<span class="material-symbols-outlined text-5xl" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+</div>
+</div>
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-semibold mb-2">
+<span class="material-symbols-outlined text-[16px]">verified</span> Skill Verified: Python • Advanced Peer Mentor
+          </div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight max-w-xl">
+            You're All Set to Trade Skills!
+          </h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-lg mt-2">
+            Your Harvard campus wallet is credited with 5.0 hours. You have 2 skills listed to teach and 3 skills requested for peer learning.
+          </p>
+<!-- 3-Column Recap Metric Bento -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md w-full mt-space-xl text-left">
+<!-- Metric 1 -->
+<div class="p-space-lg rounded-xl bg-surface-container-low shadow-sm flex flex-col justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Available Balance</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-headline-lg text-headline-lg font-bold text-on-surface">5.00</span>
+<span class="font-label-md text-label-md text-secondary font-bold">cr</span>
+</div>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-secondary">check_circle</span> 5 free hours peer tutoring
+              </p>
+</div>
+<!-- Metric 2 -->
+<div class="p-space-lg rounded-xl bg-surface-container-low shadow-sm flex flex-col justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Teaching Offerings</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-headline-lg text-headline-lg font-bold text-on-surface">2</span>
+<span class="font-label-md text-label-md text-primary font-bold">Verified Skills</span>
+</div>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-primary">priority_high</span> Ready for study desk requests
+              </p>
+</div>
+<!-- Metric 3 -->
+<div class="p-space-lg rounded-xl bg-surface-container-low shadow-sm flex flex-col justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Live Campus Matches</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-headline-lg text-headline-lg font-bold text-on-surface">14</span>
+<span class="font-label-md text-label-md text-secondary font-bold">Peers Online</span>
+</div>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-secondary">flash_on</span> Instant 1-click booking
+              </p>
+</div>
+</div>
+<!-- Primary Call to Action Button & Honor Code Link -->
+<div class="mt-space-xl flex flex-col items-center gap-3 w-full max-w-md">
+<button class="w-full py-3.5 px-6 rounded-lg bg-primary-container text-on-primary font-label-lg text-label-lg hover:bg-primary shadow-lg transition flex items-center justify-center gap-2" onclick="launchDashboard()">
+<span>Go to Campus Dashboard</span>
+<span class="material-symbols-outlined text-[20px]">rocket_launch</span>
+</button>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition underline underline-offset-4 flex items-center gap-1" href="javascript:void(0)" onclick="openHonorCodeModal()">
+<span class="material-symbols-outlined text-[14px]">gavel</span> Review Campus Peer Honor Code &amp; Escrow Rules
+            </a>
+</div>
+</div>
+<!-- Campus Safety / Escrow FAQ Strip -->
+<div class="rounded-xl bg-surface-container-low p-space-md flex flex-col sm:flex-row items-center justify-between text-body-sm font-body-sm text-on-surface-variant gap-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px]">verified_user</span>
+<span>SkillSwap transactions are restricted to verified academic domains (@*.edu). No real currency is ever traded.</span>
+</div>
+<span class="font-label-sm text-label-sm px-2.5 py-1 rounded bg-surface-container-lowest text-on-surface shadow-sm font-semibold">Harvard Chapter #042</span>
+</div>
+</section>
+</div>
+</div>
+<!-- Honor Code Dialog Modal (Initially Hidden) -->
+<div class="hidden fixed inset-0 z-50 bg-on-surface/40 backdrop-blur-sm flex items-center justify-center p-4" id="honor-modal">
+<div class="bg-surface-container-lowest max-w-lg w-full rounded-2xl p-space-xl shadow-2xl flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-headline-sm">policy</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold">Campus Honor Code</h2>
+</div>
+<button class="text-outline hover:text-on-surface" onclick="closeHonorCodeModal()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="space-y-3 font-body-sm text-body-sm text-on-surface-variant max-h-60 overflow-y-auto pr-1">
+<p>1. <strong>Cash-Free Guarantee:</strong> Demanding or offering real money for SkillSwap tutoring sessions leads to immediate account deactivation and campus board escalation.</p>
+<p>2. <strong>Time Accuracy:</strong> Exactly 60 minutes of engaged peer guidance equals 1 credit. Sessions are tracked via authenticated dual check-in tokens.</p>
+<p>3. <strong>Academic Integrity:</strong> Peer tutors may assist with understanding concepts, debugging code, and reviewing drafts. Direct completion of graded assignments or exams is strictly prohibited.</p>
+</div>
+<div class="pt-2 flex justify-end">
+<button class="px-5 py-2 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md hover:bg-primary transition" onclick="closeHonorCodeModal()">
+          I Understand &amp; Agree
+        </button>
+</div>
+</div>
+</div>
+</div>
+<!-- =========================================================================
+     Interactive Controller Logic
+     ========================================================================= -->
+<script>
+  let currentStep = 1;
+  let quizAnswerChosen = null;
+
+  function goToStep(stepNumber) {
+    if (stepNumber < 1 || stepNumber > 4) return;
+    currentStep = stepNumber;
+
+    // Toggle panels
+    for (let i = 1; i <= 4; i++) {
+      const panel = document.getElementById('step-content-' + i);
+      const pill = document.getElementById('step-btn-' + i);
+      if (panel && pill) {
+        if (i === stepNumber) {
+          panel.classList.remove('hidden');
+          // Active Pill Style
+          pill.className = 'step-nav-pill flex items-center gap-2 px-3 py-1.5 rounded-lg font-label-md text-label-md transition-all duration-200 bg-primary-container text-on-primary shadow-sm';
+          const badge = pill.querySelector('span');
+          if (badge) {
+            badge.className = 'w-5 h-5 rounded-full flex items-center justify-center font-bold text-label-sm bg-on-primary text-primary-container';
+          }
+        } else if (i < stepNumber) {
+          panel.classList.add('hidden');
+          // Completed Step Pill
+          pill.className = 'step-nav-pill flex items-center gap-2 px-3 py-1.5 rounded-lg font-label-md text-label-md transition-all duration-200 bg-surface-container text-secondary font-semibold hover:bg-surface-container-high';
+          const badge = pill.querySelector('span');
+          if (badge) {
+            badge.className = 'w-5 h-5 rounded-full flex items-center justify-center font-bold text-label-sm bg-secondary text-on-secondary';
+            badge.innerHTML = '✓';
+          }
+        } else {
+          panel.classList.add('hidden');
+          // Future Step Pill
+          pill.className = 'step-nav-pill flex items-center gap-2 px-3 py-1.5 rounded-lg font-label-md text-label-md transition-all duration-200 text-on-surface-variant hover:bg-surface-container';
+          const badge = pill.querySelector('span');
+          if (badge) {
+            badge.className = 'w-5 h-5 rounded-full flex items-center justify-center font-bold text-label-sm bg-surface-container-high text-on-surface';
+            badge.innerHTML = i;
+          }
+        }
+      }
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Column A: Teach Skills Manager
+  function addTeachSkill() {
+    const input = document.getElementById('teach-skill-input');
+    const name = input.value.trim();
+    if (!name) return;
+    createTeachCard(name);
+    input.value = '';
+  }
+
+  function quickAddTeach(name) {
+    createTeachCard(name);
+  }
+
+  function createTeachCard(name) {
+    const list = document.getElementById('teach-list');
+    const card = document.createElement('div');
+    card.className = 'p-3 rounded-lg bg-surface-container-lowest shadow-sm flex items-center justify-between gap-2 animate-fade-in';
+    card.innerHTML = `
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-secondary text-[20px]">school</span>
+        <div>
+          <span class="font-label-md text-label-md text-on-surface block">${escapeHtml(name)}</span>
+          <span class="font-label-sm text-label-sm text-secondary">Custom Added</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <select class="rounded bg-surface-container px-2 py-1 font-label-sm text-label-sm text-on-surface focus:outline-none">
+          <option>Advanced Mentor</option>
+          <option selected>Intermediate Tutor</option>
+          <option>Beginner Helper</option>
+        </select>
+        <button onclick="this.closest('.flex.items-center.justify-between').remove()" class="text-outline hover:text-error">
+          <span class="material-symbols-outlined text-[18px]">close</span>
+        </button>
+      </div>
+    `;
+    list.prepend(card);
+  }
+
+  // Column B: Learn Skills Manager
+  function addLearnSkill() {
+    const input = document.getElementById('learn-skill-input');
+    const name = input.value.trim();
+    if (!name) return;
+    createLearnCard(name);
+    input.value = '';
+  }
+
+  function quickAddLearn(name) {
+    createLearnCard(name);
+  }
+
+  function createLearnCard(name) {
+    const list = document.getElementById('learn-list');
+    const card = document.createElement('div');
+    card.className = 'p-3 rounded-lg bg-surface-container-lowest shadow-sm flex items-center justify-between gap-2 animate-fade-in';
+    card.innerHTML = `
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary text-[20px]">psychology</span>
+        <div>
+          <span class="font-label-md text-label-md text-on-surface block">${escapeHtml(name)}</span>
+          <span class="font-label-sm text-label-sm text-on-surface-variant">Target: Fast Learn</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="px-2 py-1 rounded bg-surface-container font-label-sm text-label-sm text-on-surface">Beginner</span>
+        <button onclick="this.closest('.flex.items-center.justify-between').remove()" class="text-outline hover:text-error">
+          <span class="material-symbols-outlined text-[18px]">close</span>
+        </button>
+      </div>
+    `;
+    list.prepend(card);
+  }
+
+  // Quiz Handling
+  function selectQuizOption(el, isCorrect) {
+    document.querySelectorAll('.quiz-option').forEach(opt => {
+      opt.classList.remove('bg-surface-container', 'ring-2', 'ring-primary', 'ring-secondary');
+      const ind = opt.querySelector('.option-indicator');
+      if (ind) {
+        ind.className = 'option-indicator w-6 h-6 rounded-full bg-surface-container flex items-center justify-center text-label-sm font-bold text-on-surface-variant flex-shrink-0 mt-0.5';
+      }
+    });
+
+    quizAnswerChosen = isCorrect;
+    const indicator = el.querySelector('.option-indicator');
+
+    if (isCorrect) {
+      el.classList.add('bg-surface-container-low', 'ring-2', 'ring-secondary');
+      if (indicator) {
+        indicator.className = 'option-indicator w-6 h-6 rounded-full bg-secondary text-on-secondary flex items-center justify-center text-label-sm font-bold flex-shrink-0 mt-0.5';
+      }
+      showFeedback('Correct! Hash tables provide average O(1) time complexity for lookup & insertion.', true);
+    } else {
+      el.classList.add('bg-surface-container-low', 'ring-2', 'ring-error');
+      if (indicator) {
+        indicator.className = 'option-indicator w-6 h-6 rounded-full bg-error text-on-error flex items-center justify-center text-label-sm font-bold flex-shrink-0 mt-0.5';
+      }
+      showFeedback('Not quite. Python dictionaries use hash mapping for O(1) lookups.', false);
+    }
+  }
+
+  function showFeedback(text, isPositive) {
+    const toast = document.getElementById('quiz-feedback');
+    const msg = document.getElementById('quiz-feedback-text');
+    const icon = document.getElementById('quiz-feedback-icon');
+    if (!toast || !msg || !icon) return;
+
+    toast.classList.remove('hidden');
+    msg.textContent = text;
+    if (isPositive) {
+      icon.textContent = 'check_circle';
+      icon.className = 'material-symbols-outlined text-secondary';
+    } else {
+      icon.textContent = 'info';
+      icon.className = 'material-symbols-outlined text-tertiary';
+    }
+  }
+
+  function submitQuizAndAdvance() {
+    goToStep(4);
+  }
+
+  function launchDashboard() {
+    alert("Onboarding complete! Redirecting to Harvard SkillSwap Live Feed with 5.0 credits.");
+  }
+
+  function openHonorCodeModal() {
+    const modal = document.getElementById('honor-modal');
+    if (modal) modal.classList.remove('hidden');
+  }
+
+  function closeHonorCodeModal() {
+    const modal = document.getElementById('honor-modal');
+    if (modal) modal.classList.add('hidden');
+  }
+
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+</script></main></body></html>

@@ -286,6 +286,30 @@ async def campus_sso_login(
         "exp": datetime.now(timezone.utc) + timedelta(days=7),
     }
     token = jwt.encode(payload, JWT_SECRET, algorithm="HS256")
+
+    # Ensure profile and account exist in Supabase for PostgreSQL ACID booking RPC
+    try:
+        supa_prof = await select("profiles", {"id": f"eq.{user_data['id']}"}, service=True)
+        if not supa_prof:
+            await insert("profiles", {
+                "id": user_data["id"],
+                "campus_email": user_data["campus_email"],
+                "full_name": user_data["full_name"],
+                "department": user_data.get("department") or "Computer Science & Engineering",
+                "study_year": user_data.get("study_year") or 3,
+                "role": user_data.get("role") or "peer",
+                "status": user_data.get("status") or "active",
+            }, service=True)
+        supa_acc = await select("accounts", {"owner_id": f"eq.{user_data['id']}", "kind": "eq.user"}, service=True)
+        if not supa_acc:
+            await insert("accounts", {
+                "owner_id": user_data["id"],
+                "kind": "user",
+                "balance": 3,
+            }, service=True)
+    except Exception as se:
+        print(f"[Warning] Failed to sync profile/account to Supabase: {se}")
+
     return {"token": token, "user": user_data}
 
 
@@ -428,13 +452,26 @@ async def get_my_slots(user: Caller = Depends(current_user)):
 @app.post("/slots")
 async def create_availability_slot_endpoint(body: SlotCreateIn, user: Caller = Depends(current_user)):
     try:
-        return skillswap_ledger.create_availability_slot(
+        slot = skillswap_ledger.create_availability_slot(
             mentor_id=user.id,
             start_time=body.start_time,
             end_time=body.end_time,
             rate_credits=body.rate_credits,
             skill_id=body.skill_id,
         )
+        try:
+            await insert("availability_slots", {
+                "id": slot["id"],
+                "mentor_id": slot["mentor_id"],
+                "skill_id": None,
+                "start_time": slot["start_time"],
+                "end_time": slot["end_time"],
+                "rate_credits": slot["rate_credits"],
+                "status": slot.get("status", "open"),
+            }, service=True)
+        except Exception as se:
+            print(f"[Warning] Failed to sync slot to Supabase: {se}")
+        return slot
     except ValueError as ve:
         raise HTTPException(400, str(ve))
     except Exception as e:
@@ -444,7 +481,12 @@ async def create_availability_slot_endpoint(body: SlotCreateIn, user: Caller = D
 @app.delete("/slots/{slot_id}")
 async def cancel_slot_endpoint(slot_id: str, user: Caller = Depends(current_user)):
     try:
-        return skillswap_ledger.cancel_availability_slot(user.id, slot_id)
+        slot = skillswap_ledger.cancel_availability_slot(user.id, slot_id)
+        try:
+            await patch("availability_slots", {"id": f"eq.{slot_id}"}, {"status": "cancelled"}, service=True)
+        except Exception as se:
+            print(f"[Warning] Failed to sync slot cancellation to Supabase: {se}")
+        return slot
     except ValueError as ve:
         raise HTTPException(400, str(ve))
     except Exception as e:
@@ -532,6 +574,8 @@ async def booking_precheck(slot_id: str, user: Caller = Depends(current_user)):
     if not slots:
         raise HTTPException(404, "Slot not found")
     slot = slots[0]
+    if slot["mentor_id"] == user.id:
+        raise HTTPException(400, "You cannot book your own slot. Please sign in as a different student (e.g. Maya Patel) to book this session.")
     accounts = await select("accounts", {"owner_id": f"eq.{user.id}", "kind": "eq.user", "select": "*"}, token=user.token)
     bal = accounts[0]["balance"] if accounts else 0
     cost = slot["rate_credits"]
@@ -569,11 +613,18 @@ async def book(
             "p_objectives": body.objectives or "Peer mentoring session",
             "p_learner_id": user.id
         }, token=user.token)
+        try:
+            with skillswap_ledger.get_connection() as conn:
+                conn.execute("UPDATE availability_slots SET status = 'booked' WHERE id = ?", (body.slot_id,))
+        except Exception:
+            pass
         return {"booking_id": booking_id, "status": "confirmed"}
     except HTTPException:
         raise
     except Exception as e:
         err_msg = str(e)
+        if "OWN_SLOT" in err_msg or "own slot" in err_msg.lower():
+            raise HTTPException(400, "You cannot book your own slot. Please sign in as a different student (e.g. Maya Patel) to book this session.")
         if "SLOT_UNAVAILABLE" in err_msg or "already booked" in err_msg.lower():
             raise HTTPException(409, "This slot is no longer available.")
         if "INSUFFICIENT_BALANCE" in err_msg:

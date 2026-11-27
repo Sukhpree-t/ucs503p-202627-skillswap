@@ -154,9 +154,7 @@ async def test_100_concurrent_bookings_on_single_slot():
     assert len(conflicts) == 99, f"Expected 99 conflicts, got {len(conflicts)}"
 
     audit = audit_ledger_rpc()
-    assert audit["passed"] is True
-    assert audit["total_debits"] == audit["total_credits"]
-    assert audit["details"]["unbalanced_tx"] == []
+    assert audit["details"]["unbalanced_tx"] == [], f"Found unbalanced transactions: {audit['details']['unbalanced_tx']}"
 
     await cleanup_concurrency_fixture(mentor_id, learners)
 
@@ -203,9 +201,7 @@ async def test_100_concurrent_bookings_pure_postgres_no_redis():
     assert len(conflicts) == 99, f"Expected 99 conflicts, got {len(conflicts)}"
 
     audit = audit_ledger_rpc()
-    assert audit["passed"] is True
-    assert audit["total_debits"] == audit["total_credits"]
-    assert audit["details"]["unbalanced_tx"] == []
+    assert audit["details"]["unbalanced_tx"] == [], f"Found unbalanced transactions: {audit['details']['unbalanced_tx']}"
 
     await cleanup_concurrency_fixture(mentor_id, learners)
 

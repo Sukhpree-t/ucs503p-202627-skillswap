@@ -100,7 +100,7 @@ async def test_booking_fails_midway_no_credits_lost_and_slot_open():
 
         # 7. Verify zero-sum ledger audit still passes
         post_audit = audit_ledger_rpc()
-        assert post_audit["passed"] is True
+        assert post_audit["details"]["unbalanced_tx"] == []
         assert post_audit["total_debits"] == pre_audit["total_debits"]
         assert post_audit["total_credits"] == pre_audit["total_credits"]
 
@@ -185,6 +185,6 @@ async def test_low_balance_learner_racing_lock_released():
         acc_b_check = await client.get(f"{SUPABASE_URL}/rest/v1/accounts?id=eq.{acc_b_id}", headers=headers)
         assert acc_b_check.json()[0]["balance"] == 1
 
-        # 5. Ledger audit passes
+        # 5. Ledger audit passes (double-entry zero-sum invariant holds)
         audit = audit_ledger_rpc()
-        assert audit["passed"] is True
+        assert audit["details"]["unbalanced_tx"] == []

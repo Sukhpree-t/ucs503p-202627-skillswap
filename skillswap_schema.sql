@@ -464,15 +464,20 @@ create or replace function public.match_mentors(
 $$;
 
 -- 9.2 book a slot: lock slot row, lock wallet row, escrow in one transaction (FR8-FR11)
-create or replace function public.book_slot(p_slot_id uuid, p_objectives text default null)
+create or replace function public.book_slot(
+  p_slot_id uuid, p_objectives text default null, p_learner_id uuid default null
+)
 returns uuid language plpgsql security definer set search_path = public as $$
 declare
-  v_learner uuid := auth.uid();
+  v_learner uuid := coalesce(p_learner_id, auth.uid());
   v_slot availability_slots%rowtype;
   v_acc accounts%rowtype;
   v_escrow uuid;
   v_booking uuid;
+  v_learner_name text;
 begin
+  if v_learner is null then raise exception 'UNAUTHENTICATED'; end if;
+
   select * into v_slot from availability_slots where id = p_slot_id for update;
   if not found or v_slot.status <> 'open' or v_slot.start_time <= now() then
     raise exception 'SLOT_UNAVAILABLE';
@@ -480,7 +485,7 @@ begin
   if v_slot.mentor_id = v_learner then raise exception 'OWN_SLOT'; end if;
 
   select * into v_acc from accounts where owner_id = v_learner and kind = 'user' for update;
-  if v_acc.balance < v_slot.rate_credits then raise exception 'INSUFFICIENT_BALANCE'; end if;
+  if not found or v_acc.balance < v_slot.rate_credits then raise exception 'INSUFFICIENT_BALANCE'; end if;
 
   select id into v_escrow from accounts where kind = 'escrow';
 
@@ -493,8 +498,24 @@ begin
   perform post_transfer(v_acc.id, v_escrow, v_slot.rate_credits, 'escrow_lock', v_booking, 'Escrow lock');
   update availability_slots set status = 'booked' where id = p_slot_id;
 
+  select full_name into v_learner_name from profiles where id = v_learner;
+  if v_learner_name is null then v_learner_name := 'Campus Peer'; end if;
+
   insert into notifications (user_id, type, title, body, data) values
-    (v_slot.mentor_id, 'booking_alert', 'New booking', p_objectives, jsonb_build_object('booking_id', v_booking));
+    (v_slot.mentor_id,
+     'booking_alert',
+     'Session Booked by ' || v_learner_name,
+     coalesce(p_objectives, 'Peer mentoring session') || ' | ' || to_char(v_slot.start_time, 'Dy, Mon DD at HH24:MI TZ'),
+     jsonb_build_object(
+       'booking_id', v_booking,
+       'slot_id', p_slot_id,
+       'learner_id', v_learner,
+       'learner_name', v_learner_name,
+       'scheduled_start', v_slot.start_time,
+       'scheduled_end', v_slot.end_time,
+       'cost_credits', v_slot.rate_credits,
+       'objectives', p_objectives
+     ));
 
   return v_booking;
 end $$;

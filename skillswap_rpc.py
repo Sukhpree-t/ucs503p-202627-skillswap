@@ -160,6 +160,20 @@ def book_slot_rpc(slot_id: str, learner_id: str, objectives: Optional[str] = Non
         return str(booking_id)
 
 
+def book_slot_pure_pg(slot_id: str, learner_id: str, objectives: Optional[str] = None) -> str:
+    """
+    US-10 Variant: Pure PostgreSQL row-lock slot booking without Redis mutex.
+    Relies entirely on PostgreSQL SELECT ... FOR UPDATE row-level locking.
+    Returns booking_id (UUID string).
+    """
+    booking_id = call_postgres_rpc("book_slot", {
+        "p_slot_id": str(slot_id),
+        "p_learner_id": str(learner_id),
+        "p_objectives": objectives or "Peer mentoring session"
+    })
+    return str(booking_id)
+
+
 def audit_ledger_rpc() -> Dict[str, Any]:
     """
     Verifies zero-sum double-entry ledger health across real PostgreSQL.

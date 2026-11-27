@@ -551,10 +551,16 @@ async def list_notifications(user: Caller = Depends(current_user)):
 
 @app.post("/booking", status_code=201)
 @app.post("/api/v1/bookings", status_code=201)
-async def book(body: BookingIn, user: Caller = Depends(current_user)):
-    lock_key, lock_val = f"lock:slot:{body.slot_id}", str(uuid.uuid4())
-    if not await redis.set(lock_key, lock_val, nx=True, ex=LOCK_TTL_SECONDS):
-        raise HTTPException(409, "This slot is no longer available.")
+async def book(
+    body: BookingIn,
+    user: Caller = Depends(current_user),
+    x_disable_redis_lock: Optional[str] = Header(default=None),
+):
+    use_lock = x_disable_redis_lock != "true"
+    if use_lock:
+        lock_key, lock_val = f"lock:slot:{body.slot_id}", str(uuid.uuid4())
+        if not await redis.set(lock_key, lock_val, nx=True, ex=LOCK_TTL_SECONDS):
+            raise HTTPException(409, "This slot is no longer available.")
     try:
         booking_id = await rpc("book_slot", {
             "p_slot_id": body.slot_id,
@@ -576,7 +582,8 @@ async def book(body: BookingIn, user: Caller = Depends(current_user)):
             raise HTTPException(402, "Insufficient credit balance to book this session.")
         raise HTTPException(500, f"Booking failed: {err_msg}")
     finally:
-        await redis.eval(RELEASE_LUA, 1, lock_key, lock_val)
+        if use_lock:
+            await redis.eval(RELEASE_LUA, 1, lock_key, lock_val)
 
 
 async def provision_room(booking_id: str):

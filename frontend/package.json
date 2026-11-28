@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "node --experimental-strip-types --test ../tests/test_frontend_session_errors.test.ts"
   },
   "dependencies": {
     "@daily-co/daily-js": "^0.95.0",

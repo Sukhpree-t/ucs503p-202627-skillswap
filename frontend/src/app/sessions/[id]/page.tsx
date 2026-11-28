@@ -19,6 +19,7 @@ import {
   signOffBooking,
   SignOffResponse,
 } from "@/lib/api";
+import { formatSessionErrorMessage, SessionErrorInfo } from "@/lib/sessionErrors";
 
 export default function SessionRoomPage() {
   const params = useParams();
@@ -29,7 +30,7 @@ export default function SessionRoomPage() {
   const heartbeatTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const [loading, setLoading] = useState(true);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [errorInfo, setErrorInfo] = useState<SessionErrorInfo | null>(null);
   const [isOwner, setIsOwner] = useState(false);
 
   // Sign-off / settlement state
@@ -64,7 +65,7 @@ export default function SessionRoomPage() {
       if (!bookingId) return;
       try {
         setLoading(true);
-        setErrorMsg(null);
+        setErrorInfo(null);
 
         // Fetch join parameters & token from backend
         const data = await joinVideoSession(bookingId);
@@ -113,8 +114,8 @@ export default function SessionRoomPage() {
       } catch (err: unknown) {
         if (!mounted) return;
         setLoading(false);
-        const msg = err instanceof Error ? err.message : "Failed to join session.";
-        setErrorMsg(msg);
+        const info = formatSessionErrorMessage(err);
+        setErrorInfo(info);
       }
     }
 
@@ -245,19 +246,19 @@ export default function SessionRoomPage() {
           </div>
         )}
 
-        {errorMsg && (
+        {errorInfo && (
           <div className="max-w-md w-full bg-slate-900 border border-rose-900/60 rounded-2xl p-6 text-center space-y-4 shadow-xl">
             <div className="w-12 h-12 rounded-full bg-rose-500/10 text-rose-400 mx-auto flex items-center justify-center">
               <AlertCircle className="w-6 h-6" />
             </div>
             <div>
-              <h3 className="text-base font-semibold text-white">Unable to Enter Room</h3>
-              <p className="mt-2 text-sm text-slate-300">{errorMsg}</p>
+              <h3 className="text-base font-semibold text-white">{errorInfo.title}</h3>
+              <p className="mt-2 text-sm text-slate-300 leading-relaxed">{errorInfo.description}</p>
             </div>
-            <div className="pt-2">
+            <div className="pt-2 flex items-center justify-center gap-3">
               <Link
                 href="/dashboard"
-                className="inline-flex items-center px-4 py-2 rounded-xl bg-slate-800 text-slate-200 hover:bg-slate-700 text-sm font-medium transition"
+                className="inline-flex items-center px-4 py-2 rounded-xl bg-slate-800 text-slate-200 hover:bg-slate-700 text-sm font-medium transition cursor-pointer"
               >
                 Return to Dashboard
               </Link>
@@ -269,7 +270,7 @@ export default function SessionRoomPage() {
         <div
           ref={containerRef}
           className={`w-full flex-1 min-h-[600px] rounded-2xl overflow-hidden bg-slate-900 border border-slate-800/80 shadow-2xl transition-opacity duration-300 ${
-            loading || errorMsg ? "hidden" : "block"
+            loading || errorInfo ? "hidden" : "block"
           }`}
         />
       </main>

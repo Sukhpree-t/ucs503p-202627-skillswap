@@ -669,8 +669,14 @@ async def booking_ics(booking_id: str, user: Caller = Depends(current_user)):
 async def get_booking_for(user: Caller, booking_id: str) -> dict:
     rows = await select("bookings", {"id": f"eq.{booking_id}", "select": "*"}, token=user.token)
     if not rows or user.id not in (rows[0]["learner_id"], rows[0]["mentor_id"]):
-        raise HTTPException(403, "You are not part of this booking.")
+        raise HTTPException(403, "UNAUTHORIZED_PARTICIPANT: You are not a participant in this booking.")
     return rows[0]
+
+
+@app.get("/bookings/{booking_id}")
+@app.get("/api/v1/bookings/{booking_id}")
+async def get_booking_details(booking_id: str, user: Caller = Depends(current_user)):
+    return await get_booking_for(user, booking_id)
 
 
 @app.post("/sessions/{booking_id}/join")
@@ -684,7 +690,7 @@ async def join_session(booking_id: str, user: Caller = Depends(current_user)):
     start = datetime.fromisoformat(b["scheduled_start"].replace("Z", "+00:00"))
     end = datetime.fromisoformat(b["scheduled_end"].replace("Z", "+00:00"))
     if now < start - JOIN_EARLY:
-        raise HTTPException(425, "SESSION_NOT_STARTED: The room opens 10 minutes before the session.")
+        raise HTTPException(425, f"SESSION_NOT_STARTED: The room opens 10 minutes before the session. It starts at {b['scheduled_start']}.")
     if now > end + ROOM_AFTER_END:
         raise HTTPException(410, "SESSION_WINDOW_EXPIRED: This session room has expired.")
 

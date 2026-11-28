@@ -160,11 +160,118 @@ def book_slot_rpc(slot_id: str, learner_id: str, objectives: Optional[str] = Non
         return str(booking_id)
 
 
-def audit_ledger_rpc() -> Dict[str, Any]:
+def book_slot_pure_pg(slot_id: str, learner_id: str, objectives: Optional[str] = None) -> str:
+    """
+    US-10 Variant: Pure PostgreSQL row-lock slot booking without Redis mutex.
+    Relies entirely on PostgreSQL SELECT ... FOR UPDATE row-level locking.
+    Returns booking_id (UUID string).
+    """
+    booking_id = call_postgres_rpc("book_slot", {
+        "p_slot_id": str(slot_id),
+        "p_learner_id": str(learner_id),
+        "p_objectives": objectives or "Peer mentoring session"
+    })
+    return str(booking_id)
+
+
+def audit_ledger_rpc(p_auto: bool = False) -> Dict[str, Any]:
     """
     Verifies zero-sum double-entry ledger health across real PostgreSQL.
     """
-    return call_postgres_rpc("audit_ledger", {"p_auto": False})
+    return call_postgres_rpc("audit_ledger", {"p_auto": p_auto})
+
+
+def join_session_rpc(
+    booking_id: str,
+    user_id: str,
+    room_name: str,
+    video_domain: str,
+    expires_at_iso: str,
+    jti: str,
+    video_provider: str = "daily"
+) -> Dict[str, Any]:
+    """
+    Calls public.join_session atomic RPC.
+    Re-validates participant, time window (-10m/+15m), and escrow status in 1 Postgres transaction.
+    Inserts session_rooms, session_tokens, and session_events('joined').
+    """
+    return call_postgres_rpc("join_session", {
+        "p_booking_id": str(booking_id),
+        "p_user_id": str(user_id),
+        "p_room_name": str(room_name),
+        "p_video_domain": str(video_domain),
+        "p_video_provider": str(video_provider),
+        "p_expires_at": str(expires_at_iso),
+        "p_jti": str(jti)
+    })
+
+
+def sign_off_booking_rpc(booking_id: str, user_id: Optional[str] = None) -> str:
+    """
+    Calls public.sign_off_booking RPC.
+    Rejects sign-off if called before scheduled_start.
+    Returns 'waiting_for_other_party' or 'settled'.
+    """
+    payload = {"p_booking_id": str(booking_id)}
+    if user_id:
+        payload["p_user_id"] = str(user_id)
+    return str(call_postgres_rpc("sign_off_booking", payload))
+
+
+def refund_booking_rpc(booking_id: str, strike_mentor: bool = False) -> None:
+    """
+    Calls public.refund_booking RPC.
+    Releases escrow hold back to learner account and cancels availability slot.
+    """
+    call_postgres_rpc("refund_booking", {
+        "p_booking_id": str(booking_id),
+        "p_strike_mentor": strike_mentor
+    })
+
+
+def alert_all_admins_rpc(title: str, body: str, data: Optional[Dict[str, Any]] = None) -> int:
+    """
+    Dispatches in-app notification alerts to all users with admin privileges.
+    """
+    url = f"{SUPABASE_URL}/rest/v1/profiles?role=eq.admin&select=id"
+    headers = {
+        "apikey": SUPABASE_KEY,
+        "Authorization": f"Bearer {SUPABASE_KEY}",
+        "Content-Type": "application/json"
+    }
+    req = urllib.request.Request(url, headers=headers, method="GET")
+    try:
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            admins = json.loads(resp.read().decode("utf-8"))
+    except Exception as e:
+        logger.warning("Failed to fetch admin users for alerting: %s", e)
+        admins = []
+
+    count = 0
+    notif_url = f"{SUPABASE_URL}/rest/v1/notifications"
+    for admin in admins:
+        admin_id = admin.get("id")
+        if not admin_id:
+            continue
+        payload = {
+            "user_id": admin_id,
+            "type": "admin_alert",
+            "title": title,
+            "body": body,
+            "data": data or {}
+        }
+        notif_req = urllib.request.Request(
+            notif_url,
+            data=json.dumps(payload).encode("utf-8"),
+            headers=headers,
+            method="POST"
+        )
+        try:
+            with urllib.request.urlopen(notif_req, timeout=10):
+                count += 1
+        except Exception as e:
+            logger.warning("Failed to send alert to admin %s: %s", admin_id, e)
+    return count
 
 
 def post_transfer_rpc(

@@ -230,11 +230,12 @@ alter table public.ledger_transactions
   add constraint ledger_tx_booking_fk foreign key (booking_id) references public.bookings(id);
 
 create table public.session_rooms (
-  booking_id   uuid primary key references public.bookings(id) on delete cascade,
-  room_name    text not null unique,
-  jitsi_domain text not null,
-  expires_at   timestamptz not null,
-  created_at   timestamptz not null default now()
+  booking_id     uuid primary key references public.bookings(id) on delete cascade,
+  room_name      text not null unique,
+  video_domain   text not null,
+  video_provider text not null default 'daily',
+  expires_at     timestamptz not null,
+  created_at     timestamptz not null default now()
 );
 
 -- Signed JWT bookkeeping (single-session tokens, QR13)
@@ -464,15 +465,20 @@ create or replace function public.match_mentors(
 $$;
 
 -- 9.2 book a slot: lock slot row, lock wallet row, escrow in one transaction (FR8-FR11)
-create or replace function public.book_slot(p_slot_id uuid, p_objectives text default null)
+create or replace function public.book_slot(
+  p_slot_id uuid, p_objectives text default null, p_learner_id uuid default null
+)
 returns uuid language plpgsql security definer set search_path = public as $$
 declare
-  v_learner uuid := auth.uid();
+  v_learner uuid := coalesce(p_learner_id, auth.uid());
   v_slot availability_slots%rowtype;
   v_acc accounts%rowtype;
   v_escrow uuid;
   v_booking uuid;
+  v_learner_name text;
 begin
+  if v_learner is null then raise exception 'UNAUTHENTICATED'; end if;
+
   select * into v_slot from availability_slots where id = p_slot_id for update;
   if not found or v_slot.status <> 'open' or v_slot.start_time <= now() then
     raise exception 'SLOT_UNAVAILABLE';
@@ -480,7 +486,7 @@ begin
   if v_slot.mentor_id = v_learner then raise exception 'OWN_SLOT'; end if;
 
   select * into v_acc from accounts where owner_id = v_learner and kind = 'user' for update;
-  if v_acc.balance < v_slot.rate_credits then raise exception 'INSUFFICIENT_BALANCE'; end if;
+  if not found or v_acc.balance < v_slot.rate_credits then raise exception 'INSUFFICIENT_BALANCE'; end if;
 
   select id into v_escrow from accounts where kind = 'escrow';
 
@@ -493,22 +499,127 @@ begin
   perform post_transfer(v_acc.id, v_escrow, v_slot.rate_credits, 'escrow_lock', v_booking, 'Escrow lock');
   update availability_slots set status = 'booked' where id = p_slot_id;
 
+  select full_name into v_learner_name from profiles where id = v_learner;
+  if v_learner_name is null then v_learner_name := 'Campus Peer'; end if;
+
   insert into notifications (user_id, type, title, body, data) values
-    (v_slot.mentor_id, 'booking_alert', 'New booking', p_objectives, jsonb_build_object('booking_id', v_booking));
+    (v_slot.mentor_id,
+     'booking_alert',
+     'Session Booked by ' || v_learner_name,
+     coalesce(p_objectives, 'Peer mentoring session') || ' | ' || to_char(v_slot.start_time, 'Dy, Mon DD at HH24:MI TZ'),
+     jsonb_build_object(
+       'booking_id', v_booking,
+       'slot_id', p_slot_id,
+       'learner_id', v_learner,
+       'learner_name', v_learner_name,
+       'scheduled_start', v_slot.start_time,
+       'scheduled_end', v_slot.end_time,
+       'cost_credits', v_slot.rate_credits,
+       'objectives', p_objectives
+     ));
 
   return v_booking;
 end $$;
 
--- 9.3 each side signs off; when both confirm, settle escrow -> mentor (FR24)
-create or replace function public.sign_off_booking(p_booking_id uuid)
-returns text language plpgsql security definer set search_path = public as $$
-declare b bookings%rowtype; v_escrow uuid; v_mentor_acc uuid;
+-- 9.25 atomic join session (Sprint 4: validates participant, window, and escrow in 1 tx)
+-- Note: session_events 'joined' means "token issued"; actual presence comes from Daily presence/webhooks in Sprint 5.
+create or replace function public.join_session(
+  p_booking_id uuid,
+  p_user_id uuid default null,
+  p_room_name text default null,
+  p_video_domain text default 'daily',
+  p_video_provider text default 'daily',
+  p_expires_at timestamptz default null,
+  p_jti uuid default null
+)
+returns jsonb
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  b bookings%rowtype;
+  v_now timestamptz := now();
+  v_actor_id uuid;
+  v_is_owner boolean;
 begin
   select * into b from bookings where id = p_booking_id for update;
-  if not found or auth.uid() not in (b.learner_id, b.mentor_id) then raise exception 'FORBIDDEN'; end if;
+  if not found then raise exception 'BOOKING_NOT_FOUND'; end if;
+
+  -- Derive caller from auth.uid() if authenticated; otherwise use p_user_id (service_role)
+  v_actor_id := auth.uid();
+  if v_actor_id is null then
+    v_actor_id := p_user_id;
+  end if;
+
+  -- Re-validate participant
+  if v_actor_id is null or v_actor_id not in (b.learner_id, b.mentor_id) then
+    raise exception 'FORBIDDEN';
+  end if;
+
+  -- Re-validate escrow_status
+  if b.escrow_status <> 'held' then
+    raise exception 'ESCROW_NOT_HELD';
+  end if;
+
+  -- Re-validate window (-10m before start, +15m after scheduled_end)
+  if v_now < (b.scheduled_start - interval '10 minutes') then
+    raise exception 'SESSION_NOT_STARTED';
+  end if;
+  if v_now > (b.scheduled_end + interval '15 minutes') then
+    raise exception 'SESSION_WINDOW_EXPIRED';
+  end if;
+
+  v_is_owner := (v_actor_id = b.mentor_id);
+
+  insert into session_rooms (booking_id, room_name, video_domain, video_provider, expires_at)
+  values (p_booking_id, p_room_name, p_video_domain, p_video_provider, p_expires_at)
+  on conflict (booking_id) do nothing;
+
+  insert into session_tokens (jti, booking_id, user_id, expires_at)
+  values (p_jti, p_booking_id, v_actor_id, p_expires_at)
+  on conflict (jti) do nothing;
+
+  -- session_events 'joined' means 'token issued' (Sprint 4); actual presence from Daily webhooks in Sprint 5
+  insert into session_events (booking_id, user_id, event_type)
+  values (p_booking_id, v_actor_id, 'joined');
+
+  return jsonb_build_object(
+    'success', true,
+    'booking_id', p_booking_id,
+    'room_name', p_room_name,
+    'video_domain', p_video_domain,
+    'is_owner', v_is_owner,
+    'expires_at', p_expires_at
+  );
+end $$;
+revoke all on function public.join_session from public, anon, authenticated;
+
+-- 9.3 each side signs off; when both confirm, settle escrow -> mentor (FR24)
+create or replace function public.sign_off_booking(p_booking_id uuid, p_user_id uuid default null)
+returns text language plpgsql security definer set search_path = public as $$
+declare
+  b bookings%rowtype;
+  v_escrow uuid;
+  v_mentor_acc uuid;
+  v_actor_id uuid;
+begin
+  select * into b from bookings where id = p_booking_id for update;
+  if not found then raise exception 'BOOKING_NOT_FOUND'; end if;
+
+  v_actor_id := coalesce(p_user_id, auth.uid());
+  if v_actor_id is null or v_actor_id not in (b.learner_id, b.mentor_id) then
+    raise exception 'FORBIDDEN';
+  end if;
+
+  -- Early sign-off rejected before scheduled_start
+  if now() < b.scheduled_start then
+    raise exception 'EARLY_SIGN_OFF_REJECTED';
+  end if;
+
   if b.escrow_status <> 'held' then raise exception 'NOT_SETTLEABLE'; end if;
 
-  if auth.uid() = b.learner_id then update bookings set learner_signed_off = true where id = b.id;
+  if v_actor_id = b.learner_id then update bookings set learner_signed_off = true where id = b.id;
   else update bookings set mentor_signed_off = true where id = b.id; end if;
 
   select * into b from bookings where id = p_booking_id;

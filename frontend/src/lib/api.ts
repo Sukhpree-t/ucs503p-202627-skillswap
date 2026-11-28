@@ -337,3 +337,38 @@ export async function fetchNotifications(): Promise<NotificationItem[]> {
   return apiRequest<NotificationItem[]>("/api/v1/notifications");
 }
 
+export interface JoinSessionResponse {
+  room_name: string;
+  url: string;
+  token: string;
+  jti: string;
+  expires_at: string;
+  is_owner: boolean;
+}
+
+export interface SignOffResponse {
+  result: string;
+  status: string;
+  audit_passed?: boolean;
+  warning?: string;
+  discrepancy?: unknown;
+}
+
+export async function joinVideoSession(bookingId: string): Promise<JoinSessionResponse> {
+  return apiRequest<JoinSessionResponse>(`/api/v1/sessions/${bookingId}/join`, {
+    method: "POST",
+  });
+}
+
+export async function sendSessionHeartbeat(bookingId: string): Promise<{ ok: boolean }> {
+  return apiRequest<{ ok: boolean }>(`/api/v1/sessions/${bookingId}/heartbeat`, {
+    method: "POST",
+  });
+}
+
+export async function signOffBooking(bookingId: string): Promise<SignOffResponse> {
+  return apiRequest<SignOffResponse>(`/api/v1/bookings/${bookingId}/sign-off`, {
+    method: "POST",
+  });
+}
+

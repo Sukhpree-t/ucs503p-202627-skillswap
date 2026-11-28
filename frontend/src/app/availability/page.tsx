@@ -23,6 +23,14 @@ import {
   UserProfile,
 } from "@/lib/api";
 
+// Helper to format Date as local YYYY-MM-DD
+function getLocalDateString(d: Date = new Date()): string {
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
 export default function AvailabilityPage() {
   const router = useRouter();
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -36,7 +44,7 @@ export default function AvailabilityPage() {
   const [slotDate, setSlotDate] = useState<string>(() => {
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
-    return tomorrow.toISOString().split("T")[0];
+    return getLocalDateString(tomorrow);
   });
   const [startTime, setStartTime] = useState<string>("14:00");
   const [endTime, setEndTime] = useState<string>("15:00");
@@ -73,8 +81,12 @@ export default function AvailabilityPage() {
       return;
     }
 
-    const startDateTime = new Date(`${slotDate}T${startTime}:00Z`);
-    const endDateTime = new Date(`${slotDate}T${endTime}:00Z`);
+    const [year, month, day] = slotDate.split("-").map(Number);
+    const [startHour, startMin] = startTime.split(":").map(Number);
+    const [endHour, endMin] = endTime.split(":").map(Number);
+
+    const startDateTime = new Date(year, month - 1, day, startHour, startMin, 0);
+    const endDateTime = new Date(year, month - 1, day, endHour, endMin, 0);
 
     if (endDateTime <= startDateTime) {
       setError("End time must be strictly after start time.");
@@ -215,7 +227,7 @@ export default function AvailabilityPage() {
                 <input
                   type="date"
                   required
-                  min={new Date().toISOString().split("T")[0]}
+                  min={getLocalDateString()}
                   value={slotDate}
                   onChange={(e) => setSlotDate(e.target.value)}
                   className="w-full px-3 py-2 rounded-lg border border-slate-300 text-slate-900 focus:ring-2 focus:ring-indigo-600 outline-none"

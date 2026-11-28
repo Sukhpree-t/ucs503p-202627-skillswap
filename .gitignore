@@ -7,9 +7,12 @@ __pycache__/
 frontend/node_modules/
 frontend/.next/
 pdf_text.txt
+*.env
+*.env.*
 .env
 .env.local
 .env.*.local
 *.key
 *.pem
 *.secret
+.antigravityignore

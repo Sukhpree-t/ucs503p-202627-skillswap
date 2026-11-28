@@ -51,6 +51,8 @@ JWT_SECRET = os.environ.get("JWT_SECRET", "skillswap-dev-secret-ucs503-2026")
 USE_LOCAL_DB = os.environ.get("USE_LOCAL_DB", "0") == "1"
 
 import skillswap_ledger
+import skillswap_rpc
+import skillswap_daily
 skillswap_ledger.init_db()
 
 LOCK_TTL_SECONDS = 30            # QR6
@@ -243,6 +245,13 @@ async def campus_sso_login(
     body: CampusLoginIn,
     x_sso_simulate_down: Optional[str] = Header(default=None),
 ):
+    app_env = os.environ.get("APP_ENV", os.environ.get("NODE_ENV", "development")).lower()
+    if app_env in ("production", "prod"):
+        raise HTTPException(
+            status_code=403,
+            detail="Campus SSO simulated authentication is only permitted in development mode.",
+        )
+
     if os.environ.get("SSO_FORCE_UNAVAILABLE") == "1" or x_sso_simulate_down == "true":
         raise HTTPException(
             status_code=503,
@@ -284,6 +293,30 @@ async def campus_sso_login(
         "exp": datetime.now(timezone.utc) + timedelta(days=7),
     }
     token = jwt.encode(payload, JWT_SECRET, algorithm="HS256")
+
+    # Ensure profile and account exist in Supabase for PostgreSQL ACID booking RPC
+    try:
+        supa_prof = await select("profiles", {"id": f"eq.{user_data['id']}"}, service=True)
+        if not supa_prof:
+            await insert("profiles", {
+                "id": user_data["id"],
+                "campus_email": user_data["campus_email"],
+                "full_name": user_data["full_name"],
+                "department": user_data.get("department") or "Computer Science & Engineering",
+                "study_year": user_data.get("study_year") or 3,
+                "role": user_data.get("role") or "peer",
+                "status": user_data.get("status") or "active",
+            }, service=True)
+        supa_acc = await select("accounts", {"owner_id": f"eq.{user_data['id']}", "kind": "eq.user"}, service=True)
+        if not supa_acc:
+            await insert("accounts", {
+                "owner_id": user_data["id"],
+                "kind": "user",
+                "balance": 3,
+            }, service=True)
+    except Exception as se:
+        print(f"[Warning] Failed to sync profile/account to Supabase: {se}")
+
     return {"token": token, "user": user_data}
 
 
@@ -426,13 +459,26 @@ async def get_my_slots(user: Caller = Depends(current_user)):
 @app.post("/slots")
 async def create_availability_slot_endpoint(body: SlotCreateIn, user: Caller = Depends(current_user)):
     try:
-        return skillswap_ledger.create_availability_slot(
+        slot = skillswap_ledger.create_availability_slot(
             mentor_id=user.id,
             start_time=body.start_time,
             end_time=body.end_time,
             rate_credits=body.rate_credits,
             skill_id=body.skill_id,
         )
+        try:
+            await insert("availability_slots", {
+                "id": slot["id"],
+                "mentor_id": slot["mentor_id"],
+                "skill_id": None,
+                "start_time": slot["start_time"],
+                "end_time": slot["end_time"],
+                "rate_credits": slot["rate_credits"],
+                "status": slot.get("status", "open"),
+            }, service=True)
+        except Exception as se:
+            print(f"[Warning] Failed to sync slot to Supabase: {se}")
+        return slot
     except ValueError as ve:
         raise HTTPException(400, str(ve))
     except Exception as e:
@@ -442,7 +488,12 @@ async def create_availability_slot_endpoint(body: SlotCreateIn, user: Caller = D
 @app.delete("/slots/{slot_id}")
 async def cancel_slot_endpoint(slot_id: str, user: Caller = Depends(current_user)):
     try:
-        return skillswap_ledger.cancel_availability_slot(user.id, slot_id)
+        slot = skillswap_ledger.cancel_availability_slot(user.id, slot_id)
+        try:
+            await patch("availability_slots", {"id": f"eq.{slot_id}"}, {"status": "cancelled"}, service=True)
+        except Exception as se:
+            print(f"[Warning] Failed to sync slot cancellation to Supabase: {se}")
+        return slot
     except ValueError as ve:
         raise HTTPException(400, str(ve))
     except Exception as e:
@@ -530,6 +581,8 @@ async def booking_precheck(slot_id: str, user: Caller = Depends(current_user)):
     if not slots:
         raise HTTPException(404, "Slot not found")
     slot = slots[0]
+    if slot["mentor_id"] == user.id:
+        raise HTTPException(400, "You cannot book your own slot. Please sign in as a different student (e.g. Maya Patel) to book this session.")
     accounts = await select("accounts", {"owner_id": f"eq.{user.id}", "kind": "eq.user", "select": "*"}, token=user.token)
     bal = accounts[0]["balance"] if accounts else 0
     cost = slot["rate_credits"]
@@ -551,10 +604,16 @@ async def list_notifications(user: Caller = Depends(current_user)):
 
 @app.post("/booking", status_code=201)
 @app.post("/api/v1/bookings", status_code=201)
-async def book(body: BookingIn, user: Caller = Depends(current_user)):
-    lock_key, lock_val = f"lock:slot:{body.slot_id}", str(uuid.uuid4())
-    if not await redis.set(lock_key, lock_val, nx=True, ex=LOCK_TTL_SECONDS):
-        raise HTTPException(409, "This slot is no longer available.")
+async def book(
+    body: BookingIn,
+    user: Caller = Depends(current_user),
+    x_disable_redis_lock: Optional[str] = Header(default=None),
+):
+    use_lock = x_disable_redis_lock != "true"
+    if use_lock:
+        lock_key, lock_val = f"lock:slot:{body.slot_id}", str(uuid.uuid4())
+        if not await redis.set(lock_key, lock_val, nx=True, ex=LOCK_TTL_SECONDS):
+            raise HTTPException(409, "This slot is no longer available.")
     try:
         booking_id = await rpc("book_slot", {
             "p_slot_id": body.slot_id,
@@ -562,7 +621,8 @@ async def book(body: BookingIn, user: Caller = Depends(current_user)):
             "p_learner_id": user.id
         }, token=user.token)
         try:
-            await provision_room(booking_id)
+            with skillswap_ledger.get_connection() as conn:
+                conn.execute("UPDATE availability_slots SET status = 'booked' WHERE id = ?", (body.slot_id,))
         except Exception:
             pass
         return {"booking_id": booking_id, "status": "confirmed"}
@@ -570,13 +630,16 @@ async def book(body: BookingIn, user: Caller = Depends(current_user)):
         raise
     except Exception as e:
         err_msg = str(e)
+        if "OWN_SLOT" in err_msg or "own slot" in err_msg.lower():
+            raise HTTPException(400, "You cannot book your own slot. Please sign in as a different student (e.g. Maya Patel) to book this session.")
         if "SLOT_UNAVAILABLE" in err_msg or "already booked" in err_msg.lower():
             raise HTTPException(409, "This slot is no longer available.")
         if "INSUFFICIENT_BALANCE" in err_msg:
             raise HTTPException(402, "Insufficient credit balance to book this session.")
         raise HTTPException(500, f"Booking failed: {err_msg}")
     finally:
-        await redis.eval(RELEASE_LUA, 1, lock_key, lock_val)
+        if use_lock:
+            await redis.eval(RELEASE_LUA, 1, lock_key, lock_val)
 
 
 async def provision_room(booking_id: str):
@@ -613,72 +676,209 @@ async def booking_ics(booking_id: str, user: Caller = Depends(current_user)):
 async def get_booking_for(user: Caller, booking_id: str) -> dict:
     rows = await select("bookings", {"id": f"eq.{booking_id}", "select": "*"}, token=user.token)
     if not rows or user.id not in (rows[0]["learner_id"], rows[0]["mentor_id"]):
-        raise HTTPException(403, "You are not part of this booking.")
+        raise HTTPException(403, "UNAUTHORIZED_PARTICIPANT: You are not a participant in this booking.")
     return rows[0]
 
 
+@app.get("/bookings/{booking_id}")
+@app.get("/api/v1/bookings/{booking_id}")
+async def get_booking_details(booking_id: str, user: Caller = Depends(current_user)):
+    return await get_booking_for(user, booking_id)
+
+
+@app.post("/sessions/{booking_id}/join")
+@app.post("/api/v1/sessions/{booking_id}/join")
 @app.post("/bookings/{booking_id}/join")
 async def join_session(booking_id: str, user: Caller = Depends(current_user)):
     b = await get_booking_for(user, booking_id)
     if b["escrow_status"] != "held":
-        raise HTTPException(409, "This session is no longer active.")
+        raise HTTPException(400, "ESCROW_NOT_HELD: This session escrow is no longer active.")
     now = datetime.now(timezone.utc)
     start = datetime.fromisoformat(b["scheduled_start"].replace("Z", "+00:00"))
     end = datetime.fromisoformat(b["scheduled_end"].replace("Z", "+00:00"))
     if now < start - JOIN_EARLY:
-        raise HTTPException(425, "The room opens 10 minutes before the session.")
+        raise HTTPException(425, f"SESSION_NOT_STARTED: The room opens 10 minutes before the session. It starts at {b['scheduled_start']}.")
     if now > end + ROOM_AFTER_END:
-        raise HTTPException(410, "This session room has expired.")
+        raise HTTPException(410, "SESSION_WINDOW_EXPIRED: This session room has expired.")
 
-    room = (await select("session_rooms", {"booking_id": f"eq.{booking_id}", "select": "*"}, service=True))[0]
-    exp = int((end + ROOM_AFTER_END).timestamp())                      # QR13: expires after scheduled end
+    # 1. Daily.co Room Provisioning (with 3 retries)
+    try:
+        daily_room = await asyncio.to_thread(
+            skillswap_daily.create_room,
+            booking_id=booking_id,
+            scheduled_start=start,
+            scheduled_end=end,
+            max_retries=3,
+        )
+    except skillswap_daily.DailyRoomCreationError as e:
+        # Failure recovery (US-14 AC): return 503, refund_booking (no strike), notify both users
+        logger.error("Daily room creation failed for booking %s: %s", booking_id, e)
+        try:
+            await asyncio.to_thread(skillswap_rpc.refund_booking_rpc, booking_id=booking_id, strike_mentor=False)
+        except Exception as ref_err:
+            logger.error("Error executing refund_booking for %s: %s", booking_id, ref_err)
+        raise HTTPException(503, "ROOM_CREATION_FAILED: Failed to create video room. Booking cancelled and escrow refunded.")
+
+    room_name = daily_room["room_name"]
+    video_domain = daily_room["domain"]
+    expires_at = end + ROOM_AFTER_END
+    expires_at_iso = expires_at.isoformat()
+    is_mentor = (user.id == b["mentor_id"])
+
+    # 2. Daily.co Meeting Token Generation (room-scoped, short-lived, eject_at_token_exp: true)
+    prof_rows = await select("profiles", {"id": f"eq.{user.id}", "select": "full_name"}, service=True)
+    user_name = prof_rows[0]["full_name"] if prof_rows else "Participant"
+    try:
+        meeting_token = await asyncio.to_thread(
+            skillswap_daily.create_meeting_token,
+            room_name=room_name,
+            user_id=user.id,
+            user_name=user_name,
+            is_mentor=is_mentor,
+            scheduled_start=start,
+            scheduled_end=end,
+        )
+    except Exception as e:
+        logger.error("Failed to create meeting token for booking %s: %s", booking_id, e)
+        raise HTTPException(500, f"Failed to generate meeting token: {e}")
+
+    # 3. Atomic Database Operations via Postgres RPC (re-validates inside PG, inserts session_rooms, session_tokens, session_events('joined'))
     jti = str(uuid.uuid4())
-    prof = (await select("profiles", {"id": f"eq.{user.id}", "select": "full_name"}, service=True))[0]
-    token = jwt.encode({
-        "aud": "jitsi", "iss": JITSI_APP_ID, "sub": JITSI_DOMAIN, "room": room["room_name"],
-        "exp": exp, "nbf": int(time.time()) - 10, "jti": jti,
-        "context": {"user": {"id": user.id, "name": prof["full_name"],
-                             "moderator": user.id == b["mentor_id"]}},
-    }, JITSI_APP_SECRET, algorithm="HS256")
+    try:
+        await asyncio.to_thread(
+            skillswap_rpc.join_session_rpc,
+            booking_id=booking_id,
+            user_id=user.id,
+            room_name=room_name,
+            video_domain=video_domain,
+            expires_at_iso=expires_at_iso,
+            jti=jti,
+            video_provider="daily",
+        )
+    except Exception as e:
+        err_str = str(e)
+        if "SESSION_NOT_STARTED" in err_str:
+            raise HTTPException(425, "SESSION_NOT_STARTED: The room opens 10 minutes before the session.")
+        if "SESSION_WINDOW_EXPIRED" in err_str:
+            raise HTTPException(410, "SESSION_WINDOW_EXPIRED: This session room has expired.")
+        if "ESCROW_NOT_HELD" in err_str:
+            raise HTTPException(400, "ESCROW_NOT_HELD: This session escrow is no longer active.")
+        if "FORBIDDEN" in err_str:
+            raise HTTPException(403, "FORBIDDEN: You are not part of this booking.")
+        raise HTTPException(500, f"Failed to record session join: {err_str}")
 
-    await insert("session_tokens", {"jti": jti, "booking_id": booking_id, "user_id": user.id,
-                                    "expires_at": datetime.fromtimestamp(exp, timezone.utc).isoformat()}, service=True)
-    await insert("session_events", {"booking_id": booking_id, "user_id": user.id, "event_type": "joined"}, service=True)
-    await redis.set(f"hb:{booking_id}:{user.id}", "1", ex=HEARTBEAT_TTL_SECONDS)
+    # 4. Redis presence tracking
+    if redis:
+        await redis.set(f"hb:{booking_id}:{user.id}", "1", ex=HEARTBEAT_TTL_SECONDS)
+
     if b["status"] == "confirmed":
         await patch("bookings", {"id": f"eq.{booking_id}"}, {"status": "in_progress"}, service=True)
-    return {"domain": JITSI_DOMAIN, "room": room["room_name"], "jwt": token}
+
+    # Note: URL does NOT contain the token! The token is returned separately for daily-js join({ url, token }).
+    clean_url = f"https://{video_domain}/{room_name}"
+    return {
+        "room_name": room_name,
+        "url": clean_url,
+        "token": meeting_token,
+        "jti": jti,
+        "expires_at": expires_at_iso,
+        "is_owner": is_mentor,
+    }
 
 
+@app.post("/sessions/{booking_id}/heartbeat")
+@app.post("/api/v1/sessions/{booking_id}/heartbeat")
 @app.post("/bookings/{booking_id}/heartbeat")
 async def heartbeat(booking_id: str, user: Caller = Depends(current_user)):
     """Frontend calls this every ~10s while in the room."""
     await get_booking_for(user, booking_id)
     key = f"hb:{booking_id}:{user.id}"
-    was_alive = await redis.exists(key)
-    await redis.set(key, "1", ex=HEARTBEAT_TTL_SECONDS)
-    if not was_alive:   # connection resumed after a drop (A3 brief drop)
+    was_alive = False
+    if redis:
+        was_alive = bool(await redis.exists(key))
+        await redis.set(key, "1", ex=HEARTBEAT_TTL_SECONDS)
+    if not was_alive:
         await insert("session_events", {"booking_id": booking_id, "user_id": user.id,
                                         "event_type": "heartbeat_resumed"}, service=True)
     return {"ok": True}
 
 
+@app.get("/sessions/{booking_id}/presence")
+@app.get("/api/v1/sessions/{booking_id}/presence")
 @app.get("/bookings/{booking_id}/presence")
 async def presence(booking_id: str, user: Caller = Depends(current_user)):
     b = await get_booking_for(user, booking_id)
     other = b["mentor_id"] if user.id == b["learner_id"] else b["learner_id"]
-    return {"other_online": bool(await redis.exists(f"hb:{booking_id}:{other}"))}
+    is_online = bool(await redis.exists(f"hb:{booking_id}:{other}")) if redis else False
+    return {"other_online": is_online}
 
 
 # ----------------------------------------------------------------------------
 # 4. SETTLEMENT, DISPUTES  (FR24, FR15, FR26)
 # ----------------------------------------------------------------------------
 @app.post("/bookings/{booking_id}/sign-off")
+@app.post("/api/v1/bookings/{booking_id}/sign-off")
+@app.post("/api/v1/sessions/{booking_id}/sign-off")
 async def sign_off(booking_id: str, user: Caller = Depends(current_user)):
-    result = await rpc("sign_off_booking", {"p_booking_id": booking_id}, token=user.token)
+    b = await get_booking_for(user, booking_id)
+    now = datetime.now(timezone.utc)
+    start = datetime.fromisoformat(b["scheduled_start"].replace("Z", "+00:00"))
+    if now < start:
+        raise HTTPException(400, "EARLY_SIGN_OFF_REJECTED: Cannot sign off before scheduled start time.")
+
+    try:
+        result = await asyncio.to_thread(skillswap_rpc.sign_off_booking_rpc, booking_id=booking_id, user_id=user.id)
+    except Exception as e:
+        err_str = str(e)
+        if "EARLY_SIGN_OFF_REJECTED" in err_str:
+            raise HTTPException(400, "EARLY_SIGN_OFF_REJECTED: Cannot sign off before scheduled start time.")
+        if "NOT_SETTLEABLE" in err_str:
+            raise HTTPException(409, "NOT_SETTLEABLE: This session has already been settled or refunded.")
+        if "FORBIDDEN" in err_str:
+            raise HTTPException(403, "FORBIDDEN: You are not part of this booking.")
+        raise HTTPException(500, f"Sign-off failed: {err_str}")
+
     if result == "settled":
-        await rpc("audit_ledger", {"p_auto": True}, service=True)      # FR28 zero-sum audit after every settlement
-    return {"result": result}
+        # 1. Best-effort Daily room deletion to keep room quota under 50
+        room_name = f"skillswap-{booking_id}"
+        await asyncio.to_thread(skillswap_daily.delete_room, room_name=room_name)
+
+        # 2. Automated Ledger Audit (service_role audit_ledger(p_auto := true))
+        try:
+            audit = await asyncio.to_thread(skillswap_rpc.audit_ledger_rpc, p_auto=True)
+            passed = audit.get("passed", False) if isinstance(audit, dict) else False
+        except Exception as e:
+            logger.error("Audit RPC call failed: %s", e)
+            audit = {"passed": False, "error": str(e)}
+            passed = False
+
+        if not passed:
+            logger.critical("LEDGER AUDIT FAILED AFTER SETTLEMENT %s: %s", booking_id, audit)
+            # Alert all admin users via in-app notifications
+            await asyncio.to_thread(
+                skillswap_rpc.alert_all_admins_rpc,
+                title="URGENT: Ledger Drift Detected",
+                body=f"Automated audit failed after settlement of booking {booking_id}.",
+                data={"booking_id": booking_id, "audit_result": audit}
+            )
+            # Never rollback or hide it! Return settled with audit_passed=False
+            return {
+                "result": "settled",
+                "status": "settled",
+                "audit_passed": False,
+                "audit_report": audit,
+                "warning": "Settlement preserved; urgent admin alert logged."
+            }
+
+        return {"result": "settled", "status": "settled", "audit_passed": True}
+
+    return {"result": result, "status": result}
+
+
+@app.post("/api/v1/admin/rooms/cleanup")
+async def cleanup_rooms(user: Caller = Depends(current_user)):
+    cleaned = await asyncio.to_thread(skillswap_daily.cleanup_expired_rooms)
+    return {"cleaned_rooms": cleaned}
 
 
 class DisputeIn(BaseModel):

@@ -75,35 +75,40 @@ async function main() {
   const learnerToken = learnerAuth.token;
   console.log(`   Logged in: ${learnerAuth.user.full_name} (${learnerAuth.user.id})`);
 
-  // Step 3: Check or Create Slot (Starts in 3 minutes, ends in 63 minutes)
+  // Step 3: Clean up previous open slots and create fresh slot starting in ~3 minutes
   const now = new Date();
   const startTime = new Date(now.getTime() + 3 * 60 * 1000); // +3 min
   const endTime = new Date(now.getTime() + 63 * 60 * 1000);  // +63 min
 
-  console.log('3. Resolving availability slot for Mentor...');
-  // Check existing mentor slots
+  console.log('3. Preparing fresh availability slot for Mentor...');
   const mySlots = await apiRequest('/slots/mine', 'GET', null, mentorToken);
-  let slot = mySlots.find((s) => s.status === 'open' && new Date(s.end_time) > now);
-
-  if (slot) {
-    console.log(`   Found existing active open slot: ${slot.id} (${slot.start_time} - ${slot.end_time})`);
-  } else {
-    console.log('   Publishing new availability slot starting in 3 minutes...');
-    console.log(`   Scheduled Start: ${startTime.toISOString()} (${startTime.toLocaleTimeString()} local)`);
-    console.log(`   Scheduled End:   ${endTime.toISOString()} (${endTime.toLocaleTimeString()} local)`);
-
-    slot = await apiRequest(
-      '/slots',
-      'POST',
-      {
-        start_time: startTime.toISOString(),
-        end_time: endTime.toISOString(),
-        rate_credits: 1,
-      },
-      mentorToken
-    );
-    console.log(`   Slot created: ${slot.id}`);
+  for (const s of mySlots) {
+    if (s.status === 'open') {
+      try {
+        await apiRequest(`/slots/${s.id}`, 'DELETE', null, mentorToken);
+        console.log(`   Cleaned up prior open slot: ${s.id}`);
+      } catch {
+        // ignore
+      }
+    }
   }
+
+  const scheduled_start = startTime.toISOString();
+  const scheduled_end = endTime.toISOString();
+  console.log(`   scheduled_start: ${scheduled_start} (${startTime.toLocaleTimeString()} local)`);
+  console.log(`   scheduled_end:   ${scheduled_end} (${endTime.toLocaleTimeString()} local)`);
+
+  const slot = await apiRequest(
+    '/slots',
+    'POST',
+    {
+      start_time: scheduled_start,
+      end_time: scheduled_end,
+      rate_credits: 1,
+    },
+    mentorToken
+  );
+  console.log(`   Fresh Slot Created: ${slot.id}`);
 
   // Step 4: Book slot as Learner (locks 1 escrow credit)
   console.log('4. Booking slot as Learner (Maya Patel)...');
@@ -122,9 +127,11 @@ async function main() {
   // Summary
   console.log('\n\x1b[32m%s\x1b[0m', 'SUCCESS: Immediate Joinable Booking Ready!');
   console.log('-------------------------------------------------------------');
-  console.log(`Booking ID:    ${bookingId}`);
-  console.log(`Session Room:  ${FRONTEND_BASE}/sessions/${bookingId}`);
-  console.log(`Join Window:   Open NOW (opens 10m before start, ends 15m after end)`);
+  console.log(`Booking ID:       ${bookingId}`);
+  console.log(`scheduled_start:  ${scheduled_start}`);
+  console.log(`scheduled_end:    ${scheduled_end}`);
+  console.log(`Session Room:     ${FRONTEND_BASE}/sessions/${bookingId}`);
+  console.log(`Join Window:      Open NOW (opens 10m before start, ends 15m after end)`);
   console.log('-------------------------------------------------------------');
   console.log('To test in 2 browser windows:');
   console.log(`1. Window 1 (Mentor):  Login as Alex Vance -> Open ${FRONTEND_BASE}/sessions/${bookingId}`);

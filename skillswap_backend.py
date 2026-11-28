@@ -245,6 +245,13 @@ async def campus_sso_login(
     body: CampusLoginIn,
     x_sso_simulate_down: Optional[str] = Header(default=None),
 ):
+    app_env = os.environ.get("APP_ENV", os.environ.get("NODE_ENV", "development")).lower()
+    if app_env in ("production", "prod"):
+        raise HTTPException(
+            status_code=403,
+            detail="Campus SSO simulated authentication is only permitted in development mode.",
+        )
+
     if os.environ.get("SSO_FORCE_UNAVAILABLE") == "1" or x_sso_simulate_down == "true":
         raise HTTPException(
             status_code=503,
